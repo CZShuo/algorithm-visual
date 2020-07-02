@@ -3,34 +3,94 @@ import ReactDOM from "react-dom";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./index.css";
 import {
+    get,
+    getClass,
     bubbleSort,
     insertionSort,
     selectionSort,
     mergeSort,
     quickSort,
     heapSort,
-    librarySort
+    librarySort,
+    animation,
+    doAnimation,
+    clearAnimation
 } from "./sorting-algorithms";
 // const Algo = require("./sorting-algorithms.js");
 
 const Main = (props) => {
-    const [array, setArray] = useState([[0,9], [1,23], [2,1], [3,5], [4,90], [5,32]]);
-    console.log(mergeSort(array));
+    const [array, setArray] = useState([
+        [0, 45],
+        [1, 72],
+        [2, 17],
+        [3, 55],
+        [4, 90],
+        [5, 32],
+        [6, 48],
+        [7, 23],
+        [8, 66],
+        [9, 99],
+        [10, 12],
+        [11, 62],
+        [12, 34],
+        [13, 84],
+        [14, 10],
+        [15, 70]
+    ]);
+
+    // console.log(mergeSort(array, 0));
+    // console.log(array);
     return (
         <div className="array">
-            {array.map((element, index) => {
-                return (
-                    <div key={index} className="element">
-                        <div
-                            className="bar"
-                            style={{ height: element[1] + "px" }}
-                        ></div>
-                        <div className="value">
-                            {element[1]}
+            <div className="bars">
+                {array.map((element, index) => {
+                    return (
+                        <div key={index} className="element">
+                            <div
+                                className="bar"
+                                style={{
+                                    height: element[1] + "px",
+                                }}
+                            ></div>
+                            <div className="value">{element[1]}</div>
                         </div>
-                    </div>
-                );
-            })}
+                    );
+                })}
+            </div>
+            <div
+                onClick={() => {
+                    let newArr = mergeSort(array, 0);
+                    doAnimation(animation,setArray,newArr);
+                }}
+            >
+                Merge Sort
+            </div>
+            <div
+                onClick={() => {
+                    let newArr = bubbleSort(array, 0);
+                    doAnimation(animation,setArray,newArr);
+                }}
+            >
+                Bubble Sort
+            </div>
+            <div className="bars">
+                {array.map((element, index) => {
+                    return (
+                        <div
+                            key={`${index}sort`}
+                            className="element element-sort"
+                        >
+                            <div
+                                className="bar-sort"
+                                style={{
+                                    height: element[1] + "px",
+                                }}
+                            ></div>
+                            {/* <div className="value"> {element[1]} </div> */}
+                        </div>
+                    );
+                })}
+            </div>
         </div>
     );
 };

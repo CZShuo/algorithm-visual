@@ -20,8 +20,9 @@ let merge = false;
 const bubbleSort = (array) => {
     let arr = [...array];
     let times = arr.length;
-
+    let swap = false;
     do {
+        swap = false;
         times--;
         for (let i = 0; i < times; i++) {
             animation.push(['com', arr[i], arr[i + 1]]);
@@ -30,14 +31,17 @@ const bubbleSort = (array) => {
                 let tempB = [...arr[i + 1]];
                 animation.push(['push', tempA, tempB]);
                 [arr[i][1], arr[i + 1][1]] = [arr[i + 1][1], arr[i][1]];
+                swap = true;
             }
         }
-    } while (times > 0);
+    } while (times > 0 && swap);
 
     return arr;
 }
 
-const insertionSort = (array) => {}
+const insertionSort = (array) => {
+    
+}
 const selectionSort = (array) => {}
 
 let time = 100;
@@ -49,26 +53,30 @@ const clearAnimation = () => {
 //O(nlogn)
 const mergeSort = (arr, startIndex) => {
     let array = [...arr];
+    animation.push(['range', array]);
     if (array.length < 2) return array;
     let index = startIndex;
     let mid = Math.floor(array.length / 2);
+    animation.push(['getmid', mid]);
     let left = mergeSort(array.slice(0, mid), index);
     let right = mergeSort(array.slice(mid), mid + index);
 
     let result = [];
     while (left.length > 0 && right.length > 0) {
-        animation.push(['com', left[0], right[0]]);
+        animation.push(['com', [...left[0]],
+            [...right[0]]
+        ]);
         if (right[0][1] < left[0][1]) {
             // console.log('r'+right+' '+left);
             let temp = [index, right[0][1]];
             result.push(temp);
-            animation.push(['push', right[0], temp]);
+            animation.push(['push', [...right[0]], temp]);
             right.shift();
         } else {
             // console.log('l'+left[0]+' '+right[0]);
             let temp = [index, left[0][1]];
             result.push(temp);
-            animation.push(['push', left[0], temp]);
+            animation.push(['push', [...left[0]], temp]);
             left.shift();
         }
         index++;
@@ -78,7 +86,7 @@ const mergeSort = (arr, startIndex) => {
             // console.log('ll'+element);
             let temp = [index, element[1]];
             result.push(temp);
-            animation.push(['push', element, temp]);
+            animation.push(['push', [...element], temp]);
             index++;
         })
     } else if (right.length > 0) {
@@ -86,7 +94,7 @@ const mergeSort = (arr, startIndex) => {
             // console.log('rr'+element);
             let temp = [index, element[1]];
             result.push(temp);
-            animation.push(['push', element, temp]);
+            animation.push(['push', [...element], temp]);
             index++;
         })
     }
@@ -132,6 +140,10 @@ const doAnimation = (animation, setArray, newArr) => {
 
 
             }, time * index)
+        } else if (element[0] == 'range') {
+            //Draw range in svg
+        } else if (element[0] == 'getmid') {
+            //Draw mid in range in svg
         }
     })
     setTimeout(() => {

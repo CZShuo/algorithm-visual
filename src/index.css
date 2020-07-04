@@ -46,3 +46,9 @@ body{
 .value{
     color: #000;
 }
+
+#svg{
+    width: 1000px;
+    height: 1000px;
+    border: 1px solid rgb(0, 0, 0);
+}

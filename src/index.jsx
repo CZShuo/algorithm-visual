@@ -14,7 +14,7 @@ import {
     librarySort,
     animation,
     doAnimation,
-    clearAnimation
+    clearAnimation,
 } from "./sorting-algorithms";
 // const Algo = require("./sorting-algorithms.js");
 
@@ -35,7 +35,7 @@ const Main = (props) => {
         [12, 34],
         [13, 84],
         [14, 10],
-        [15, 70]
+        [15, 70],
     ]);
 
     // console.log(mergeSort(array, 0));
@@ -60,7 +60,7 @@ const Main = (props) => {
             <div
                 onClick={() => {
                     let newArr = mergeSort(array, 0);
-                    doAnimation(animation,setArray,newArr);
+                    doAnimation(animation, setArray, newArr);
                 }}
             >
                 Merge Sort
@@ -68,7 +68,7 @@ const Main = (props) => {
             <div
                 onClick={() => {
                     let newArr = bubbleSort(array, 0);
-                    doAnimation(animation,setArray,newArr);
+                    doAnimation(animation, setArray, newArr);
                 }}
             >
                 Bubble Sort
@@ -91,6 +91,24 @@ const Main = (props) => {
                     );
                 })}
             </div>
+            <svg id="svg">
+                {array.map((element, index) => {
+                    return (
+                        <g key={index}>
+                            <rect
+                                x={index * 50 + 50}
+                                y={30 + 100 - element[1]}
+                                height={element[1]}
+                                width="25"
+                                fill="#2e6ea6"
+                            ></rect>
+                            <text x={index * 50 + 50+5} y={130+15}>
+                                {element[1]}
+                            </text>
+                        </g>
+                    );
+                })}
+            </svg>
         </div>
     );
 };

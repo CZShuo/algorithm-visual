@@ -15,6 +15,7 @@ import {
     animation,
     doAnimation,
     clearAnimation,
+    setTime
 } from "./sorting-algorithms";
 // const Algo = require("./sorting-algorithms.js");
 
@@ -38,6 +39,8 @@ const Main = (props) => {
         [15, 70],
     ]);
 
+    const [animationArray, setAnimation] = useState(array);
+    // console.log(animationArray);
     // console.log(mergeSort(array, 0));
     // console.log(array);
     return (
@@ -57,21 +60,73 @@ const Main = (props) => {
                     );
                 })}
             </div>
-            <div
+            <div className='sort'
                 onClick={() => {
-                    let newArr = mergeSort(array, 0);
+                    let newArr = mergeSort(array, 0,animationArray);
                     doAnimation(animation, setArray, newArr);
                 }}
             >
                 Merge Sort
             </div>
-            <div
+            <div className='sort'
                 onClick={() => {
                     let newArr = bubbleSort(array, 0);
                     doAnimation(animation, setArray, newArr);
                 }}
             >
                 Bubble Sort
+            </div>
+            <div className='sort'
+                onClick={() => {
+                    let newArr = insertionSort(array);
+                    // console.log(newArr);
+                    doAnimation(animation, setArray, newArr);
+                }}
+            >
+                Insertion Sort
+            </div>
+            <div className="set-array">
+                <div>Set your array: </div>
+                <input type="text" id="array-input" />
+                <div id="send-array" onClick={() =>{
+                    let input = document.getElementById('array-input').value;
+                    let arr = input.replace(/\s/g,'').split(',');
+                    arr = arr.map((element,index) => [index, Number(element)]);
+                    setArray(arr);
+                }}>Set</div>
+            </div>
+            <div className='set-array'>
+                <div>Number of elements: </div>
+                <input id='number-input' type='number' />
+                <div id="send-number" onClick={() => {
+                    let num = document.getElementById('number-input').value;
+                    if(num>50){
+                        num=50;
+                        alert("Can't be more than 50 numbers !");
+                        document.getElementById('number-input').value=50;
+                    }
+                    if(num<5){
+                        num=5;
+                        alert("Can't be less than 5 numbers !");
+                        document.getElementById('number-input').value=5;
+                    }
+                    let arr = [];
+                    for (let i = 0; i < num;i++) {
+                        arr.push([i,Math.floor(Math.random()*100)]);
+                    }
+                    setArray(arr);
+                }}>Random</div>
+            </div>
+            <div className="set-array">
+                <div>Speed: </div>
+                <select defaultValue='200' onChange={(e)=>{
+                    setTime(e.target.value);
+                }}>
+                    <option value="400">0.5</option>
+                    <option value="200">1.0</option>
+                    <option value="133">1.5</option>
+                    <option value="100">2.0</option>
+                </select>
             </div>
             <div className="bars">
                 {array.map((element, index) => {

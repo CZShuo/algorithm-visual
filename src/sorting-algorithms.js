@@ -40,26 +40,54 @@ const bubbleSort = (array) => {
 }
 
 const insertionSort = (array) => {
-    
+    let arr = [...array];
+    let length = array.length;
+    for (let i = 1; i < length; i++) {
+        // let temp = arr[i][1];
+        for (let j = i - 1; j >= 0; j--) {
+            let tempA = [...arr[j]];
+            let tempB = [...arr[j + 1]];
+            animation.push(['com', tempA, tempB]);
+            if (tempA[1] > tempB[1]) {
+                animation.push(['push', tempA, tempB]);
+                [arr[j+1][1], arr[j][1]]=[arr[j][1],arr[j+1][1]];
+            }else{
+                break;
+            }
+        }
+        // while (j >= 0 && arr[j][1] > temp) {
+        //     let tempA = [...arr[j + 1]];
+        //     let tempB = [...arr[j]];
+        //     animation.push(['com', tempA, tempB]);
+        //     animation.push(['push', tempA, tempB]);
+        //     arr[j + 1][1] = arr[j][1];
+        //     j--;
+        // }
+        // arr[j + 1][1] = temp;
+    }
+    return arr;
 }
 const selectionSort = (array) => {}
 
-let time = 100;
+let time = 200;
+const setTime = t => {
+    time = t;
+}
 let animation = [];
 const clearAnimation = () => {
     animation = [];
 }
 
 //O(nlogn)
-const mergeSort = (arr, startIndex) => {
+const mergeSort = (arr, startIndex, animationArray) => {
     let array = [...arr];
-    animation.push(['range', array]);
+    // animation.push(['range', array]);
     if (array.length < 2) return array;
     let index = startIndex;
     let mid = Math.floor(array.length / 2);
-    animation.push(['getmid', mid]);
-    let left = mergeSort(array.slice(0, mid), index);
-    let right = mergeSort(array.slice(mid), mid + index);
+    // animation.push(['getmid', mid]);
+    let left = mergeSort(array.slice(0, mid), index, animationArray);
+    let right = mergeSort(array.slice(mid), mid + index, animationArray);
 
     let result = [];
     while (left.length > 0 && right.length > 0) {
@@ -68,12 +96,14 @@ const mergeSort = (arr, startIndex) => {
         ]);
         if (right[0][1] < left[0][1]) {
             // console.log('r'+right+' '+left);
+            // [animationArray[index][1],right[0][1]]=[right[0][1],animationArray[index][1]];
             let temp = [index, right[0][1]];
             result.push(temp);
             animation.push(['push', [...right[0]], temp]);
             right.shift();
         } else {
             // console.log('l'+left[0]+' '+right[0]);
+            // [animationArray[index][1],left[0][1]]=[left[0][1],animationArray[index][1]];
             let temp = [index, left[0][1]];
             result.push(temp);
             animation.push(['push', [...left[0]], temp]);
@@ -102,6 +132,8 @@ const mergeSort = (arr, startIndex) => {
     return result;
 }
 const doAnimation = (animation, setArray, newArr) => {
+    let times = 0;
+    // console.log(animation);
     animation.forEach((element, index) => {
         index = index + 1;
         if (element[0] == 'com') {
@@ -120,6 +152,7 @@ const doAnimation = (animation, setArray, newArr) => {
                 getClass('bar-sort')[element[2][0]].style.backgroundColor = 'blue';
             }, time * index)
         } else if (element[0] == 'push') {
+            times++;
             setTimeout(() => {
                 Array.from(getClass('bar')).forEach(bar => {
                     bar.style.backgroundColor = '#66aef1';
@@ -154,9 +187,26 @@ const doAnimation = (animation, setArray, newArr) => {
             bar.style.display = 'none';
         })
         // console.log(animation);
+        console.log(times);
         clearAnimation();
         setArray(newArr);
     }, time * (animation.length + 1))
+}
+
+const mergeSortTemp = (arr, startIndex) => {
+    let array = [...arr];
+    if (array.length < 2) return array;
+    let index = startIndex;
+    let mid = Math.floor(array.length / 2);
+    let left = mergeSortTemp(array.slice(0, mid), index);
+    let right = mergeSortTemp(array.slice(mid), mid + index);
+
+    let result = [];
+    while (left.length > 0 && right.length > 0) {
+        if (left[0][1] < right[0][1]) {
+
+        }
+    }
 }
 
 const quickSort = (array) => {}
@@ -175,5 +225,6 @@ export {
     librarySort,
     animation,
     doAnimation,
-    clearAnimation
+    clearAnimation,
+    setTime
 }

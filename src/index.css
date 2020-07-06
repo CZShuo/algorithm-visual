@@ -52,3 +52,24 @@ body{
     height: 1000px;
     border: 1px solid rgb(0, 0, 0);
 }
+
+
+.sort{
+    cursor: pointer;
+    border: 1px solid rgb(0, 0, 0);
+    border-radius:5px;
+    margin: 5px auto;
+    user-select: none;
+}
+.sort:hover{
+    color: brown;
+}
+
+.set-array{
+    width: 400px;
+    display: flex;
+    justify-content: space-evenly;
+}
+.set-array>input{
+    width:200px;
+}

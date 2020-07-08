@@ -40,6 +40,7 @@ const Main = (props) => {
     ]);
 
     const [animationArray, setAnimation] = useState(array);
+    const [level,changeLevel] = useState(1);
     // console.log(animationArray);
     // console.log(mergeSort(array, 0));
     // console.log(array);
@@ -85,6 +86,24 @@ const Main = (props) => {
             >
                 Insertion Sort
             </div>
+            <div className='sort'
+                onClick={() => {
+                    let newArr = selectionSort(array);
+                    // console.log(newArr);
+                    doAnimation(animation, setArray, newArr);
+                }}
+            >
+                Selection Sort
+            </div>
+            <div className='sort'
+                onClick={() => {
+                    let newArr = quickSort(array,0);
+                    // console.log(newArr);
+                    doAnimation(animation, setArray, newArr);
+                }}
+            >
+                Quick Sort
+            </div>
             <div className="set-array">
                 <div>Set your array: </div>
                 <input type="text" id="array-input" />
@@ -112,14 +131,14 @@ const Main = (props) => {
                     }
                     let arr = [];
                     for (let i = 0; i < num;i++) {
-                        arr.push([i,Math.floor(Math.random()*100)]);
+                        arr.push([i,Math.floor(Math.random()*100)+1]);
                     }
                     setArray(arr);
                 }}>Random</div>
             </div>
             <div className="set-array">
                 <div>Speed: </div>
-                <select defaultValue='200' onChange={(e)=>{
+                <select defaultValue='100' onChange={(e)=>{
                     setTime(e.target.value);
                 }}>
                     <option value="400">0.5</option>

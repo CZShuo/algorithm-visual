@@ -163,6 +163,7 @@ const doAnimation = (animation, setArray, newArr) => {
                 Array.from(getClass("element-sort")).forEach((bar) => {
                     bar.style.display = "none";
                 });
+                // setCompare([element[1][0],element[2][0]]);
                 getClass("bar")[element[1][0]].style.backgroundColor = "blue";
                 getClass("bar")[element[2][0]].style.backgroundColor = "blue";
                 getClass("element-sort")[element[1][0]].style.display = "flex";
@@ -230,71 +231,69 @@ const mergeSortTemp = (arr, startIndex) => {
     }
 };
 
-const quickSort2 = (array,index) =>{
+const quickSort = (array, left, right) => {
+    if (left >= right) return null;
     let arr = [...array];
-    if(arr.length == 1){
-        return arr;
-    }
-    
-    let pivot = index;
-    let pivotNum = arr[pivot][1];
-    let left = pivot+1;
-    let right = index + arr.length-1;
-
-    for (let i = left; i < right; i++) {
-        if(arr[i][1]<pivotNum){
-            [arr[left][1],arr[i][1]]=[arr[i][1],arr[left][1]];
-            left++;
-        }else if(arr[i][1]>pivotNum){
-            [arr[right][1],arr[i][1]]=[arr[i][1],arr[right][1]];
-            right--;
-        }
-    }
-    [arr[pivot][1],arr[left][1]] = [arr[left][1],arr[pivot][1]];
-    quickSort(arr.slice(0,pivot));
-    quickSort(arr.slice(pivot));
-    return arr;
-}
-
-const quickSort = (array,index) => {
-    let arr = [...array];
-    let indexStart = index;
-    if (arr.length <= 1) {
-        return arr;
-    }
-    // console.log(indexStart);
-
-    let less = [];
-    let greater = [];
-
-    let pivot = arr.length - 1;
-    let pivotNum = arr[pivot][1];
-    console.log('P'+pivotNum)
-    for (let i = 0; i < arr.length - 1; ++i) {
-        let num = arr[i][1];
+    let pivot = left;
+    for (let i = left + 1; i <= right; i++) {
         let tempA = [...arr[i]];
         let tempB = [...arr[pivot]];
         animation.push(["com", tempA, tempB]);
-
-        if (num < pivotNum) {
-            // console.log(arr[indexStart]);
-            // let tempC = [...arr[indexStart]];
-            // animation.push(['push', tempA, tempC]);
-            less.push(arr[i]);
-            indexStart++;
-            console.log('S'+indexStart)
-        } else {
-            // let tempC = [...arr[indexStart]];
-            // animation.push(['push', tempA, tempC]);
-            greater.push(arr[i]);
-            indexStart++;
-            console.log('B'+indexStart)
-
+        if (arr[i][1] < arr[pivot][1]) {
+            animation.push(["push", tempA, tempB]);
+            [arr[i][1], arr[pivot][1]] = [arr[pivot][1], arr[i][1]];
+            tempA = [...arr[i]];
+            tempB = [...arr[pivot + 1]];
+            animation.push(["push", tempA, tempB]);
+            [arr[i][1], arr[pivot + 1][1]] = [arr[pivot + 1][1], arr[i][1]];
+            pivot++;
         }
     }
-
-    return [...quickSort(less,0), pivot, ...quickSort(greater,pivot+1)];
+    quickSort(arr, left, pivot - 1);
+    quickSort(arr, pivot + 1, right);
+    return arr;
 };
+
+// const quickSort2 = (array,left,right) => {
+//     if(left>=right) return null;
+//     let arr = [...array];
+//     let indexStart = index;
+//     if (arr.length <= 1) {
+//         return arr;
+//     }
+//     // console.log(indexStart);
+
+//     let less = [];
+//     let greater = [];
+
+//     let pivot = arr.length - 1;
+//     let pivotNum = arr[pivot][1];
+//     console.log('P'+pivotNum)
+//     for (let i = 0; i < arr.length - 1; ++i) {
+//         let num = arr[i][1];
+//         let tempA = [...arr[i]];
+//         let tempB = [...arr[pivot]];
+//         animation.push(["com", tempA, tempB]);
+
+//         if (num < pivotNum) {
+//             // console.log(arr[indexStart]);
+//             // let tempC = [...arr[indexStart]];
+//             // animation.push(['push', tempA, tempC]);
+//             less.push(arr[i]);
+//             indexStart++;
+//             console.log('S'+indexStart)
+//         } else {
+//             // let tempC = [...arr[indexStart]];
+//             // animation.push(['push', tempA, tempC]);
+//             greater.push(arr[i]);
+//             indexStart++;
+//             console.log('B'+indexStart)
+
+//         }
+//     }
+
+//     return [...quickSort(less,0), pivot, ...quickSort(greater,pivot+1)];
+// };
 const librarySort = (array) => {};
 const heapSort = (array) => {};
 

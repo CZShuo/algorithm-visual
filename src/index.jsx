@@ -97,7 +97,7 @@ const Main = (props) => {
             <div
                 className="sort"
                 onClick={() => {
-                    let newArr = mergeSort(array, 0, animationArray);
+                    let newArr = mergeSort(array, 0);
                     doAnimation(animation, setArray, newArr);
                 }}
             >

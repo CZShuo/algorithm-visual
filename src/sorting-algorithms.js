@@ -1,3 +1,5 @@
+import { array } from "prop-types";
+
 const get = (selector) => {
     return document.querySelector(selector);
 };
@@ -19,6 +21,8 @@ const swapBar = (oldBar, toBar) => {
     getClass("bar")[toBar[0]].style.height = oldBar[1] + "px";
     getClass("value")[oldBar[0]].textContent = toBar[1];
     getClass("value")[toBar[0]].textContent = oldBar[1];
+    // array[oldBar[0]][1]=toBar[1];
+    // array[toBar[0]][1]=oldBar[1];
 };
 let merge = false;
 
@@ -119,15 +123,15 @@ const selectionSort = (array) => {
 };
 
 //O(nlogn)
-const mergeSort = (arr, startIndex, animationArray) => {
-    let array = [...arr];
-    // animation.push(['range', array]);
-    if (array.length < 2) return array;
+const mergeSort = (array, startIndex) => {
+    let arr = [...array];
+    // animation.push(['range', arr]);
+    if (arr.length < 2) return arr;
     let index = startIndex;
-    let mid = Math.floor(array.length / 2);
+    let mid = Math.floor(arr.length / 2);
     // animation.push(['getmid', mid]);
-    let left = mergeSort(array.slice(0, mid), index, animationArray);
-    let right = mergeSort(array.slice(mid), mid + index, animationArray);
+    let left = mergeSort(arr.slice(0, mid), index);
+    let right = mergeSort(arr.slice(mid), mid + index);
 
     let result = [];
     while (left.length > 0 && right.length > 0) {
@@ -196,30 +200,28 @@ const doAnimation = (animation, setArray, newArr,arrays,setArrays) => {
         } else if (element[0] == "push") {
             times++;
             setTimeout(() => {
-                [arr[i], arr[i + 1]] = [arr[i + 1], arr[i]];
-                setArrays(arr);
-            }, time * index)
-            // setTimeout(() => {
-            //     Array.from(getClass("bar")).forEach((bar) => {
-            //         bar.style.backgroundColor = "#66aef1";
-            //     });
-            //     Array.from(getClass("bar-sort")).forEach((bar) => {
-            //         bar.style.backgroundColor = "#66aef1";
-            //     });
-            //     getClass("bar")[element[1][0]].style.backgroundColor = "red";
-            //     getClass("bar-sort")[element[1][0]].style.backgroundColor =
-            //         "red";
-            //     // getClass('bar')[element[1][0]].style.height = getClass('bar')[element[2][0]].style.height + 'px';
-            //     // getClass('value')[element[1][0]].textContent = getClass('value')[element[2][0]].textContent;
-            //     if (merge) {
-            //         getClass("bar")[element[2][0]].style.height =
-            //             element[2][1] + "px";
-            //         getClass("value")[element[2][0]].textContent =
-            //             element[2][1];
-            //     } else {
-            //         swapBar(element[1], element[2]);
-            //     }
-            // }, time * index);
+                Array.from(getClass("bar")).forEach((bar) => {
+                    bar.style.backgroundColor = "#66aef1";
+                });
+                Array.from(getClass("bar-sort")).forEach((bar) => {
+                    bar.style.backgroundColor = "#66aef1";
+                });
+                getClass("bar")[element[1][0]].style.backgroundColor = "red";
+                getClass("bar-sort")[element[1][0]].style.backgroundColor =
+                    "red";
+                // getClass('bar')[element[1][0]].style.height = getClass('bar')[element[2][0]].style.height + 'px';
+                // getClass('value')[element[1][0]].textContent = getClass('value')[element[2][0]].textContent;
+                if (merge) {
+                    getClass("bar")[element[2][0]].style.height =
+                        element[2][1] + "px";
+                    getClass("value")[element[2][0]].textContent =
+                        element[2][1];
+                } else {
+                    swapBar(element[1], element[2]);
+                }
+                // console.log(array.toString());
+                // [array[element[1][0]][1],array[element[2][0]][1]]=[array[element[2][0]][1],array[element[1][0]][1]];
+            }, time * index);
         } else if (element[0] == "range") {
             //Draw range in svg
         } else if (element[0] == "getmid") {

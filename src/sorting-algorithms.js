@@ -23,6 +23,25 @@ const swapBar = (oldBar, toBar) => {
 let merge = false;
 
 //O(n^2)
+const bubbleSort2 = (array)=>{
+    let arr=[...array];
+    let times = arr.length;
+    let swap = false;
+    do {
+        swap = false;
+        times--;
+        for (let i = 0; i < times; i++) {
+            animation.push(["com", i, i+1]);
+            if (arr[i] > arr[i + 1]) {
+                animation.push(["push", i, i+1]);
+                [arr[i], arr[i + 1]] = [arr[i + 1], arr[i]];
+                swap = true;
+            }
+        }
+    } while (times > 0 && swap);
+
+    return arr;
+}
 const bubbleSort = (array) => {
     let arr = [...array];
     let times = arr.length;
@@ -150,8 +169,9 @@ const mergeSort = (arr, startIndex, animationArray) => {
     merge = true;
     return result;
 };
-const doAnimation = (animation, setArray, newArr) => {
+const doAnimation = (animation, setArray, newArr,arrays,setArrays) => {
     let times = 0;
+    let arr = [...arrays];
     // console.log(animation);
     animation.forEach((element, index) => {
         index = index + 1;
@@ -176,26 +196,30 @@ const doAnimation = (animation, setArray, newArr) => {
         } else if (element[0] == "push") {
             times++;
             setTimeout(() => {
-                Array.from(getClass("bar")).forEach((bar) => {
-                    bar.style.backgroundColor = "#66aef1";
-                });
-                Array.from(getClass("bar-sort")).forEach((bar) => {
-                    bar.style.backgroundColor = "#66aef1";
-                });
-                getClass("bar")[element[1][0]].style.backgroundColor = "red";
-                getClass("bar-sort")[element[1][0]].style.backgroundColor =
-                    "red";
-                // getClass('bar')[element[1][0]].style.height = getClass('bar')[element[2][0]].style.height + 'px';
-                // getClass('value')[element[1][0]].textContent = getClass('value')[element[2][0]].textContent;
-                if (merge) {
-                    getClass("bar")[element[2][0]].style.height =
-                        element[2][1] + "px";
-                    getClass("value")[element[2][0]].textContent =
-                        element[2][1];
-                } else {
-                    swapBar(element[1], element[2]);
-                }
-            }, time * index);
+                [arr[i], arr[i + 1]] = [arr[i + 1], arr[i]];
+                setArrays(arr);
+            }, time * index)
+            // setTimeout(() => {
+            //     Array.from(getClass("bar")).forEach((bar) => {
+            //         bar.style.backgroundColor = "#66aef1";
+            //     });
+            //     Array.from(getClass("bar-sort")).forEach((bar) => {
+            //         bar.style.backgroundColor = "#66aef1";
+            //     });
+            //     getClass("bar")[element[1][0]].style.backgroundColor = "red";
+            //     getClass("bar-sort")[element[1][0]].style.backgroundColor =
+            //         "red";
+            //     // getClass('bar')[element[1][0]].style.height = getClass('bar')[element[2][0]].style.height + 'px';
+            //     // getClass('value')[element[1][0]].textContent = getClass('value')[element[2][0]].textContent;
+            //     if (merge) {
+            //         getClass("bar")[element[2][0]].style.height =
+            //             element[2][1] + "px";
+            //         getClass("value")[element[2][0]].textContent =
+            //             element[2][1];
+            //     } else {
+            //         swapBar(element[1], element[2]);
+            //     }
+            // }, time * index);
         } else if (element[0] == "range") {
             //Draw range in svg
         } else if (element[0] == "getmid") {
@@ -300,7 +324,7 @@ const heapSort = (array) => {};
 export {
     get,
     getClass,
-    bubbleSort,
+    bubbleSort2,
     insertionSort,
     selectionSort,
     mergeSort,

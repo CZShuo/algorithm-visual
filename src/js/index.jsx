@@ -5,6 +5,8 @@ import "../index.css";
 import Graph from "./graph.jsx";
 import Bubble from "./algoBubble.jsx";
 import Insertion from "./algoInsert.jsx";
+import Selection from "./algoSelect.jsx";
+import Merge from "./algoMerge.jsx";
 import Control from "./control.jsx";
 import LeftBar from "./leftBar.jsx";
 import {
@@ -43,38 +45,18 @@ const Main = (props) => {
         10,
         70,
     ]);
-    const [major, setMajor] = useState(-1);
-    // useEffect((array) => {
-    //     setPosition(newPosition(array));
-    // },[major]);
+    const [content, setContent] = useState("Click algorithm to start!");
+    const [time, setTime] = useState(100);
 
-    //Set position and set major priority
-    const newPosition = (array) => {
-        let result = [];
-        for (let i = 0; i < array.length; i++) {
-            let temp = 130 - array[i];
-            let tempx = (1000 - array.length * 50) / 2;
-            if (i == major) {
-                temp = 230 - array[i - 1];
-            }
-            result.push({
-                x: i * 50 + tempx,
-                y: temp,
-            });
-        }
-        return result;
-    };
-
-    const initial = (array) => {
+    const initialStatus = (array) => {
         let sta = [];
         for (let i = 0; i < array.length; i++) {
             sta.push("null");
         }
         return sta;
     };
-    const [sorted, setSorted] = useState([]);
-    const [status, setStatus] = useState(initial(array));
-    const [content, setContent] = useState("Click algorithm to start!");
+    const [status, setStatus] = useState(initialStatus(array));
+
     const newColor = (array, status) => {
         let colorList = [];
         for (let i = 0; i < array.length; i++) {
@@ -98,47 +80,75 @@ const Main = (props) => {
         }
         return colorList;
     };
-    const [position, setPosition] = useState(newPosition(array));
     const [color, setColor] = useState(newColor(array, status));
 
-    const [time, setTime] = useState(100);
+    const newPosition = (array) => {
+        let result = [];
+        for (let i = 0; i < array.length; i++) {
+            let temp = 130 - array[i];
+            let tempx = (1000 - array.length * 50) / 2;
+            
+            result.push({
+                x: i * 50 + tempx,
+                y: temp,
+            });
+        }
+        return result;
+    };
+    const [position, setPosition] = useState(newPosition(array));
+
+    // const [major, setMajor] = useState(-1);
+    // useEffect((array) => {
+    //     setPosition(newPosition(array));
+    // },[major]);
+
+    //Set position and set major priority
+
+    // const [sorted, setSorted] = useState([]);
+
+    const data = {
+        array,
+        setArray,
+        content,
+        setContent,
+        time,
+        status,
+        setStatus,
+        color,
+        setColor,
+        newColor,
+        position,
+        setPosition,
+        newPosition,
+    };
+    const controlData = {
+        setArray,setTime,setColor,setPosition,newColor,newPosition,status
+    }
 
     const [colorCode1, s1] = useState("#000000");
     const [colorCode2, s2] = useState("#000000");
 
     return (
         <div className='array'>
-            <Control setArray={setArray} />
+            <Control controlData={controlData}/>
             <Router>
                 <LeftBar />
                 <Switch>
                     <Route
                         path='/bubblesort'
-                        render={() => (
-                            <Bubble
-                                array={array}
-                                position={position}
-                                color={color}
-                                content={content}
-                                colorCode1={colorCode1}
-                                colorCode2={colorCode2}
-                                status={status}
-                                time={time}
-                            />
-                        )}
+                        render={() => <Bubble data={data} />}
                     />
                     <Route
                         path='/insertionsort'
-                        render={() => (
-                            <Insertion
-                                array={array}
-                                position={position}
-                                color={color}
-                                content={content}
-                                time={time}
-                                status={status}
-                            />
-                        )}
+                        render={() => <Insertion data={data} />}
+                    />
+                    <Route
+                        path='/selectionsort'
+                        render={() => <Selection data={data}/>}
+                    />
+                    <Route
+                        path='/mergesort'
+                        render={() => <Merge data={data}/>}
                     />
                 </Switch>
             </Router>

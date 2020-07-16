@@ -4,7 +4,9 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import PropTypes from "prop-types";
 
 const Control = (props) => {
-    const setArray= props.setArray;
+    const {
+        setArray,setTime,setColor,setPosition,newColor,newPosition,status
+    }=props.controlData;
     const inputRef = useRef(null);
     const randomRef = useRef(null);
     return (
@@ -16,7 +18,7 @@ const Control = (props) => {
                     id="send-array"
                     onClick={() => {
                         let input = inputRef.current.value;
-                        console.log(input);
+                        // console.log(input);
                         let arr = input.replace(/\s/g, "").split(",");
                         arr = arr.map((element, index) => [Number(element)]);
                         setPosition(newPosition(arr));

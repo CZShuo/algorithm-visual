@@ -5,9 +5,22 @@ import PropTypes from "prop-types";
 import Graph from "./graph.jsx";
 
 const Bubble = (props) => {
-    let array = props.array;
-    let status = props.status;
-    let time = props.time;
+    let data = props.data;
+    let {
+        array,
+        setArray,
+        content,
+        setContent,
+        time,
+        status,
+        setStatus,
+        color,
+        setColor,
+        newColor,
+        position,
+        setPosition,
+        newPosition,
+    } = data;
 
     const bubbleSort = (array) => {
         let arr = [...array];
@@ -30,7 +43,7 @@ const Bubble = (props) => {
         return ani;
     };
 
-    const doAniBub = (animat, array) => {
+    const doAniBub = (animationArray, array) => {
         let arr = [...array];
         let index = 0;
         let text;
@@ -38,7 +51,7 @@ const Bubble = (props) => {
             status[i] = "null";
         }
         let ani = setInterval(() => {
-            let ele = animat[index];
+            let ele = animationArray[index];
             if (ele[0] == "com") {
                 for (let i = 0; i < ele[1]; i++) {
                     status[i] = "null";
@@ -51,23 +64,23 @@ const Bubble = (props) => {
 
                 setContent(text);
                 if (index > 1) {
-                    if (ele[2] < animat[index - 1][2]) {
-                        status[animat[index - 1][1]] = "null";
-                        status[animat[index - 1][2]] = "after";
+                    if (ele[2] < animationArray[index - 1][2]) {
+                        status[animationArray[index - 1][1]] = "null";
+                        status[animationArray[index - 1][2]] = "after";
                     }
                 }
-                if (index == animat.length - 1) {
-                    status[animat[index][1]] = "after";
-                    status[animat[index][2]] = "after";
-                    let color1 = "#000000";
-                    let color2 = "#000000";
-                    s1(color1);
-                    s2(color2);
+                if (index == animationArray.length - 1) {
+                    status[animationArray[index][1]] = "after";
+                    status[animationArray[index][2]] = "after";
+                    // let color1 = "#000000";
+                    // let color2 = "#000000";
+                    // s1(color1);
+                    // s2(color2);
                 } else {
-                    let color1 = "#ff0000";
-                    let color2 = "#000000";
-                    s1(color1);
-                    s2(color2);
+                    // let color1 = "#ff0000";
+                    // let color2 = "#000000";
+                    // s1(color1);
+                    // s2(color2);
                 }
 
                 setColor(newColor(arr, status));
@@ -80,10 +93,10 @@ const Bubble = (props) => {
                 status[ele[1]] = "null";
                 status[ele[2]] = "after";
                 setArray(arr);
-                let color1 = "#000000";
-                let color2 = "#ff0000";
-                s1(color1);
-                s2(color2);
+                // let color1 = "#000000";
+                // let color2 = "#ff0000";
+                // s1(color1);
+                // s2(color2);
                 setPosition(newPosition(arr));
                 setColor(newColor(arr, status));
             } else if (ele[0] == "big") {
@@ -93,39 +106,41 @@ const Bubble = (props) => {
                     arr[ele[2]]
                 }，因此將兩者互換。`;
                 setContent(text);
-                let color1 = "#000000";
-                let color2 = "#ff0000";
-                s1(color1);
-                s2(color2);
+                // let color1 = "#000000";
+                // let color2 = "#ff0000";
+                // s1(color1);
+                // s2(color2);
                 setColor(newColor(arr, status));
             }
             index++;
 
-            if (index >= animat.length) {
+            if (index >= animationArray.length) {
                 setContent("排序完成。");
                 clearInterval(ani);
             }
         }, time);
     };
+    const graph = {
+        array,
+        position,
+        color,
+        content,
+    };
 
     return (
         <div>
             <div
-                className="sort"
+                className='sort'
                 onClick={() => {
                     console.log(bubbleSort(array));
                     doAniBub(bubbleSort(array), array);
-                }}
-            >
+                }}>
                 Bubble Sort
             </div>
             <Graph
-                array={props.array}
-                position={props.position}
-                color={props.color}
-                content={props.content}
-                colorCode1={props.colorCode1}
-                colorCode2={props.colorCode2}
+                graph={graph}
+                // colorCode1={colorCode1}
+                // colorCode2={colorCode2}
             />
         </div>
     );

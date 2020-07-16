@@ -5,9 +5,22 @@ import PropTypes from "prop-types";
 import Graph from "./graph.jsx";
 
 const Insertion = (props)=> {
-    let array = props.array;
-    let status = props.status;
-    let time = props.time;
+    let {
+        array,
+        setArray,
+        content,
+        setContent,
+        time,
+        status,
+        setStatus,
+        color,
+        setColor,
+        newColor,
+        position,
+        setPosition,
+        newPosition,
+    } = props.data;
+
     const insertionSort = (array) => {
         let arr = [...array];
         let ani = [];
@@ -105,24 +118,28 @@ const Insertion = (props)=> {
         }, time);
     };
 
+    const graph = {
+        array,
+        position,
+        color,
+        content,
+    };
+
+
     return (
         <div>
             <div
-                className="sort"
+                className='sort'
                 onClick={() => {
                     console.log(insertionSort(array));
                     doAniIns(insertionSort(array), array);
-                }}
-            >
+                }}>
                 Insertion Sort
             </div>
             <Graph
-                array={props.array}
-                position={props.position}
-                color={props.color}
-                content={props.content}
-                colorCode1={props.colorCode1}
-                colorCode2={props.colorCode2}
+                graph={graph}
+                // colorCode1={colorCode1}
+                // colorCode2={colorCode2}
             />
         </div>
     )

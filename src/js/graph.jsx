@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Code from "./code.jsx";
 
 const Graph = (props) => {
-    const array = props.array;
-    const position = props.position;
-    const color = props.color;
-    const content = props.content;
     const colorCode1 = props.colorCode1;
     const colorCode2 = props.colorCode2;
+    let {
+        array,
+        position,
+        color,
+        content,
+    }=props.graph;
     
     return (
         <svg id="svg">
@@ -42,15 +45,7 @@ const Graph = (props) => {
                 rx="10"
                 ry="10"
             ></rect>
-            <text x="360" y="330" fontSize="20px">
-                for i from 0 to array's length
-            </text>
-            <text x="380" y="360" fontSize="20px" fill={colorCode1}>
-                if array[i] > array[i+1]
-            </text>
-            <text x="400" y="390" fontSize="20px" fill={colorCode2}>
-                swap array[i] and array[i+1]
-            </text>
+            <Code />
         </svg>
     );
 };

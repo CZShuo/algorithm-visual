@@ -28,7 +28,7 @@ const Bubble = (props) => {
         let swap = false;
         let ani = [];
         do {
-            // swap = false;
+            swap = false;
             times--;
             for (let i = 0; i < times; i++) {
                 ani.push(["com", i, i + 1]);
@@ -36,10 +36,13 @@ const Bubble = (props) => {
                     ani.push(["big", i, i + 1]);
                     ani.push(["push", i, i + 1]);
                     [arr[i], arr[i + 1]] = [arr[i + 1], arr[i]];
-                    // swap = true;
+                    swap = true;
                 }
             }
-        } while (times > 0);
+            if(!swap && times>1) {
+                ani.push(['sorted',times]);
+            }
+        } while (times > 0 && swap==true);
         return ani;
     };
 
@@ -110,6 +113,11 @@ const Bubble = (props) => {
                 // let color2 = "#ff0000";
                 // s1(color1);
                 // s2(color2);
+                setColor(newColor(arr, status));
+            }else if (ele[0] == "sorted"){
+                for (let i = 0; i < arr.length; i++) {
+                    status[i] = "after";
+                }
                 setColor(newColor(arr, status));
             }
             index++;

@@ -75,6 +75,8 @@ const Main = (props) => {
                 col = "#ff7f00";
             } else if (status[i] == "key") {
                 col = "#0000ff";
+            } else if (status[i] == "min") {
+                col = "#0000ff";
             }
             colorList.push(col);
         }
@@ -87,7 +89,7 @@ const Main = (props) => {
         for (let i = 0; i < array.length; i++) {
             let temp = 130 - array[i];
             let tempx = (1000 - array.length * 50) / 2;
-            
+
             result.push({
                 x: i * 50 + tempx,
                 y: temp,
@@ -122,15 +124,21 @@ const Main = (props) => {
         newPosition,
     };
     const controlData = {
-        setArray,setTime,setColor,setPosition,newColor,newPosition,status
-    }
+        setArray,
+        setTime,
+        setColor,
+        setPosition,
+        newColor,
+        newPosition,
+        status,
+    };
 
     const [colorCode1, s1] = useState("#000000");
     const [colorCode2, s2] = useState("#000000");
 
     return (
         <div className='array'>
-            <Control controlData={controlData}/>
+            <Control controlData={controlData} />
             <Router>
                 <LeftBar />
                 <Switch>
@@ -144,11 +152,11 @@ const Main = (props) => {
                     />
                     <Route
                         path='/selectionsort'
-                        render={() => <Selection data={data}/>}
+                        render={() => <Selection data={data} />}
                     />
                     <Route
                         path='/mergesort'
-                        render={() => <Merge data={data}/>}
+                        render={() => <Merge data={data} />}
                     />
                 </Switch>
             </Router>

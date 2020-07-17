@@ -57,10 +57,10 @@ const Select = (props) => {
         let ani=setInterval(() => {
             let ele = animationArray[index];
             if(ele[0]=='com'){
-                for (let i = 0; i < ele[1]; i++) {
+                for (let i = 0; i < ele[2]; i++) {
                     status[i] = "null";
                 }
-                status[ele[1]] = "com";
+                status[ele[1]] = "min";
                 status[ele[2]] = "com";
                 text = `比較 [${ele[1]}] ${arr[ele[1]]} 與 [${ele[2]}] ${arr[ele[2]]}。`;
                 setContent(text);

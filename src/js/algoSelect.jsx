@@ -52,6 +52,7 @@ const Select = (props) => {
             status[i] = "null";
         }
         let ani = setInterval(() => {
+            
             let ele = animationArray[index];
             if (ele[0] == "min") {
                 status[ele[1]] = "min";
@@ -89,9 +90,14 @@ const Select = (props) => {
                     }
                 }
                 setColor(newColor(arr, status));
-                text = `[${ele[1]}] ${arr[ele[1]]} 與 [${ele[2]}] ${
-                    arr[ele[2]]
-                }互換。`;
+                
+                if(ele[1]==ele[2]){
+                    text = `[${ele[1]}] ${arr[ele[1]]} 位置不變。`
+                }else{
+                    text = `[${ele[1]}] ${arr[ele[1]]} 與 [${ele[2]}] ${
+                        arr[ele[2]]
+                    }互換。`;
+                }
                 setContent(text);
                 [arr[ele[1]], arr[ele[2]]] = [arr[ele[2]], arr[ele[1]]];
                 setArray(arr);
@@ -102,9 +108,8 @@ const Select = (props) => {
                 // s2(color2);
             }
             index++;
-
-            if (index >= animationArray.length) {
-                
+            
+            if (index >= animationArray.length) {    
                 setContent("排序完成。");
                 clearInterval(ani);
             }

@@ -7,8 +7,10 @@ import Bubble from "./algoBubble.jsx";
 import Insertion from "./algoInsert.jsx";
 import Selection from "./algoSelect.jsx";
 import Merge from "./algoMerge.jsx";
+import Quick from "./algoQuick.jsx";
 import Control from "./control.jsx";
 import LeftBar from "./leftBar.jsx";
+import Header from "./header.jsx";
 import {
     get,
     getClass,
@@ -88,7 +90,7 @@ const Main = (props) => {
         let result = [];
         for (let i = 0; i < array.length; i++) {
             let temp = 130 - array[i];
-            let tempx = (1000 - array.length * 50) / 2;
+            let tempx = (900 - array.length * 50) / 2;
 
             result.push({
                 x: i * 50 + tempx,
@@ -137,31 +139,46 @@ const Main = (props) => {
     const [colorCode2, s2] = useState("#000000");
 
     return (
-        <div className='array'>
-            <Control controlData={controlData} />
-            <Router>
-                <LeftBar />
-                <Switch>
-                    <Route
-                        path='/bubblesort'
-                        render={() => <Bubble data={data} />}
-                    />
-                    <Route
-                        path='/insertionsort'
-                        render={() => <Insertion data={data} />}
-                    />
-                    <Route
-                        path='/selectionsort'
-                        render={() => <Selection data={data} />}
-                    />
-                    <Route
-                        path='/mergesort'
-                        render={() => <Merge data={data} />}
-                    />
-                </Switch>
-            </Router>
-        </div>
+        <>
+            <Header />
+            <div className="array">
+                <Router>
+                    <LeftBar />
+                    <div className="main-part">
+                        <Switch>
+                            <Route exact path="/" />
+                            <Route
+                                path="/bubblesort"
+                                render={() => <Bubble data={data} />}
+                            />
+                            <Route
+                                path="/insertionsort"
+                                render={() => <Insertion data={data} />}
+                            />
+                            <Route
+                                path="/selectionsort"
+                                render={() => <Selection data={data} />}
+                            />
+                            <Route
+                                path="/mergesort"
+                                render={() => <Merge data={data} />}
+                            />
+                            <Route
+                                path="/quicksort"
+                                render={() => <Quick data={data} />}
+                            />
+                        </Switch>
+                        <Control controlData={controlData} />
+                    </div>
+                </Router>
+            </div>
+        </>
     );
 };
 
 ReactDOM.render(<Main />, document.getElementById("root"));
+
+
+//1. 點home可以到首頁'./'
+//2. code塊
+//3. speed & pause & play

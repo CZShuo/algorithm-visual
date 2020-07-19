@@ -28,7 +28,7 @@ const Insertion = (props)=> {
         let result = [];
         for (let i = 0; i < array.length; i++) {
             let temp = 130 - array[i];
-            let tempx = (1000 - array.length * 50) / 2;
+            let tempx = (900 - array.length * 50) / 2;
             if(i==major){
                 temp = 230-array[i];
             }

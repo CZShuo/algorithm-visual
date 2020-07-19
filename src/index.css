@@ -1,75 +1,101 @@
-*{
-    margin:0;
+* {
+    margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
-body{
+
+body {
     background-color: antiquewhite;
 }
 
-.array{
+.header {
+    width: 100%;
+    background-color: rgb(135, 202, 228);
+    height: 50px;
+    text-align: center;
+}
+
+.left-bar {
+    width: 15%;
+    height: calc(100vh - 50px);
+    border: 1px solid rgb(0, 0, 0);
+}
+
+.array {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+}
+
+.main-part {
+    width: 85%;
+}
+
+.control {
+    border: 2px solid black;
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 90%;
-    margin: 20px auto;
+    height: 200px;
 }
 
-.bars{
+.bars {
     display: flex;
     flex-direction: row;
     align-items: flex-end;
     height: 150px;
 }
 
-.element{
-    margin: 0 10px; 
+.element {
+    margin: 0 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.element-sort{
+.element-sort {
     display: none;
 }
 
-.bar{
-    width:10px;
+.bar {
+    width: 10px;
     background-color: #66aef1;
 }
 
-.bar-sort{
-    width:10px;
+.bar-sort {
+    width: 10px;
     background-color: #66aef1;
 }
 
-.value{
+.value {
     color: #000;
 }
 
-#svg{
-    width: 1000px;
-    height: 1000px;
+#svg {
+    width: 900px;
+    height: 500px;
     border: 1px solid rgb(0, 0, 0);
 }
 
-
-.sort{
+.sort {
     cursor: pointer;
     border: 1px solid rgb(0, 0, 0);
-    border-radius:5px;
+    border-radius: 5px;
     margin: 5px auto;
     user-select: none;
 }
-.sort:hover{
+
+.sort:hover {
     color: brown;
 }
 
-.set-array{
+.set-array {
     width: 500px;
     display: flex;
     justify-content: space-evenly;
 }
-.set-array>input{
-    width:200px;
+
+.set-array>input {
+    width: 200px;
 }

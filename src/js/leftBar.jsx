@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 
 const LeftBar = (props) => {
     return (
-        <>
+        <div className="left-bar">
             <Link to='/bubblesort'>
                 <div>Bubble Sort</div>
             </Link>
@@ -21,7 +21,7 @@ const LeftBar = (props) => {
             <Link to='/quicksort'>
                 <div>Quick Sort</div>
             </Link>
-        </>
+        </div>
     );
 };
 

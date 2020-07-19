@@ -5,12 +5,18 @@ import PropTypes from "prop-types";
 
 const Control = (props) => {
     const {
-        setArray,setTime,setColor,setPosition,newColor,newPosition,status
-    }=props.controlData;
+        setArray,
+        setTime,
+        setColor,
+        setPosition,
+        newColor,
+        newPosition,
+        status,
+    } = props.controlData;
     const inputRef = useRef(null);
     const randomRef = useRef(null);
     return (
-        <>
+        <div className="control">
             <div className="set-array">
                 <div>Set your array: </div>
                 <input type="text" id="array-input" ref={inputRef} />
@@ -21,6 +27,9 @@ const Control = (props) => {
                         // console.log(input);
                         let arr = input.replace(/\s/g, "").split(",");
                         arr = arr.map((element, index) => [Number(element)]);
+                        for (let i = 0; i < arr.length; i++) {
+                            status[i] = "null";
+                        }
                         setPosition(newPosition(arr));
                         setColor(newColor(arr, status));
                         setArray(arr);
@@ -76,7 +85,10 @@ const Control = (props) => {
                 <div>Pause</div>
                 <div>Start</div>
             </div>
-        </>
+            <div className="color-pick">
+                <input type="color"></input>
+            </div>
+        </div>
     );
 };
 

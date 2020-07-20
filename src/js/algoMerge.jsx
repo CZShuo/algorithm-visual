@@ -101,6 +101,17 @@ const Merge = (props) => {
         return result;
     };
 
+    const code = [
+        "for i from 0 to array's length",
+        "\tif array[i] > array[i+1]",
+        "\t\tswap array[i] and array[i+1]",
+    ];
+    let colorCode = [];
+    for (let i = 0; i < code.length; i++){
+        colorCode.push('#000000');
+    }
+    const [currentCode, setCurrentCode] = useState(colorCode);
+
     const doAniMer = (animationArray, array) => {
         let arr = [...array];
         let index = 0;
@@ -176,11 +187,13 @@ const Merge = (props) => {
         }, time);
     };
 
+    
     const graph = {
         array,
         position,
         color,
         content,
+        code,currentCode 
     };
     return (
         <div>

@@ -72,10 +72,32 @@ body {
     color: #000;
 }
 
+.graphs {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+}
+
 #svg {
-    width: 900px;
+    width: 70%;
     height: 500px;
     border: 1px solid rgb(0, 0, 0);
+}
+
+.code-area {
+    width: 30%;
+    height: 500px;
+    border: 1px solid rgb(0, 0, 0);
+}
+
+.code {
+    font-size: 14px;
+    line-height: 20px;
+    margin-left: 4px;
+}
+
+pre {
+    tab-size: 4;
 }
 
 .sort {

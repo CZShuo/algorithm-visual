@@ -139,45 +139,51 @@ const Main = (props) => {
     const [colorCode2, s2] = useState("#000000");
 
     return (
-        <>
+        <Router>
             <Header />
             <div className="array">
-                <Router>
-                    <LeftBar />
-                    <div className="main-part">
-                        <Switch>
-                            <Route exact path="/" />
-                            <Route
-                                path="/bubblesort"
-                                render={() => <Bubble data={data} />}
-                            />
-                            <Route
-                                path="/insertionsort"
-                                render={() => <Insertion data={data} />}
-                            />
-                            <Route
-                                path="/selectionsort"
-                                render={() => <Selection data={data} />}
-                            />
-                            <Route
-                                path="/mergesort"
-                                render={() => <Merge data={data} />}
-                            />
-                            <Route
-                                path="/quicksort"
-                                render={() => <Quick data={data} />}
-                            />
-                        </Switch>
-                        <Control controlData={controlData} />
-                    </div>
-                </Router>
+                <LeftBar />
+                <div className="main-part">
+                    <Switch>
+                        <Route
+                            exact
+                            path="/"
+                            render={() => (
+                                <div>
+                                    <div className="sort">Choose Sort</div>
+                                    <svg id="svg"></svg>
+                                </div>
+                            )}
+                        />
+                        <Route
+                            path="/bubblesort"
+                            render={() => <Bubble data={data} />}
+                        />
+                        <Route
+                            path="/insertionsort"
+                            render={() => <Insertion data={data} />}
+                        />
+                        <Route
+                            path="/selectionsort"
+                            render={() => <Selection data={data} />}
+                        />
+                        <Route
+                            path="/mergesort"
+                            render={() => <Merge data={data} />}
+                        />
+                        <Route
+                            path="/quicksort"
+                            render={() => <Quick data={data} />}
+                        />
+                    </Switch>
+                    <Control controlData={controlData} />
+                </div>
             </div>
-        </>
+        </Router>
     );
 };
 
 ReactDOM.render(<Main />, document.getElementById("root"));
-
 
 //1. 點home可以到首頁'./'
 //2. code塊

@@ -5,10 +5,10 @@ import "../index.css";
 
 const Header = (props) => {
     return (
-        <div className="header">
-            Watch Me
-        </div>
-    )
-}
+        <Link to="/">
+            <div className="header">Watch Me</div>
+        </Link>
+    );
+};
 
 export default Header;

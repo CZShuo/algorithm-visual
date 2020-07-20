@@ -39,22 +39,32 @@ const Bubble = (props) => {
                     swap = true;
                 }
             }
-            if(!swap && times>1) {
-                ani.push(['sorted',times]);
+            if (!swap && times > 1) {
+                ani.push(["sorted", times]);
             }
-        } while (times > 0 && swap==true);
+        } while (times > 0 && swap == true);
         return ani;
     };
 
-    const doAniBub = (animationArray, array) => {
+    const code = [
+        "從第一個數字開始\nfor i from 0 to array's length",
+        "\t與下一個數字比較大小，找出大的數字\n\tif array[i] > array[i+1]",
+        "\t\t大的數字向後移動\n\t\tswap array[i] and array[i+1]",
+    ];
+    let colorCode = [];
+    for (let i = 0; i < code.length; i++) {
+        colorCode.push("#000000");
+    }
+    const [currentCode, setCurrentCode] = useState(colorCode);
+    const [animationArray, setAnimationArray] = useState([]);
+
+    const doAniBub = (animationArray, array, index) => {
         let arr = [...array];
-        let index = 0;
+        window.index = index;
         let text;
-        for (let i = 0; i < arr.length; i++) {
-            status[i] = "null";
-        }
-        let ani = setInterval(() => {
-            let ele = animationArray[index];
+
+        window.ani = setInterval(() => {
+            let ele = animationArray[window.index];
             if (ele[0] == "com") {
                 for (let i = 0; i < ele[1]; i++) {
                     status[i] = "null";
@@ -66,15 +76,23 @@ const Bubble = (props) => {
                 }。`;
 
                 setContent(text);
-                if (index > 1) {
-                    if (ele[2] < animationArray[index - 1][2]) {
-                        status[animationArray[index - 1][1]] = "null";
-                        status[animationArray[index - 1][2]] = "after";
+
+                let temp = [...colorCode];
+                for (let i = 0; i < code.length; i++) {
+                    temp[i] = "#000000";
+                }
+                temp[1] = "#ff0000";
+                setCurrentCode(temp);
+
+                if (window.index > 1) {
+                    if (ele[2] < animationArray[window.index - 1][2]) {
+                        status[animationArray[window.index - 1][1]] = "null";
+                        status[animationArray[window.index - 1][2]] = "after";
                     }
                 }
-                if (index == animationArray.length - 1) {
-                    status[animationArray[index][1]] = "after";
-                    status[animationArray[index][2]] = "after";
+                if (window.index == animationArray.length - 1) {
+                    status[animationArray[window.index][1]] = "after";
+                    status[animationArray[window.index][2]] = "after";
                     // let color1 = "#000000";
                     // let color2 = "#000000";
                     // s1(color1);
@@ -96,10 +114,14 @@ const Bubble = (props) => {
                 status[ele[1]] = "null";
                 status[ele[2]] = "after";
                 setArray(arr);
-                // let color1 = "#000000";
-                // let color2 = "#ff0000";
-                // s1(color1);
-                // s2(color2);
+
+                let temp = [...colorCode];
+                for (let i = 0; i < code.length; i++) {
+                    temp[i] = "#000000";
+                }
+                temp[2] = "#ff0000";
+                setCurrentCode(temp);
+
                 setPosition(newPosition(arr));
                 setColor(newColor(arr, status));
             } else if (ele[0] == "big") {
@@ -109,41 +131,89 @@ const Bubble = (props) => {
                     arr[ele[2]]
                 }，因此將兩者互換。`;
                 setContent(text);
-                // let color1 = "#000000";
-                // let color2 = "#ff0000";
-                // s1(color1);
-                // s2(color2);
+
+                let temp = [...colorCode];
+                for (let i = 0; i < code.length; i++) {
+                    temp[i] = "#000000";
+                }
+                temp[1] = "#ff0000";
+                setCurrentCode(temp);
+
                 setColor(newColor(arr, status));
-            }else if (ele[0] == "sorted"){
+            } else if (ele[0] == "sorted") {
                 for (let i = 0; i < arr.length; i++) {
                     status[i] = "after";
                 }
                 setColor(newColor(arr, status));
             }
-            index++;
+            window.index++;
 
-            if (index >= animationArray.length) {
+            if (window.index >= animationArray.length) {
+                let temp = [...colorCode];
+                for (let i = 0; i < code.length; i++) {
+                    temp[i] = "#000000";
+                }
+                setCurrentCode(temp);
                 setContent("排序完成。");
                 clearInterval(ani);
             }
         }, time);
     };
+
+    const stopInterval = () => {
+        clearInterval(window.ani);
+    };
+
     const graph = {
         array,
         position,
         color,
         content,
+        code,
+        currentCode,
     };
+    const [doing, changeDoing] = useState(false);
+    const [firstTime, changeFirstTime] = useState(true);
 
     return (
         <div>
             <div
-                className='sort'
+                className="sort"
                 onClick={() => {
-                    console.log(bubbleSort(array));
-                    doAniBub(bubbleSort(array), array);
-                }}>
+                    if (doing == false && firstTime) {
+                        changeDoing(true);
+                        changeFirstTime(false);
+                        let ani = bubbleSort(array);
+                        setAnimationArray(ani);
+                        for (let i = 0; i < array.length; i++) {
+                            status[i] = "null";
+                        }
+                        console.log(bubbleSort(array));
+                        doAniBub(ani, array, 0);
+                    }
+                }}
+            >
                 Bubble Sort
+            </div>
+            <div
+                onClick={() => {
+                    if (doing == true) {
+                        changeDoing(false);
+                        stopInterval();
+                    }
+                }}
+            >
+                Stop
+            </div>
+            <div
+                onClick={() => {
+                    if (doing == false) {
+                        changeDoing(true);
+                        doAniBub(animationArray, array, window.index);
+                    }
+                }}
+            >
+                Start
             </div>
             <Graph
                 graph={graph}

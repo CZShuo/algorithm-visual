@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import PropTypes from "prop-types";
 import Graph from "./graph.jsx";
 
-const Insertion = (props)=> {
+const Insertion = (props) => {
     let {
         array,
         setArray,
@@ -20,17 +20,17 @@ const Insertion = (props)=> {
         setPosition,
         newPosition,
     } = props.data;
+    
 
     // const [major, setMajor]= useState(-1);
-
     let major = -1;
-    const positionInsert = (array)=>{
+    const positionInsert = (array) => {
         let result = [];
         for (let i = 0; i < array.length; i++) {
             let temp = 130 - array[i];
             let tempx = (900 - array.length * 50) / 2;
-            if(i==major){
-                temp = 230-array[i];
+            if (i == major) {
+                temp = 230 - array[i];
             }
             result.push({
                 x: i * 50 + tempx,
@@ -39,7 +39,50 @@ const Insertion = (props)=> {
         }
         return result;
     };
-    useEffect(() => {setPosition(positionInsert(array))},[major]);
+    // useEffect(() => {
+    //     let arr = [
+    //         45,
+    //         72,
+    //         17,
+    //         55,
+    //         90,
+    //         32,
+    //         48,
+    //         23,
+    //         66,
+    //         99,
+    //         12,
+    //         62,
+    //         34,
+    //         84,
+    //         10,
+    //         70,
+    //     ];
+    //     setArray(arr);
+    //     setPosition(newPosition(arr));
+    //     console.log(positionInsert(arr));
+    //     for(let i = 0; i <arr.length; i++){
+    //         status[i] = "null";
+    //     }
+    //     setColor(newColor(arr, status));
+    //     // setPosition(positionInsert(arr));
+    // }, []);
+    
+    useEffect(() => {
+        setPosition(positionInsert(array));
+    }, [major]);
+
+    const code = [
+        "從第二個數字開始當主要Key\nfor i from 0 to array's length (Key)",
+        "\t向前依序比較，找尋適當位置\n\tfor j from i-1 to 0 (Compare)",
+        "\t\t若Key小於前一個數，向前移動\n\t\tif Key < Compare\n\t\t\tSwap Key and Compare",
+        "\t\tKey大於前一個數，放置於此\n\t\telse if Key > Compare\n\t\t\tBreak",
+    ];
+    let colorCode = [];
+    for (let i = 0; i < code.length; i++){
+        colorCode.push('#000000');
+    }
+    const [currentCode, setCurrentCode] = useState(colorCode);
 
     const insertionSort = (array) => {
         let arr = [...array];
@@ -56,7 +99,7 @@ const Insertion = (props)=> {
                     ani.push(["stop", j, j + 1]);
                     break;
                 }
-                if(j==0){
+                if (j == 0) {
                     ani.push(["min", j]);
                 }
                 // ani.push(["stop", j, j + 1]);
@@ -65,6 +108,7 @@ const Insertion = (props)=> {
         return ani;
     };
 
+    // const ani;
     const doAniIns = (animat, array) => {
         let arr = [...array];
         let index = 0;
@@ -93,21 +137,34 @@ const Insertion = (props)=> {
                         status[animat[index - 1][2]] = "after";
                     }
                 }
-                if (index == animat.length - 1) {
-                    status[animat[index][1]] = "after";
-                    status[animat[index][2]] = "after";
+
+                let temp = [...colorCode];
+                for (let i = 0; i < code.length; i++){
+                    temp[i]='#000000';
                 }
+                temp[1] = "#ff0000";
+                setCurrentCode(temp);
+                
                 setPosition(positionInsert(arr));
                 setColor(newColor(arr, status));
                 // console.log('com'+major);
             } else if (ele[0] == "push") {
                 //left one should wait for next compare
                 //right one should be after
-                text = `${m}，${arr[ele[1]]} > ${arr[ele[2]]}，將 ${arr[ele[1]]} 與 ${arr[ele[2]]} 互換。`;
+                text = `${m}，${arr[ele[1]]} > ${arr[ele[2]]}，將 ${
+                    arr[ele[1]]
+                } 與 ${arr[ele[2]]} 互換。`;
                 setContent(text);
-                major-=1;
+                major -= 1;
                 [arr[ele[1]], arr[ele[2]]] = [arr[ele[2]], arr[ele[1]]];
                 setPosition(positionInsert(arr));
+
+                let temp = [...colorCode];
+                for (let i = 0; i < code.length; i++){
+                    temp[i]='#000000';
+                }
+                temp[2] = "#ff0000";
+                setCurrentCode(temp);
 
                 status[ele[1]] = "com";
                 status[ele[2]] = "after";
@@ -120,7 +177,7 @@ const Insertion = (props)=> {
                 status[ele[2]] = "big";
                 text = `${m} ${arr[ele[2]]} > ${arr[ele[1]]}，互換。`;
                 setContent(text);
-                
+
                 setColor(newColor(arr, status));
                 // console.log('big'+major);
             } else if (ele[0] == "major") {
@@ -129,57 +186,92 @@ const Insertion = (props)=> {
                     status[i] = "after";
                 }
                 status[ele[1]] = "key";
-                major=ele[1];
+                major = ele[1];
                 // setMajor(ele[1]);
                 m = `${arr[ele[1]]} 為 key。`;
                 mNum = arr[ele[1]];
                 minIndex = ele[1];
+
+                let temp = [...colorCode];
+                for (let i = 0; i < code.length; i++){
+                    temp[i]='#000000';
+                }
+                temp[0] = "#ff0000";
+                setCurrentCode(temp);
+
                 setContent(m);
                 setColor(newColor(arr, status));
                 // console.log('major'+major);
-            }else if (ele[0] == "stop"){
+            } else if (ele[0] == "stop") {
                 text = `${m} Key ${arr[ele[2]]} > ${arr[ele[1]]}，放回陣列。`;
                 setContent(text);
+                
+                let temp = [...colorCode];
+                for (let i = 0; i < code.length; i++){
+                    temp[i]='#000000';
+                }
+                temp[3] = "#ff0000";
+                setCurrentCode(temp);
+
                 major = -1;
                 setPosition(positionInsert(arr));
-            }else if (ele[0]=='min'){
+            } else if (ele[0] == "min") {
                 text = `${m} Key ${arr[ele[1]]} 為最小值，放回陣列。`;
                 setContent(text);
+
+                let temp = [...colorCode];
+                for (let i = 0; i < code.length; i++){
+                    temp[i]='#000000';
+                }
+                temp[3] = "#ff0000";
+                setCurrentCode(temp);
+
                 major = -1;
                 setPosition(positionInsert(arr));
             }
             index++;
 
-            if (index >= animat.length) {
+            if (index == animat.length) {
                 clearInterval(ani);
                 for (let i = 0; i < arr.length; i++) {
                     status[i] = "after";
                 }
+
+                let temp = [...colorCode];
+                for (let i = 0; i < code.length; i++){
+                    temp[i]='#000000';
+                }
+                setCurrentCode(temp);
+
                 setColor(newColor(arr, status));
                 setContent("排序完成。");
                 // setMajor(-1);
-                major=-1;
+                major = -1;
                 setPosition(positionInsert(arr));
             }
         }, time);
     };
 
+    
+    
     const graph = {
         array,
         position,
         color,
         content,
+        code,
+        currentCode
     };
-
 
     return (
         <div>
             <div
-                className='sort'
+                className="sort"
                 onClick={() => {
                     console.log(insertionSort(array));
                     doAniIns(insertionSort(array), array);
-                }}>
+                }}
+            >
                 Insertion Sort
             </div>
             <Graph
@@ -188,7 +280,7 @@ const Insertion = (props)=> {
                 // colorCode2={colorCode2}
             />
         </div>
-    )
-}
+    );
+};
 
 export default Insertion;

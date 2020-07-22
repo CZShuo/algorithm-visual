@@ -4,17 +4,26 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import PropTypes from "prop-types";
 
 const Control = (props) => {
-    const {
+    let {
         setArray,
         setTime,
         setColor,
+        colorSet,
+        changeColor,
         setPosition,
         newColor,
         newPosition,
         status,
+        stopInterval,
+        doing,
+        changeDoing,
+        firstTime,
+        changeFirstTime,
     } = props.controlData;
+    let color = Object.assign({}, colorSet);
     const inputRef = useRef(null);
     const randomRef = useRef(null);
+
     return (
         <div className="control">
             <div className="set-array">
@@ -82,11 +91,70 @@ const Control = (props) => {
                 </select>
             </div>
             <div className="set-array">
-                <div>Pause</div>
-                <div>Start</div>
+                <div
+                    onClick={() => {
+                        if (doing == true) {
+                            changeDoing(false);
+                            stopInterval();
+                        }
+                    }}
+                >
+                    Pause
+                </div>
+                <div
+                    onClick={() => {
+                        if (doing == false) {
+                            changeDoing(true);
+                            doAniBub(animationArray, array, window.index);
+                        }
+                    }}
+                >
+                    Start
+                </div>
             </div>
-            <div className="color-pick">
-                <input type="color"></input>
+            <div
+                className="color-pick"
+                onChange={(e) => {
+                    color[e.target.name] = e.target.value;
+                    changeColor(color);
+                }}
+            >
+                <label htmlFor="color-null">Default: </label>
+                <input
+                    type="color"
+                    defaultValue={color.null}
+                    name="null"
+                    id="color-null"
+                ></input>
+                <label htmlFor="color-com">Comparing: </label>
+                <input
+                    type="color"
+                    defaultValue={color.com}
+                    name="com"
+                    id="color-com"
+                ></input>
+                <label htmlFor="color-sorted">Sorted: </label>
+                <input
+                    type="color"
+                    defaultValue={color.sorted}
+                    name="sorted"
+                    id="color-sorted"
+                ></input>
+                <label htmlFor="color-big">Bigger: </label>
+                <input
+                    type="color"
+                    defaultValue={color.big}
+                    name="big"
+                    id="color-big"
+                ></input>
+                <label htmlFor="color-small">Smaller: </label>
+                <input
+                    type="color"
+                    defaultValue={color.small}
+                    name="small"
+                    id="color-small"
+                ></input>
+                {/* {window.location.pathname=='/insertionsort'? <input type="color" defaultValue={color.key}></input> : } */}
             </div>
         </div>
     );

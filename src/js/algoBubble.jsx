@@ -20,6 +20,11 @@ const Bubble = (props) => {
         position,
         setPosition,
         newPosition,
+        stopInterval,
+        doing,
+        changeDoing,
+        firstTime,
+        changeFirstTime,
     } = data;
 
     const bubbleSort = (array) => {
@@ -87,21 +92,8 @@ const Bubble = (props) => {
                 if (window.index > 1) {
                     if (ele[2] < animationArray[window.index - 1][2]) {
                         status[animationArray[window.index - 1][1]] = "null";
-                        status[animationArray[window.index - 1][2]] = "after";
+                        status[animationArray[window.index - 1][2]] = "sorted";
                     }
-                }
-                if (window.index == animationArray.length - 1) {
-                    status[animationArray[window.index][1]] = "after";
-                    status[animationArray[window.index][2]] = "after";
-                    // let color1 = "#000000";
-                    // let color2 = "#000000";
-                    // s1(color1);
-                    // s2(color2);
-                } else {
-                    // let color1 = "#ff0000";
-                    // let color2 = "#000000";
-                    // s1(color1);
-                    // s2(color2);
                 }
 
                 setColor(newColor(arr, status));
@@ -112,7 +104,7 @@ const Bubble = (props) => {
                 setContent(text);
                 [arr[ele[1]], arr[ele[2]]] = [arr[ele[2]], arr[ele[1]]];
                 status[ele[1]] = "null";
-                status[ele[2]] = "after";
+                status[ele[2]] = "sorted";
                 setArray(arr);
 
                 let temp = [...colorCode];
@@ -142,7 +134,7 @@ const Bubble = (props) => {
                 setColor(newColor(arr, status));
             } else if (ele[0] == "sorted") {
                 for (let i = 0; i < arr.length; i++) {
-                    status[i] = "after";
+                    status[i] = "sorted";
                 }
                 setColor(newColor(arr, status));
             }
@@ -160,9 +152,7 @@ const Bubble = (props) => {
         }, time);
     };
 
-    const stopInterval = () => {
-        clearInterval(window.ani);
-    };
+    
 
     const graph = {
         array,
@@ -172,8 +162,7 @@ const Bubble = (props) => {
         code,
         currentCode,
     };
-    const [doing, changeDoing] = useState(false);
-    const [firstTime, changeFirstTime] = useState(true);
+    
 
     return (
         <div>
@@ -195,7 +184,7 @@ const Bubble = (props) => {
             >
                 Bubble Sort
             </div>
-            <div
+            {/* <div
                 onClick={() => {
                     if (doing == true) {
                         changeDoing(false);
@@ -214,7 +203,7 @@ const Bubble = (props) => {
                 }}
             >
                 Start
-            </div>
+            </div> */}
             <Graph
                 graph={graph}
                 // colorCode1={colorCode1}

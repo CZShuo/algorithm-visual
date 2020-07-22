@@ -59,32 +59,47 @@ const Main = (props) => {
     };
     const [status, setStatus] = useState(initialStatus(array));
 
+    const [colorSet, changeColor] = useState({
+        com: "#228b22",
+        null: "#2e6ea6",
+        sorted: "#ffa500",
+        after: "#ff7f00",
+        big: "#ffa500",
+        small: "#ffffff",
+        key: "#0000ff",
+        min: "#0000ff",
+    });
+
     const newColor = (array, status) => {
         let colorList = [];
         for (let i = 0; i < array.length; i++) {
-            let col = "";
-            if (status[i] == "sorted") {
-                col = "#ffa500";
-            } else if (status[i] == "com") {
-                col = "#228b22";
-            } else if (status[i] == "null") {
-                col = "#2e6ea6";
-            } else if (status[i] == "big") {
-                col = "#ff7f00";
-            } else if (status[i] == "small") {
-                col = "#228b22";
-            } else if (status[i] == "after") {
-                col = "#ff7f00";
-            } else if (status[i] == "key") {
-                col = "#0000ff";
-            } else if (status[i] == "min") {
-                col = "#0000ff";
-            }
-            colorList.push(col);
+            colorList.push(colorSet[status[i]]);
+            // let col = "";
+            // if (status[i] == "sorted") {
+            //     col = "#ffa500";
+            // } else if (status[i] == "com") {
+            //     col = "#228b22";
+            // } else if (status[i] == "null") {
+            //     col = "#2e6ea6";
+            // } else if (status[i] == "big") {
+            //     col = "#ff7f00";
+            // } else if (status[i] == "small") {
+            //     col = "#228b22";
+            // } else if (status[i] == "after") {
+            //     col = "#ff7f00";
+            // } else if (status[i] == "key") {
+            //     col = "#0000ff";
+            // } else if (status[i] == "min") {
+            //     col = "#0000ff";
+            // }
+            // colorList.push(col);
         }
         return colorList;
     };
     const [color, setColor] = useState(newColor(array, status));
+    useEffect(() => {
+        setColor(newColor(array, status));
+    }, [colorSet]);
 
     const newPosition = (array) => {
         let result = [];
@@ -100,6 +115,11 @@ const Main = (props) => {
         return result;
     };
     const [position, setPosition] = useState(newPosition(array));
+    const stopInterval = () => {
+        clearInterval(window.ani);
+    };
+    const [doing, changeDoing] = useState(false);
+    const [firstTime, changeFirstTime] = useState(true);
 
     // const [major, setMajor] = useState(-1);
     // useEffect((array) => {
@@ -124,19 +144,28 @@ const Main = (props) => {
         position,
         setPosition,
         newPosition,
+        stopInterval,
+        doing,
+        changeDoing,
+        firstTime,
+        changeFirstTime,
     };
     const controlData = {
         setArray,
         setTime,
         setColor,
+        colorSet,
+        changeColor,
         setPosition,
         newColor,
         newPosition,
         status,
+        stopInterval,
+        doing,
+        changeDoing,
+        firstTime,
+        changeFirstTime,
     };
-
-    const [colorCode1, s1] = useState("#000000");
-    const [colorCode2, s2] = useState("#000000");
 
     return (
         <Router>

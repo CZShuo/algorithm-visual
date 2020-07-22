@@ -19,6 +19,11 @@ const Select = (props) => {
         position,
         setPosition,
         newPosition,
+        stopInterval,
+        doing,
+        changeDoing,
+        firstTime,
+        changeFirstTime,
     } = props.data;
 
     const selectionSort = (array) => {
@@ -45,30 +50,45 @@ const Select = (props) => {
     };
 
     const code = [
-        "for i from 0 to array's length",
-        "\tif array[i] > array[i+1]",
-        "\t\tswap array[i] and array[i+1]",
+        "從第一個數字開始\nfor i from 0 to array's length",
+        "\t未排序區第一個數字令為臨時最小值\n\tmin = array[i]",
+        "\t向未排序區尋找未排序的最小值\n\tfor j from i+1 to array's length\n\t\tif array[j] < array[i]",
+        "\t\t\tmin= array[j]",
+        "\t將最小值與未排序區第一個數字交換\n\tswap min(array[j]) and array[i]",
     ];
     let colorCode = [];
-    for (let i = 0; i < code.length; i++){
-        colorCode.push('#000000');
+    for (let i = 0; i < code.length; i++) {
+        colorCode.push("#000000");
     }
     const [currentCode, setCurrentCode] = useState(colorCode);
 
-    const doAniSel = (animationArray, array) => {
+    const doAniSel = (animationArray, array,index) => {
         let arr = [...array];
-        let index = 0;
+        window.index = index;
         let text;
-        for (let i = 0; i < arr.length; i++) {
-            status[i] = "null";
-        }
-        let ani = setInterval(() => {
-            
+        // for (let i = 0; i < arr.length; i++) {
+        //     status[i] = "null";
+        // }
+        window.ani = setInterval(() => {
             let ele = animationArray[index];
             if (ele[0] == "min") {
                 status[ele[1]] = "min";
-                if (index > 1 && animationArray[index - 1][0]!='push') {
+                if (index > 1 && animationArray[index - 1][0] != "push") {
                     status[animationArray[index - 1][1]] = "null";
+                    let temp = [...colorCode];
+                    for (let i = 0; i < code.length; i++) {
+                        temp[i] = "#000000";
+                    }
+                    temp[0] = "#ff0000";
+                    temp[1] = "ff0000";
+                    setCurrentCode(temp);
+                } else {
+                    let temp = [...colorCode];
+                    for (let i = 0; i < code.length; i++) {
+                        temp[i] = "#000000";
+                    }
+                    temp[3] = "#ff0000";
+                    setCurrentCode(temp);
                 }
 
                 text = `最小值為 ${arr[ele[1]]}`;
@@ -86,6 +106,13 @@ const Select = (props) => {
                 }。`;
                 setContent(text);
 
+                let temp = [...colorCode];
+                for (let i = 0; i < code.length; i++) {
+                    temp[i] = "#000000";
+                }
+                temp[2] = "#ff0000";
+                setCurrentCode(temp);
+
                 setColor(newColor(arr, status));
             } else if (ele[0] == "push") {
                 for (let i = 0; i <= ele[1]; i++) {
@@ -95,16 +122,23 @@ const Select = (props) => {
                     status[i] = "null";
                 }
 
-                if(index == animationArray.length-1){
+                let temp = [...colorCode];
+                for (let i = 0; i < code.length; i++) {
+                    temp[i] = "#000000";
+                }
+                temp[4] = "#ff0000";
+                setCurrentCode(temp);
+
+                if (index == animationArray.length - 1) {
                     for (let i = 0; i < array.length; i++) {
                         status[i] = "after";
                     }
                 }
                 setColor(newColor(arr, status));
-                
-                if(ele[1]==ele[2]){
-                    text = `[${ele[1]}] ${arr[ele[1]]} 位置不變。`
-                }else{
+
+                if (ele[1] == ele[2]) {
+                    text = `[${ele[1]}] ${arr[ele[1]]} 位置不變。`;
+                } else {
                     text = `[${ele[1]}] ${arr[ele[1]]} 與 [${ele[2]}] ${
                         arr[ele[2]]
                     }互換。`;
@@ -113,27 +147,28 @@ const Select = (props) => {
                 [arr[ele[1]], arr[ele[2]]] = [arr[ele[2]], arr[ele[1]]];
                 setArray(arr);
                 setPosition(newPosition(arr));
-                // let color1 = "#000000";
-                // let color2 = "#ff0000";
-                // s1(color1);
-                // s2(color2);
             }
             index++;
-            
-            if (index >= animationArray.length) {    
+
+            if (index >= animationArray.length) {
+                let temp = [...colorCode];
+                for (let i = 0; i < code.length; i++) {
+                    temp[i] = "#000000";
+                }
+                setCurrentCode(temp);
                 setContent("排序完成。");
                 clearInterval(ani);
             }
         }, time);
     };
 
-    
     const graph = {
         array,
         position,
         color,
         content,
-        code,currentCode 
+        code,
+        currentCode,
     };
 
     return (
@@ -141,8 +176,15 @@ const Select = (props) => {
             <div
                 className="sort"
                 onClick={() => {
-                    console.log(selectionSort(array));
-                    doAniSel(selectionSort(array), array);
+                    if (doing == false && firstTime) {
+                        changeDoing(true);
+                        changeFirstTime(false);
+                        let ani = selectionSort(array);
+                        for (let i = 0; i < array.length; i++) {
+                            status[i] = "null";
+                        }
+                        doAniSel(ani, array, 0);
+                    }
                 }}
             >
                 Selection Sort

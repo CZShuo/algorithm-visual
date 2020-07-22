@@ -5,12 +5,15 @@
 }
 
 body {
-    background-color: antiquewhite;
+    background-color: gray;
+    /* overflow: hidden; */
 }
 
 .header {
     width: 100%;
-    background-color: rgb(135, 202, 228);
+    background-color: black;
+    color: white;
+    font-size: 30px;
     height: 50px;
     text-align: center;
 }
@@ -36,8 +39,22 @@ body {
     border: 2px solid black;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     height: 200px;
+    background-color: rgb(161, 161, 161);
+    color: white;
+    font-size: 20px;
+}
+
+.set-array {
+    width: 75%;
+    display: flex;
+    justify-content: space-evenly;
+    margin: 5px 0;
+}
+
+.set-array>input {
+    width: 500px;
 }
 
 .bars {
@@ -110,14 +127,4 @@ pre {
 
 .sort:hover {
     color: brown;
-}
-
-.set-array {
-    width: 500px;
-    display: flex;
-    justify-content: space-evenly;
-}
-
-.set-array>input {
-    width: 200px;
 }

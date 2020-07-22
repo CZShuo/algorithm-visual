@@ -19,8 +19,12 @@ const Insertion = (props) => {
         position,
         setPosition,
         newPosition,
+        stopInterval,
+        doing,
+        changeDoing,
+        firstTime,
+        changeFirstTime,
     } = props.data;
-    
 
     // const [major, setMajor]= useState(-1);
     let major = -1;
@@ -67,7 +71,7 @@ const Insertion = (props) => {
     //     setColor(newColor(arr, status));
     //     // setPosition(positionInsert(arr));
     // }, []);
-    
+
     useEffect(() => {
         setPosition(positionInsert(array));
     }, [major]);
@@ -79,8 +83,8 @@ const Insertion = (props) => {
         "\t\tKey大於前一個數，放置於此\n\t\telse if Key > Compare\n\t\t\tBreak",
     ];
     let colorCode = [];
-    for (let i = 0; i < code.length; i++){
-        colorCode.push('#000000');
+    for (let i = 0; i < code.length; i++) {
+        colorCode.push("#000000");
     }
     const [currentCode, setCurrentCode] = useState(colorCode);
 
@@ -109,17 +113,17 @@ const Insertion = (props) => {
     };
 
     // const ani;
-    const doAniIns = (animat, array) => {
+    const doAniIns = (animat, array, index) => {
         let arr = [...array];
-        let index = 0;
+        window.index = index;
         let text;
-        for (let i = 0; i < arr.length; i++) {
-            status[i] = "null";
-        }
+        // for (let i = 0; i < arr.length; i++) {
+        //     status[i] = "null";
+        // }
         let m;
         let mNum;
         let minIndex;
-        let ani = setInterval(() => {
+        window.ani = setInterval(() => {
             let ele = animat[index];
 
             if (ele[0] == "com") {
@@ -139,12 +143,12 @@ const Insertion = (props) => {
                 }
 
                 let temp = [...colorCode];
-                for (let i = 0; i < code.length; i++){
-                    temp[i]='#000000';
+                for (let i = 0; i < code.length; i++) {
+                    temp[i] = "#000000";
                 }
                 temp[1] = "#ff0000";
                 setCurrentCode(temp);
-                
+
                 setPosition(positionInsert(arr));
                 setColor(newColor(arr, status));
                 // console.log('com'+major);
@@ -160,8 +164,8 @@ const Insertion = (props) => {
                 setPosition(positionInsert(arr));
 
                 let temp = [...colorCode];
-                for (let i = 0; i < code.length; i++){
-                    temp[i]='#000000';
+                for (let i = 0; i < code.length; i++) {
+                    temp[i] = "#000000";
                 }
                 temp[2] = "#ff0000";
                 setCurrentCode(temp);
@@ -193,8 +197,8 @@ const Insertion = (props) => {
                 minIndex = ele[1];
 
                 let temp = [...colorCode];
-                for (let i = 0; i < code.length; i++){
-                    temp[i]='#000000';
+                for (let i = 0; i < code.length; i++) {
+                    temp[i] = "#000000";
                 }
                 temp[0] = "#ff0000";
                 setCurrentCode(temp);
@@ -205,10 +209,10 @@ const Insertion = (props) => {
             } else if (ele[0] == "stop") {
                 text = `${m} Key ${arr[ele[2]]} > ${arr[ele[1]]}，放回陣列。`;
                 setContent(text);
-                
+
                 let temp = [...colorCode];
-                for (let i = 0; i < code.length; i++){
-                    temp[i]='#000000';
+                for (let i = 0; i < code.length; i++) {
+                    temp[i] = "#000000";
                 }
                 temp[3] = "#ff0000";
                 setCurrentCode(temp);
@@ -220,8 +224,8 @@ const Insertion = (props) => {
                 setContent(text);
 
                 let temp = [...colorCode];
-                for (let i = 0; i < code.length; i++){
-                    temp[i]='#000000';
+                for (let i = 0; i < code.length; i++) {
+                    temp[i] = "#000000";
                 }
                 temp[3] = "#ff0000";
                 setCurrentCode(temp);
@@ -238,8 +242,8 @@ const Insertion = (props) => {
                 }
 
                 let temp = [...colorCode];
-                for (let i = 0; i < code.length; i++){
-                    temp[i]='#000000';
+                for (let i = 0; i < code.length; i++) {
+                    temp[i] = "#000000";
                 }
                 setCurrentCode(temp);
 
@@ -252,15 +256,13 @@ const Insertion = (props) => {
         }, time);
     };
 
-    
-    
     const graph = {
         array,
         position,
         color,
         content,
         code,
-        currentCode
+        currentCode,
     };
 
     return (
@@ -268,8 +270,15 @@ const Insertion = (props) => {
             <div
                 className="sort"
                 onClick={() => {
-                    console.log(insertionSort(array));
-                    doAniIns(insertionSort(array), array);
+                    if (doing == false && firstTime) {
+                        changeDoing(true);
+                        changeFirstTime(false);
+                        let ani = insertionSort(array);
+                        for (let i = 0; i < array.length; i++) {
+                            status[i] = "null";
+                        }
+                        doAniIns(ani, array, 0);
+                    }
                 }}
             >
                 Insertion Sort

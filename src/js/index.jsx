@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import "../index.css";
 import Graph from "./graph.jsx";
+import Home from "./home.jsx";
 import Bubble from "./algoBubble.jsx";
 import Insertion from "./algoInsert.jsx";
 import Selection from "./algoSelect.jsx";
@@ -171,42 +172,54 @@ const Main = (props) => {
         <Router>
             <Header />
             <div className="array">
-                <LeftBar />
-                <div className="main-part">
-                    <Switch>
-                        <Route
-                            exact
-                            path="/"
-                            render={() => (
-                                <div>
-                                    <div className="sort">Choose Sort</div>
-                                    <svg id="svg"></svg>
-                                </div>
-                            )}
-                        />
-                        <Route
-                            path="/bubblesort"
-                            render={() => <Bubble data={data} />}
-                        />
-                        <Route
-                            path="/insertionsort"
-                            render={() => <Insertion data={data} />}
-                        />
-                        <Route
-                            path="/selectionsort"
-                            render={() => <Selection data={data} />}
-                        />
-                        <Route
-                            path="/mergesort"
-                            render={() => <Merge data={data} />}
-                        />
-                        <Route
-                            path="/quicksort"
-                            render={() => <Quick data={data} />}
-                        />
-                    </Switch>
-                    <Control controlData={controlData} />
-                </div>
+                <Route path="/" exact>
+                    <Home />
+                </Route>
+                <Route
+                    path="/tutorial"
+                    render={() => (
+                        <>
+                            <LeftBar />
+                            <div className="main-part">
+                                <Switch>
+                                    <Route
+                                        exact
+                                        path="/tutorial"
+                                        render={() => (
+                                            <div>
+                                                <div className="sort">
+                                                    Choose Sort
+                                                </div>
+                                                <svg id="svg"></svg>
+                                            </div>
+                                        )}
+                                    />
+                                    <Route
+                                        path="/tutorial/bubblesort"
+                                        render={() => <Bubble data={data} />}
+                                    />
+                                    <Route
+                                        path="/tutorial/insertionsort"
+                                        render={() => <Insertion data={data} />}
+                                    />
+                                    <Route
+                                        path="/tutorial/selectionsort"
+                                        render={() => <Selection data={data} />}
+                                    />
+                                    <Route
+                                        path="/tutorial/mergesort"
+                                        render={() => <Merge data={data} />}
+                                    />
+                                    <Route
+                                        path="/tutorial/quicksort"
+                                        render={() => <Quick data={data} />}
+                                    />
+                                </Switch>
+                                <Control controlData={controlData} />
+                            </div>
+                        </>
+                    )}
+                ></Route>
             </div>
         </Router>
     );

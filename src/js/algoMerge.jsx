@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import PropTypes from "prop-types";
-import Graph from "./graph.jsx";
+import Graph from "./graphMerge.jsx";
 
 const Merge = (props) => {
     let {
@@ -44,16 +44,14 @@ const Merge = (props) => {
     };
 
     const [ani, setAni] = useState([]);
-    let arrayIndex = [];
-    for (let i = 0; i < array.length; i++) {
-        arrayIndex.push([i, array[i]]);
-    }
-    // console.log(arrayIndex);
+    
+    
+    
 
     //push,原本index,新index
     const mergeSort = (array, startIndex) => {
         let arr = [...array];
-        ani.push(["range", startIndex, startIndex + array.length - 1]);
+        ani.push(["range", startIndex, startIndex + arr.length - 1]);
         if (arr.length < 2) {
             ani.push(["back", startIndex, startIndex + arr.length - 1]);
             return arr;
@@ -175,9 +173,13 @@ const Merge = (props) => {
                 setColor(newColor(arr, status));
             } else if (ele[0] == "push") {
                 let temp = [...position];
-                [temp[ele[1]],temp[ele[2]]]=[temp[ele[2]], temp[ele[1]]]
+                // [temp[ele[1]],temp[ele[2]]]=[temp[ele[2]], temp[ele[1]]]
                 temp[ele[1]].x = ele[2] * 50 + (900 - array.length * 50) / 2;
                 temp[ele[1]].y += 130;
+                [arr[ele[1]][1], arr[ele[2]][1]]=[arr[ele[2]][1], arr[ele[1]][1]];
+                
+                console.log(arr);
+                console.log(ele);
                 setPosition(temp);
                 // [arr[ele[1]], arr[ele[2]]] = [arr[ele[2]], arr[ele[1]]];
                 // setArray(arr);
@@ -264,9 +266,21 @@ const Merge = (props) => {
             <div
                 className="sort"
                 onClick={() => {
+                    const createArrayIndex = () =>{
+                        let arrayIndex = [];
+                        for (let i = 0; i < array.length; i++) {
+                            arrayIndex.push([i, array[i]]);
+                        }
+                        console.log('ai');
+                        console.log(arrayIndex)
+                        console.log('ai');
+                        return arrayIndex;
+                    }
+                    const arrayIndex = createArrayIndex();
+                    console.log(arrayIndex);
                     console.log(mergeSort(arrayIndex, 0));
                     console.log(ani);
-                    doAniMer(ani, array);
+                    doAniMer(ani, arrayIndex);
                 }}
             >
                 Merge Sort

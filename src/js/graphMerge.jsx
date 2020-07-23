@@ -5,6 +5,14 @@ import Code from "./code.jsx";
 
 const Graph = (props) => {
     let { array, position, color, content, code, currentCode } = props.graph;
+    let range = [];
+    let mid = [];
+    if (props.graph.range != []) {
+        range = props.graph.range;
+    }
+    if (props.graph.mid != []) {
+        mid = props.graph.middle;
+    }
 
     return (
         <div className="graphs">
@@ -25,6 +33,25 @@ const Graph = (props) => {
                         </g>
                     );
                 })}
+                {range.map((element, index) => {
+                    return (
+                        <rect
+                            key={index}
+                            x={element[0] * 50 + 35}
+                            y={25+130*index}
+                            width={(element[1] - element[0] + 1) * 50}
+                            height={130}
+                            fillOpacity="0"
+                            stroke="brown"
+                            strokeWidth="2"
+                            rx="10"
+                            ry="10"
+                        ></rect>
+                    );
+                })}
+                {/* <text x={(mid[1] + mid[0]) * 50 + 25} y={20}>
+                    mid={mid[1]}
+                </text> */}
                 <text x="250" y="250" fontSize="24px">
                     {content}
                 </text>

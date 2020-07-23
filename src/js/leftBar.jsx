@@ -6,19 +6,19 @@ import PropTypes from "prop-types";
 const LeftBar = (props) => {
     return (
         <div className="left-bar">
-            <Link to='/bubblesort'>
+            <Link to='/tutorial/bubblesort'>
                 <div>Bubble Sort</div>
             </Link>
-            <Link to='/insertionsort'>
+            <Link to='/tutorial/insertionsort'>
                 <div>Insertion Sort</div>
             </Link>
-            <Link to='/selectionsort'>
+            <Link to='/tutorial/selectionsort'>
                 <div>Selection Sort</div>
             </Link>
-            <Link to='/mergesort'>
+            <Link to='/tutorial/mergesort'>
                 <div>Merge Sort</div>
             </Link>
-            <Link to='/quicksort'>
+            <Link to='/tutorial/quicksort'>
                 <div>Quick Sort</div>
             </Link>
         </div>

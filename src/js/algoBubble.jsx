@@ -141,6 +141,10 @@ const Bubble = (props) => {
             window.index++;
 
             if (window.index >= animationArray.length) {
+                for (let i = 0; i < arr.length; i++) {
+                    status[i] = "sorted";
+                }
+                setColor(newColor(arr, status));
                 let temp = [...colorCode];
                 for (let i = 0; i < code.length; i++) {
                     temp[i] = "#000000";

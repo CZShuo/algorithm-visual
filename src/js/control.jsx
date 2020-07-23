@@ -23,7 +23,7 @@ const Control = (props) => {
     let color = Object.assign({}, colorSet);
     const inputRef = useRef(null);
     const randomRef = useRef(null);
-
+// BUG : 建立新array並跑完一次sort之後，再建立新array不能sort
     return (
         <div className="control">
             <div className="set-array">

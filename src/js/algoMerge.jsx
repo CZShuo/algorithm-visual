@@ -133,10 +133,12 @@ const Merge = (props) => {
         let ani = setInterval(() => {
             let ele = animationArray[index];
             if (ele[0] == "range") {
+                
             } else if (ele[0] == "mid") {
             } else if (ele[0] == "small") {
             } else if (ele[0] == "back") {
                 rePosition(arr);
+                
             } else if (ele[0] == "com") {
             } else if (ele[0] == "push") {
                 arr[ele[1]][0]=ele[2];

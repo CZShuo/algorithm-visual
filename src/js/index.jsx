@@ -12,21 +12,7 @@ import Quick from "./algoQuick.jsx";
 import Control from "./control.jsx";
 import LeftBar from "./leftBar.jsx";
 import Header from "./header.jsx";
-import {
-    get,
-    getClass,
-    bubbleSort2,
-    insertionSort,
-    selectionSort,
-    mergeSort,
-    quickSort,
-    heapSort,
-    librarySort,
-    animation,
-    doAnimation,
-    clearAnimation,
-    setTime,
-} from "../sorting-algorithms";
+
 // const Algo = require("./sorting-algorithms.js");
 
 const Main = (props) => {
@@ -50,6 +36,17 @@ const Main = (props) => {
     ]);
     const [content, setContent] = useState("Click algorithm to start!");
     const [time, setTime] = useState(100);
+
+    //For Merge
+    const createArrayIndex = (array) => {
+        let arr = [];
+        for (let i = 0; i < array.length; i++) {
+            arr.push([i, array[i]]);
+        }
+
+        return arr;
+    };
+    const [arrayIndex, setArrIndex] = useState(createArrayIndex(array));
 
     const initialStatus = (array) => {
         let sta = [];
@@ -75,25 +72,6 @@ const Main = (props) => {
         let colorList = [];
         for (let i = 0; i < array.length; i++) {
             colorList.push(colorSet[status[i]]);
-            // let col = "";
-            // if (status[i] == "sorted") {
-            //     col = "#ffa500";
-            // } else if (status[i] == "com") {
-            //     col = "#228b22";
-            // } else if (status[i] == "null") {
-            //     col = "#2e6ea6";
-            // } else if (status[i] == "big") {
-            //     col = "#ff7f00";
-            // } else if (status[i] == "small") {
-            //     col = "#228b22";
-            // } else if (status[i] == "after") {
-            //     col = "#ff7f00";
-            // } else if (status[i] == "key") {
-            //     col = "#0000ff";
-            // } else if (status[i] == "min") {
-            //     col = "#0000ff";
-            // }
-            // colorList.push(col);
         }
         return colorList;
     };
@@ -178,7 +156,7 @@ const Main = (props) => {
                 <Route
                     path="/tutorial"
                     render={() => (
-                        <>
+                        <div className="tutorial-main">
                             <LeftBar />
                             <div className="main-part">
                                 <Switch>
@@ -208,7 +186,7 @@ const Main = (props) => {
                                     />
                                     <Route
                                         path="/tutorial/mergesort"
-                                        render={() => <Merge data={data} />}
+                                        render={() => <Merge data={data} arrayIndex={arrayIndex} />}
                                     />
                                     <Route
                                         path="/tutorial/quicksort"
@@ -217,7 +195,7 @@ const Main = (props) => {
                                 </Switch>
                                 <Control controlData={controlData} />
                             </div>
-                        </>
+                        </div>
                     )}
                 ></Route>
             </div>

@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Code from "./code.jsx";
 
 const Graph = (props) => {
-    let { array, position, color, content, code, currentCode } = props.graph;
+    let { arrayIndex, position, color, content, code, currentCode } = props.graph;
     let range = [];
     let mid = [];
     if (props.graph.range != []) {
@@ -17,23 +17,23 @@ const Graph = (props) => {
     return (
         <div className="graphs">
             <svg id="svg">
-                {array.map((element, index) => {
+                {arrayIndex.map((element, index) => {
                     return (
                         <g key={index}>
                             <rect
                                 x={position[index].x}
                                 y={position[index].y}
-                                height={element}
+                                height={element[1]}
                                 width="25"
                                 fill={color[index]}
                             ></rect>
                             <text x={position[index].x + 5} y={130 + 15}>
-                                {element}
+                                {element[1]}
                             </text>
                         </g>
                     );
                 })}
-                {range.map((element, index) => {
+                {/* {range.map((element, index) => {
                     return (
                         <rect
                             key={index}
@@ -48,7 +48,7 @@ const Graph = (props) => {
                             ry="10"
                         ></rect>
                     );
-                })}
+                })} */}
                 {/* <text x={(mid[1] + mid[0]) * 50 + 25} y={20}>
                     mid={mid[1]}
                 </text> */}

@@ -20,6 +20,7 @@ const Merge = (props) => {
         setPosition,
         newPosition,
     } = props.data;
+    let {arrayIndex} = props;
 
     const [range, setRange] = useState([]);
     const [middle, setMid] = useState([]);
@@ -27,12 +28,6 @@ const Merge = (props) => {
         let result = [];
         for (let i = 0; i < array.length; i++) {
             let temp = 130 - array[i];
-            // for (let j = range.length - 1; j > 0; j--) {
-            //     if (i >= range[j][0] && i < range[j][1]) {
-            //         temp += (j - 1) * 10;
-            //     }
-            // }
-
             let tempx = (900 - array.length * 50) / 2;
 
             result.push({
@@ -44,9 +39,6 @@ const Merge = (props) => {
     };
 
     const [ani, setAni] = useState([]);
-    
-    
-    
 
     //push,原本index,新index
     const mergeSort = (array, startIndex) => {
@@ -96,8 +88,7 @@ const Merge = (props) => {
                 ani.push(["push", element[0], index]);
                 index++;
             });
-        ani.push(["back", startIndex, startIndex + array.length - 1]);
-
+            ani.push(["back", startIndex, startIndex + array.length - 1]);
         } else if (right.length > 0) {
             right.forEach((element) => {
                 // console.log('rr'+element);
@@ -107,8 +98,7 @@ const Merge = (props) => {
                 ani.push(["push", element[0], index]);
                 index++;
             });
-        ani.push(["back", startIndex, startIndex + array.length - 1]);
-
+            ani.push(["back", startIndex, startIndex + array.length - 1]);
         }
         ani.push(["back", startIndex, startIndex + array.length - 1]);
         // merge = true;
@@ -126,8 +116,15 @@ const Merge = (props) => {
     }
     const [currentCode, setCurrentCode] = useState(colorCode);
 
-    const doAniMer = (animationArray, array) => {
-        let arr = [...array];
+    const rePosition = (arrIndex) => {
+        arrIndex = arrIndex.sort((a, b) => 
+            a[0] - b[0]
+        );
+        return arrIndex;
+    };
+
+    const doAniMer = (animationArray, arrayIndex) => {
+        let arr = [...arrayIndex];
         let index = 0;
         let text;
         for (let i = 0; i < arr.length; i++) {
@@ -136,115 +133,22 @@ const Merge = (props) => {
         let ani = setInterval(() => {
             let ele = animationArray[index];
             if (ele[0] == "range") {
-                let temp = [...range];
-                temp.push([ele[1], ele[2]]);
-                setRange(temp);
-                if(index!=0){
-                    let pos = [...position];
-                    for (let i = ele[1]; i <=ele[2];i++) {
-                        pos[i].y+=130;
-                    }
-                    setPosition(pos);
-                }
-                
-                // setPosition(positionMerge(array));
             } else if (ele[0] == "mid") {
-                // let temp = [ele[1], ele[2]];
-                // setMid(temp);
-                // setPosition(positionMerge(array));
             } else if (ele[0] == "small") {
-                status[ele[1]] = "small";
-                setColor(newColor(arr, status));
-                // setPosition(positionMerge(array));
             } else if (ele[0] == "back") {
-                let temp = [...range];
-                temp.pop();
-                setRange(temp);
-                let temp2 = [...position];
-                for(let i = ele[1]; i <=ele[2]; i++){
-                    temp2[i].y-=130;
-                }
-                setPosition(temp2);
-                // setPosition(positionMerge(array));
+                rePosition(arr);
             } else if (ele[0] == "com") {
-                status[ele[1]] = "com";
-                status[ele[2]] = "com";
-                // setPosition(positionMerge(array));
-                setColor(newColor(arr, status));
             } else if (ele[0] == "push") {
-                let temp = [...position];
-                // [temp[ele[1]],temp[ele[2]]]=[temp[ele[2]], temp[ele[1]]]
-                temp[ele[1]].x = ele[2] * 50 + (900 - array.length * 50) / 2;
-                temp[ele[1]].y += 130;
-                [arr[ele[1]][1], arr[ele[2]][1]]=[arr[ele[2]][1], arr[ele[1]][1]];
-                
-                console.log(arr);
-                console.log(ele);
-                setPosition(temp);
-                // [arr[ele[1]], arr[ele[2]]] = [arr[ele[2]], arr[ele[1]]];
-                // setArray(arr);
+                arr[ele[1]][0]=ele[2];
+                let pos = [...position];
+                pos[ele[1]].x = ele[2]*50 +(900-array.length *50)/2;
+                pos[ele[1]].y +=130;
+                setPosition(pos);
             }
 
-            // if (ele[0] == "range") {
-            //     let temp = [ele[1], ele[2]];
-            //     setRange(temp);
-            //     setPosition(positionInsert(array));
-            // } else if (ele[0] == "min") {
-            //     status[ele[1]] = "min";
-            //     if (index > 1 && animationArray[index - 1][0] != "push") {
-            //         status[animationArray[index - 1][1]] = "null";
-            //     }
-
-            //     text = `最小值為 ${arr[ele[1]]}`;
-            //     setContent(text);
-            //     setColor(newColor(arr, status));
-            // } else if (ele[0] == "com") {
-            //     status[ele[1]] = "min";
-            //     status[ele[2]] = "com";
-
-            //     for (let i = ele[1] + 1; i < ele[2]; i++) {
-            //         status[i] = "null";
-            //     }
-            //     text = `比較 [${ele[1]}] ${arr[ele[1]]} 與 [${ele[2]}] ${
-            //         arr[ele[2]]
-            //     }。`;
-            //     setContent(text);
-
-            //     setColor(newColor(arr, status));
-            // } else if (ele[0] == "push") {
-            //     for (let i = 0; i <= ele[1]; i++) {
-            //         status[i] = "after";
-            //     }
-            //     for (let i = ele[1] + 1; i < arr.length; i++) {
-            //         status[i] = "null";
-            //     }
-
-            //     if (index == animationArray.length - 1) {
-            //         for (let i = 0; i < array.length; i++) {
-            //             status[i] = "after";
-            //         }
-            //     }
-            //     setColor(newColor(arr, status));
-
-            //     if (ele[1] == ele[2]) {
-            //         text = `[${ele[1]}] ${arr[ele[1]]} 位置不變。`;
-            //     } else {
-            //         text = `[${ele[1]}] ${arr[ele[1]]} 與 [${ele[2]}] ${
-            //             arr[ele[2]]
-            //         }互換。`;
-            //     }
-            //     setContent(text);
-            //     [arr[ele[1]], arr[ele[2]]] = [arr[ele[2]], arr[ele[1]]];
-            //     setArray(arr);
-            //     setPosition(newPosition(arr));
-            //     // let color1 = "#000000";
-            //     // let color2 = "#ff0000";
-            //     // s1(color1);
-            //     // s2(color2);
-            // }
             index++;
 
-            if (index >= animationArray.length-1) {
+            if (index >= animationArray.length - 1) {
                 setContent("排序完成。");
                 clearInterval(ani);
             }
@@ -252,7 +156,7 @@ const Merge = (props) => {
     };
 
     const graph = {
-        array,
+        arrayIndex,
         position,
         color,
         content,
@@ -266,18 +170,6 @@ const Merge = (props) => {
             <div
                 className="sort"
                 onClick={() => {
-                    const createArrayIndex = () =>{
-                        let arrayIndex = [];
-                        for (let i = 0; i < array.length; i++) {
-                            arrayIndex.push([i, array[i]]);
-                        }
-                        console.log('ai');
-                        console.log(arrayIndex)
-                        console.log('ai');
-                        return arrayIndex;
-                    }
-                    const arrayIndex = createArrayIndex();
-                    console.log(arrayIndex);
                     console.log(mergeSort(arrayIndex, 0));
                     console.log(ani);
                     doAniMer(ani, arrayIndex);

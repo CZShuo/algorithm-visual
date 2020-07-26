@@ -4,15 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Code from "./code.jsx";
 
 const Graph = (props) => {
-    let { arrayIndex, position, color, content, code, currentCode } = props.graph;
-    let range = [];
-    let mid = [];
-    if (props.graph.range != []) {
-        range = props.graph.range;
-    }
-    if (props.graph.mid != []) {
-        mid = props.graph.middle;
-    }
+    let { arrayIndex, position, color, content, code, currentCode,range,mid } = props.graph;
 
     return (
         <div className="graphs">
@@ -27,7 +19,7 @@ const Graph = (props) => {
                                 width="25"
                                 fill={color[index]}
                             ></rect>
-                            <text x={position[index].x + 5} y={130 + 15}>
+                            <text x={position[index].x + 5} y={15+position[index].y+arrayIndex[index][1]}>
                                 {element[1]}
                             </text>
                         </g>
@@ -52,21 +44,9 @@ const Graph = (props) => {
                 {/* <text x={(mid[1] + mid[0]) * 50 + 25} y={20}>
                     mid={mid[1]}
                 </text> */}
-                <text x="250" y="250" fontSize="24px">
+                {/* <text x="250" y="250" fontSize="24px">
                     {content}
-                </text>
-                {/* <rect
-                x="350"
-                y="300"
-                width="300"
-                height="300"
-                fillOpacity="0"
-                stroke="brown"
-                strokeWidth="2"
-                rx="10"
-                ry="10"
-            ></rect>
-            <Code /> */}
+                </text> */}
             </svg>
             <Code code={code} currentCode={currentCode} />
         </div>

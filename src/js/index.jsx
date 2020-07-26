@@ -38,15 +38,15 @@ const Main = (props) => {
     const [time, setTime] = useState(100);
 
     //For Merge
-    const createArrayIndex = (array) => {
-        let arr = [];
-        for (let i = 0; i < array.length; i++) {
-            arr.push([i, array[i]]);
-        }
+    // const createArrayIndex = (array) => {
+    //     let arr = [];
+    //     for (let i = 0; i < array.length; i++) {
+    //         arr.push([i, array[i]]);
+    //     }
 
-        return arr;
-    };
-    const [arrayIndex, setArrIndex] = useState(createArrayIndex(array));
+    //     return arr;
+    // };
+    
 
     const initialStatus = (array) => {
         let sta = [];
@@ -186,7 +186,7 @@ const Main = (props) => {
                                     />
                                     <Route
                                         path="/tutorial/mergesort"
-                                        render={() => <Merge data={data} arrayIndex={arrayIndex} />}
+                                        render={() => <Merge data={data} />}
                                     />
                                     <Route
                                         path="/tutorial/quicksort"

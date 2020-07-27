@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import PropTypes from "prop-types";
 import Graph from "./graphMerge.jsx";
+import Code from "./code.jsx";
 
 const Merge = (props) => {
     let {
@@ -19,6 +20,11 @@ const Merge = (props) => {
         position,
         setPosition,
         newPosition,
+        stopInterval,
+        doing,
+        changeDoing,
+        firstTime,
+        changeFirstTime,
     } = props.data;
 
     const [arrayIndex, setArrayIndex] = useState([
@@ -40,7 +46,7 @@ const Merge = (props) => {
         [15, 70],
     ]);
 
-    const [range, setRange] = useState([0,16]);
+    const [range, setRange] = useState([0, 16]);
     const [mid, setMid] = useState([]);
     const positionMerge = (array) => {
         let result = [];
@@ -61,7 +67,7 @@ const Merge = (props) => {
     //push,原本index,新index
     const mergeSort = (array, startIndex) => {
         let arr = [...array];
-        if(ani.length!=0) {
+        if (ani.length != 0) {
             ani.push(["range", startIndex, startIndex + arr.length - 1]);
         }
         if (arr.length < 2) {
@@ -108,7 +114,7 @@ const Merge = (props) => {
                 index++;
             });
             ani.push(["back", startIndex, startIndex + arr.length - 1]);
-        }else{
+        } else {
             ani.push(["back", startIndex, startIndex + arr.length - 1]);
         }
         return result;
@@ -119,7 +125,7 @@ const Merge = (props) => {
         "各自進行 Merge Sort ，直到陣列只有一個數字\nleft = mergeSort(array[0~mid-1])\nright = mergeSort(array[mid~])",
         "\t比較 Left 及 Right 的第一個數字\n\tcompare left[0] & right[0]",
         "\t\t將小的數字從 Left(Right) 移至 Result\n\t\tresult.push(smaller)",
-        "\t將這次 Merge Sort 的 Result 回傳\n\treturn result"
+        "\t將這次 Merge Sort 的 Result 回傳\n\treturn result",
     ];
     let colorCode = [];
     for (let i = 0; i < code.length; i++) {
@@ -133,21 +139,21 @@ const Merge = (props) => {
         return arr;
     };
 
-    const doAniMer = (animationArray, arrayIndex) => {
+    const doAniMer = (animationArray, arrayIndex, index) => {
         let arr = [...arrayIndex];
-        let index = 0;
+        window.index = index;
         let text;
         for (let i = 0; i < arr.length; i++) {
             status[i] = "null";
         }
-        let ani = setInterval(() => {
-            let ele = animationArray[index];
+        window.ani = setInterval(() => {
+            let ele = animationArray[window.index];
             if (ele[0] == "range") {
                 // let rangeNew = [...range];
                 // rangeNew.push([ele[1], ele[2]]);
                 // setRange(rangeNew);
                 let pos = [...position];
-                for (let i = ele[1]; i <=ele[2];i++) {
+                for (let i = ele[1]; i <= ele[2]; i++) {
                     pos[i].y += 130;
                 }
                 setPosition(pos);
@@ -158,7 +164,8 @@ const Merge = (props) => {
                 setCurrentCode(temp);
                 // setArrayIndex(arr);
             } else if (ele[0] == "mid") {
-                setMid([ele[1], ele[2]]);let temp = [...colorCode];
+                setMid([ele[1], ele[2]]);
+                let temp = [...colorCode];
                 for (let i = 0; i < code.length; i++) {
                     temp[i] = "#000000";
                 }
@@ -186,13 +193,17 @@ const Merge = (props) => {
 
                 for (let i = 0; i < array.length; i++) {
                     pos[i].x = i * 50 + (900 - array.length * 50) / 2;
-                    if(i>=ele[1] && i<=ele[2]){
-                        pos[i].y-=130;
-                        if(animationArray[index-1][0]!="range" && index!=animationArray.length-1){
-                            pos[i].y-=130;
+                    if (i >= ele[1] && i <= ele[2]) {
+                        pos[i].y -= 130;
+                        if (
+                            animationArray[window.index - 1][0] != "range" &&
+                            window.index != animationArray.length - 1
+                        ) {
+                            pos[i].y -= 130;
                         }
                     }
-                    pos[i].y = Math.floor((pos[i].y)/130)*130+130-arr[i][1];
+                    pos[i].y =
+                        Math.floor(pos[i].y / 130) * 130 + 130 - arr[i][1];
                 }
                 setPosition(pos);
 
@@ -235,16 +246,20 @@ const Merge = (props) => {
                 setCurrentCode(temp);
             }
 
-            index++;
+            window.index++;
 
-            if (index >= animationArray.length) {
+            if (window.index >= animationArray.length) {
+                for (let i = 0; i < arr.length; i++) {
+                    status[i] = "sorted";
+                }
+                setColor(newColor(arr, status));
                 let temp = [...colorCode];
                 for (let i = 0; i < code.length; i++) {
                     temp[i] = "#000000";
                 }
                 setCurrentCode(temp);
                 setContent("排序完成。");
-                clearInterval(ani);
+                clearInterval(window.ani);
             }
         }, time);
     };
@@ -260,20 +275,59 @@ const Merge = (props) => {
         mid,
     };
     return (
-        <div>
-            <div
-                className="sort"
-                onClick={() => {
-                    console.log(arrayIndex);
-                    console.log(mergeSort(arrayIndex, 0));
-                    console.log(ani);
-                    doAniMer(ani, arrayIndex);
-                    console.log(arrayIndex);
-                }}
-            >
-                Merge Sort
+        // <div>
+        //     <div
+        //         className="sort"
+        //         onClick={() => {
+        //             console.log(arrayIndex);
+        //             console.log(mergeSort(arrayIndex, 0));
+        //             console.log(ani);
+        //             doAniMer(ani, arrayIndex);
+        //             console.log(arrayIndex);
+        //         }}
+        //     >
+        //         Merge Sort
+        //     </div>
+        //     <Graph graph={graph} />
+        // </div>
+        <div className="main">
+            <div className="graph-code">
+                <Graph graph={graph} />
+                <Code code={code} currentCode={currentCode} />
             </div>
-            <Graph graph={graph} />
+            <div className="control-button">
+                <div
+                    className="sort"
+                    onClick={() => {
+                        if (doing == true) {
+                            changeDoing(false);
+                            stopInterval();
+                        }
+                    }}
+                >
+                    Pause
+                </div>
+                <div
+                    className="sort"
+                    onClick={() => {
+                        if (doing == false && firstTime) {
+                            changeDoing(true);
+                            changeFirstTime(false);
+                            mergeSort(arrayIndex,0);
+
+                            for (let i = 0; i < array.length; i++) {
+                                status[i] = "null";
+                            }
+                            doAniMer(ani, arrayIndex, 0);
+                        } else if (doing == false) {
+                            changeDoing(true);
+                            doAniMer(ani, arrayIndex, window.index);
+                        }
+                    }}
+                >
+                    Start
+                </div>
+            </div>
         </div>
     );
 };

@@ -12,7 +12,8 @@ body {
 }
 
 body {
-    background-color: #87cefa;
+    /* background-color: #fafafa; */
+    background-color: #bce5ff;
     overflow: hidden;
 }
 
@@ -20,11 +21,14 @@ body {
     width: 100%;
     background-color: black;
     color: white;
-    font-size: 30px;
+    font-size: 40px;
     height: 50px;
     text-align: center;
     position: fixed;
     z-index: 100;
+    letter-spacing: 3px;
+    font-weight: bold;
+    line-height: 50px;
 }
 
 .tutorial-main {
@@ -66,8 +70,8 @@ body {
     flex-direction: column;
     align-items: flex-start;
     height: 200px;
-    width: 100%;
-    background-color: rgb(161, 161, 161);
+    width: 85%;
+    background-color: #13a9c7;
     color: white;
     font-size: 20px;
     position: fixed;
@@ -77,18 +81,48 @@ body {
 .hide-control {
     position: fixed;
     right: 50px;
-    top: 50px;
+    bottom: 200px;
+    width: 50px;
+    height: 25px;
+    background-color: #13a9c7;
+    border: 1px solid #000;
+    border-bottom: none;
+    border-radius: 4px 4px 0 0;
+    text-align: center;
+    color: #000;
+    cursor: pointer;
+}
+
+.hide-control:hover {
+    width: 54px;
+    height: 29px;
+    right: 48px;
+    border: 3px solid #000;
+    border-bottom: none;
+    font-weight: bold;
 }
 
 .set-array {
-    width: 75%;
+    width: 100%;
     display: flex;
     justify-content: space-evenly;
-    margin: 5px 0;
+    margin: 5px auto;
+}
+
+.set-array div:first-child {
+    width: 150px;
+}
+
+.set-array div:last-child {
+    width: 50px;
 }
 
 .set-array>input {
     width: 500px;
+}
+
+.color-pick {
+    margin: 10px auto;
 }
 
 .bars {
@@ -131,19 +165,22 @@ body {
 
 #svg {
     width: 70%;
-    height: 700px;
+    height: calc(100vh - 50px);
     border: 1px solid rgb(0, 0, 0);
+    background-color: #fafafa;
 }
 
 .code-area {
     width: 30%;
-    height: 500px;
-    border: 1px solid rgb(0, 0, 0);
+    height: calc(100vh - 50px);
+    /* border: 1px solid rgb(0, 0, 0); */
+    background-color: #fafafa;
+    padding: 10px;
 }
 
 .code {
-    font-size: 14px;
-    line-height: 20px;
+    font-size: 16px;
+    line-height: 24px;
     margin-left: 4px;
 }
 
@@ -151,7 +188,18 @@ pre {
     tab-size: 4;
 }
 
+.control-button {
+    position: fixed;
+    top: 450px;
+    left: 20%;
+    display: flex;
+    flex-direction: row;
+    width: 125px;
+    justify-content: space-between;
+}
+
 .sort {
+    width: 50px;
     cursor: pointer;
     border: 1px solid rgb(0, 0, 0);
     border-radius: 5px;
@@ -180,20 +228,24 @@ pre {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding-top: 50px;
 }
 
 .title {
-    margin: 50px auto;
-    font-size: 40px;
+    font-size: 80px;
     color: rgb(0, 217, 255);
     font-weight: bold;
+    margin-bottom: 80px;
 }
 
 .enters {
     width: 400px;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+}
+
+.enters a {
+    text-decoration: none;
+    color: black;
 }
 
 .enter {
@@ -229,16 +281,19 @@ pre {
     position: relative;
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .intro-texts {
     width: 80%;
-    margin: auto;
+    color: #34526c;
 }
 
 .intro-text {
     align-self: center;
-    margin-right: 800px;
+    width: 80%;
+    font-size: 20px;
 }
 
 .intros>a {
@@ -296,18 +351,37 @@ pre {
     box-sizing: border-box;
 }
 
-.intro-texts {
-    color: #34526c;
+.intro-chinese {
+    width: 70%;
+    height: 150px;
+    /* padding-top: 50px; */
+    font-family: 'Noto Sans TC', sans-serif;
+    position: relative;
 }
 
-.intro-chinese {
+.intro-chinese span {
+    display: block;
+}
+
+.intro-ch {
     font-size: 80px;
+    line-height: 100px;
     font-weight: bold;
-    font-family: 'Noto Sans TC', sans-serif;
+    z-index: 5;
+    display: block;
 }
 
 .intro-eng {
-    font-size: 120px;
+    position: absolute;
+    right: 0;
+    bottom: 20px;
+    line-height: 100px;
+    font-size: 130px;
+    font-weight: 400;
+    color: lightblue;
+    z-index: 5;
+    display: block;
+    /* text-shadow: -2px 0 #34526c, 0 2px #34526c, 2px 0 #34526c, 0 -2px #34526c; */
 }
 
 @-webkit-keyframes scrollDown {

@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import PropTypes from "prop-types";
 import Graph from "./graph.jsx";
+import Code from "./code.jsx";
 
 const Select = (props) => {
     let {
@@ -61,6 +62,7 @@ const Select = (props) => {
         colorCode.push("#000000");
     }
     const [currentCode, setCurrentCode] = useState(colorCode);
+    const [animationArray, setAnimationArray] = useState([]);
 
     const doAniSel = (animationArray, array,index) => {
         let arr = [...array];
@@ -70,11 +72,11 @@ const Select = (props) => {
         //     status[i] = "null";
         // }
         window.ani = setInterval(() => {
-            let ele = animationArray[index];
+            let ele = animationArray[window.index];
             if (ele[0] == "min") {
                 status[ele[1]] = "min";
-                if (index > 1 && animationArray[index - 1][0] != "push") {
-                    status[animationArray[index - 1][1]] = "null";
+                if (window.index > 1 && animationArray[window.index - 1][0] != "push") {
+                    status[animationArray[window.index - 1][1]] = "null";
                     let temp = [...colorCode];
                     for (let i = 0; i < code.length; i++) {
                         temp[i] = "#000000";
@@ -148,9 +150,9 @@ const Select = (props) => {
                 setArray(arr);
                 setPosition(newPosition(arr));
             }
-            index++;
+            window.index++;
 
-            if (index >= animationArray.length) {
+            if (window.index >= animationArray.length) {
                 let temp = [...colorCode];
                 for (let i = 0; i < code.length; i++) {
                     temp[i] = "#000000";
@@ -172,28 +174,45 @@ const Select = (props) => {
     };
 
     return (
-        <div>
-            <div
-                className="sort"
-                onClick={() => {
-                    if (doing == false && firstTime) {
-                        changeDoing(true);
-                        changeFirstTime(false);
-                        let ani = selectionSort(array);
-                        for (let i = 0; i < array.length; i++) {
-                            status[i] = "null";
-                        }
-                        doAniSel(ani, array, 0);
-                    }
-                }}
-            >
-                Selection Sort
+        <div className="main">
+            <div className="graph-code">
+                <Graph graph={graph} />
+                <Code code={code} currentCode={currentCode} />
             </div>
-            <Graph
-                graph={graph}
-                // colorCode1={colorCode1}
-                // colorCode2={colorCode2}
-            />
+            <div className="control-button">
+                <div
+                    className="sort"
+                    onClick={() => {
+                        if (doing == true) {
+                            changeDoing(false);
+                            stopInterval();
+                        }
+                    }}
+                >
+                    Pause
+                </div>
+                <div
+                    className="sort"
+                    onClick={() => {
+                        if (doing == false && firstTime) {
+                            changeDoing(true);
+                            changeFirstTime(false);
+                            let ani = selectionSort(array);
+                            setAnimationArray(ani);
+                            for (let i = 0; i < array.length; i++) {
+                                status[i] = "null";
+                            }
+                            doAniSel(ani, array, 0);
+                        } else if (doing == false) {
+                            changeDoing(true);
+                            doAniSel(animationArray, array, window.index);
+                            //pause後開始position會有問題
+                        }
+                    }}
+                >
+                    Start
+                </div>
+            </div>
         </div>
     );
 };

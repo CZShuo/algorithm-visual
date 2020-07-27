@@ -29,11 +29,15 @@ const Control = (props) => {
         <>
             <div
                 className="hide-control"
-                onClick={() => {
+                onClick={(e) => {
                     if(controlRef.current.style.display == "none"){
                         controlRef.current.style.display = "flex";
+                        e.target.style.bottom = '200px';
+                        e.target.textContent = 'v';
                     }else{
                         controlRef.current.style.display = "none";
+                        e.target.style.bottom = '0';
+                        e.target.textContent = '^';
                     }
                 }}
             >
@@ -41,7 +45,7 @@ const Control = (props) => {
             </div>
             <div className="control" ref={controlRef}>
                 <div className="set-array">
-                    <div>Set your array: </div>
+                    <div>Set your array : </div>
                     <input type="text" id="array-input" ref={inputRef} />
                     <div
                         id="send-array"
@@ -64,7 +68,7 @@ const Control = (props) => {
                     </div>
                 </div>
                 <div className="set-array">
-                    <div>Number of elements: </div>
+                    <div>Random Array : </div>
                     <input id="number-input" type="number" ref={randomRef} />
                     <div
                         id="send-number"
@@ -99,14 +103,14 @@ const Control = (props) => {
                             setTime(e.target.value);
                         }}
                     >
-                        <option value="1000">新手</option>
-                        <option value="800">0.5</option>
-                        <option value="400">1.0</option>
+                        <option value="1500">新手</option>
+                        <option value="1000">0.5</option>
+                        <option value="600">1.0</option>
                         <option value="200">1.5</option>
                         <option value="100">專業</option>
                     </select>
                 </div>
-                <div className="set-array">
+                {/* <div className="set-array">
                     <div
                         onClick={() => {
                             if (doing == true) {
@@ -127,7 +131,7 @@ const Control = (props) => {
                     >
                         Start
                     </div>
-                </div>
+                </div> */}
                 <div
                     className="color-pick"
                     onChange={(e) => {

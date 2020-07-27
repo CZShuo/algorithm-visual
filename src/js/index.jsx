@@ -37,6 +37,8 @@ const Main = (props) => {
     const [content, setContent] = useState("Click algorithm to start!");
     const [time, setTime] = useState(100);
 
+
+
     //For Merge
     // const createArrayIndex = (array) => {
     //     let arr = [];
@@ -63,7 +65,7 @@ const Main = (props) => {
         sorted: "#ffa500",
         after: "#ff7f00",
         big: "#ffa500",
-        small: "#ffffff",
+        small: "#000000",
         key: "#0000ff",
         min: "#0000ff",
     });

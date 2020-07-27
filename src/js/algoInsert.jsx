@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import PropTypes from "prop-types";
 import Graph from "./graph.jsx";
+import Code from "./code.jsx";
 
 const Insertion = (props) => {
     let {
@@ -25,10 +26,12 @@ const Insertion = (props) => {
         firstTime,
         changeFirstTime,
     } = props.data;
-
+    // let {major,setMajor}= props;
     // const [major, setMajor]= useState(-1);
+
     let major = -1;
     const positionInsert = (array) => {
+        console.log(major);
         let result = [];
         for (let i = 0; i < array.length; i++) {
             let temp = 130 - array[i];
@@ -73,6 +76,7 @@ const Insertion = (props) => {
     // }, []);
 
     useEffect(() => {
+        console.log(major)
         setPosition(positionInsert(array));
     }, [major]);
 
@@ -87,6 +91,7 @@ const Insertion = (props) => {
         colorCode.push("#000000");
     }
     const [currentCode, setCurrentCode] = useState(colorCode);
+    const [animationArray, setAnimationArray] = useState([]);
 
     const insertionSort = (array) => {
         let arr = [...array];
@@ -124,7 +129,7 @@ const Insertion = (props) => {
         let mNum;
         let minIndex;
         window.ani = setInterval(() => {
-            let ele = animat[index];
+            let ele = animat[window.index];
 
             if (ele[0] == "com") {
                 //key & elements before key until find its position
@@ -135,10 +140,10 @@ const Insertion = (props) => {
                 status[ele[2]] = "com";
                 text = `${m} 比較 ${arr[ele[1]]} 與 ${arr[ele[2]]}。`;
                 setContent(text);
-                if (index > 1) {
-                    if (ele[2] < animat[index - 1][2]) {
-                        status[animat[index - 1][1]] = "com";
-                        status[animat[index - 1][2]] = "after";
+                if (window.index > 1) {
+                    if (ele[2] < animat[window.index - 1][2]) {
+                        status[animat[window.index - 1][1]] = "com";
+                        status[animat[window.index - 1][2]] = "after";
                     }
                 }
 
@@ -159,7 +164,8 @@ const Insertion = (props) => {
                     arr[ele[1]]
                 } 與 ${arr[ele[2]]} 互換。`;
                 setContent(text);
-                major -= 1;
+                major-=1;
+                // setMajor(-1);
                 [arr[ele[1]], arr[ele[2]]] = [arr[ele[2]], arr[ele[1]]];
                 setPosition(positionInsert(arr));
 
@@ -190,7 +196,8 @@ const Insertion = (props) => {
                     status[i] = "after";
                 }
                 status[ele[1]] = "key";
-                major = ele[1];
+                console.log(ele[1]);
+                major= ele[1];
                 // setMajor(ele[1]);
                 m = `${arr[ele[1]]} 為 key。`;
                 mNum = arr[ele[1]];
@@ -217,7 +224,9 @@ const Insertion = (props) => {
                 temp[3] = "#ff0000";
                 setCurrentCode(temp);
 
-                major = -1;
+                major=-1;
+                // setMajor(-1);
+
                 setPosition(positionInsert(arr));
             } else if (ele[0] == "min") {
                 text = `${m} Key ${arr[ele[1]]} 為最小值，放回陣列。`;
@@ -230,12 +239,14 @@ const Insertion = (props) => {
                 temp[3] = "#ff0000";
                 setCurrentCode(temp);
 
-                major = -1;
+                major=-1;
+                // setMajor(-1);
+
                 setPosition(positionInsert(arr));
             }
-            index++;
+            window.index++;
 
-            if (index == animat.length) {
+            if (window.index == animat.length) {
                 clearInterval(ani);
                 for (let i = 0; i < arr.length; i++) {
                     status[i] = "after";
@@ -250,7 +261,8 @@ const Insertion = (props) => {
                 setColor(newColor(arr, status));
                 setContent("排序完成。");
                 // setMajor(-1);
-                major = -1;
+                // setMajor(-1);
+
                 setPosition(positionInsert(arr));
             }
         }, time);
@@ -266,28 +278,45 @@ const Insertion = (props) => {
     };
 
     return (
-        <div>
-            <div
-                className="sort"
-                onClick={() => {
-                    if (doing == false && firstTime) {
-                        changeDoing(true);
-                        changeFirstTime(false);
-                        let ani = insertionSort(array);
-                        for (let i = 0; i < array.length; i++) {
-                            status[i] = "null";
-                        }
-                        doAniIns(ani, array, 0);
-                    }
-                }}
-            >
-                Insertion Sort
+        <div className="main">
+            <div className="graph-code">
+                <Graph graph={graph} />
+                <Code code={code} currentCode={currentCode} />
             </div>
-            <Graph
-                graph={graph}
-                // colorCode1={colorCode1}
-                // colorCode2={colorCode2}
-            />
+            <div className="control-button">
+                <div
+                    className="sort"
+                    onClick={() => {
+                        if (doing == true) {
+                            changeDoing(false);
+                            stopInterval();
+                        }
+                    }}
+                >
+                    Pause
+                </div>
+                <div
+                    className="sort"
+                    onClick={() => {
+                        if (doing == false && firstTime) {
+                            changeDoing(true);
+                            changeFirstTime(false);
+                            let ani = insertionSort(array);
+                            setAnimationArray(ani);
+                            for (let i = 0; i < array.length; i++) {
+                                status[i] = "null";
+                            }
+                            doAniIns(ani, array, 0);
+                        } else if (doing == false) {
+                            changeDoing(true);
+                            doAniIns(animationArray, array, window.index);
+                            //pause後開始position會有問題
+                        }
+                    }}
+                >
+                    Start
+                </div>
+            </div>
         </div>
     );
 };

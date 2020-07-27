@@ -196,37 +196,16 @@ const Bubble = (props) => {
         code,
         currentCode,
     };
-    console.log('a')
 
     return (
         <div className="main">
             <div className="graph-code">
-                <Graph
-                    graph={graph}
-                />
+                <Graph graph={graph} />
                 <Code code={code} currentCode={currentCode} />
             </div>
-
-            <div
-                className="sort"
-                onClick={() => {
-                    if (doing == false && firstTime) {
-                        changeDoing(true);
-                        changeFirstTime(false);
-                        let ani = bubbleSort(array);
-                        setAnimationArray(ani);
-                        for (let i = 0; i < array.length; i++) {
-                            status[i] = "null";
-                        }
-                        console.log(bubbleSort(array));
-                        doAniBub(ani, array, 0);
-                    }
-                }}
-            >
-                Bubble Sort
-            </div>
-            <div className="sort">
+            <div className="control-button">
                 <div
+                    className="sort"
                     onClick={() => {
                         if (doing == true) {
                             changeDoing(false);
@@ -237,8 +216,18 @@ const Bubble = (props) => {
                     Pause
                 </div>
                 <div
+                    className="sort"
                     onClick={() => {
-                        if (doing == false) {
+                        if (doing == false && firstTime) {
+                            changeDoing(true);
+                            changeFirstTime(false);
+                            let ani = bubbleSort(array);
+                            setAnimationArray(ani);
+                            for (let i = 0; i < array.length; i++) {
+                                status[i] = "null";
+                            }
+                            doAniBub(ani, array, 0);
+                        } else if (doing == false) {
                             changeDoing(true);
                             doAniBub(animationArray, array, window.index);
                         }

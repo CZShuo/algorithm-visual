@@ -18,11 +18,11 @@ const Home = (props) => {
             <div className="cover" ref={refTitle}>
                 <div className="title">Visual Algorithm React</div>
                 <div className="enters">
-                    <div className="enter">
+                    {/* <div className="enter">
                         Normal
                         <br />
                         Visualization
-                    </div>
+                    </div> */}
                     <Link to="/tutorial">
                         <div className="enter">
                             Sorting
@@ -39,8 +39,8 @@ const Home = (props) => {
                 <div className="intro" id="bub-intro" ref={refBub}>
                     <div className="intro-texts">
                         <div className="intro-chinese">
-                            冒泡排序
-                            <span className="intro-eng">Bubble Sort</span>
+                            <span className="intro-ch">冒泡排序</span>
+                            <span className="intro-eng">Bubble</span>
                         </div>
                         <div className="intro-text">
                             前後兩個數字依次比較，將較大的數字往後移動，再往之後兩個數字進行下一次比較。
@@ -54,8 +54,8 @@ const Home = (props) => {
                 <div className="intro" id="sel-intro" ref={refSel}>
                     <div className="intro-texts">
                         <div className="intro-chinese">
-                            選擇排序
-                            <span className="intro-eng">Selection Sort</span>
+                            <span className="intro-ch">選擇排序</span>
+                            <span className="intro-eng">Selection</span>
                         </div>
                         <div className="intro-text">
                             找出最小的數字，移動到第一個位置成為已排序區，再從剩下未排序的找出最小的，放到已排序區之後第一個位置，依此類推。
@@ -69,8 +69,8 @@ const Home = (props) => {
                 <div className="intro" id="ins-intro" ref={refIns}>
                     <div className="intro-texts">
                         <div className="intro-chinese">
-                            插入排序
-                            <span className="intro-eng">Insertion Sort</span>
+                            <span className="intro-ch">插入排序</span>
+                            <span className="intro-eng">Insertion</span>
                         </div>
                         <div className="intro-text">
                             未排序的資料依次往前移動，在已排序區由後往前找到適當位置並放入。
@@ -84,8 +84,8 @@ const Home = (props) => {
                 <div className="intro" id="mer-intro" ref={refMer}>
                     <div className="intro-texts">
                         <div className="intro-chinese">
-                            合併排序
-                            <span className="intro-eng">Merge Sort</span>
+                            <span className="intro-ch">合併排序</span>
+                            <span className="intro-eng">Merge</span>
                         </div>
                         <div className="intro-text">
                             將陣列分成兩半，兩側各自再以合併排序處理，處理完的再做合併。
@@ -99,8 +99,8 @@ const Home = (props) => {
                 <div className="intro" id="qui-intro" ref={refQui}>
                     <div className="intro-texts">
                         <div className="intro-chinese">
-                            快速排序
-                            <span className="intro-eng">Quick Sort</span>
+                            <span className="intro-ch">快速排序</span>
+                            <span className="intro-eng">Quick</span>
                         </div>
                         <div className="intro-text">
                             先從陣列中選出一個數字當基準值，所有小於基準值的數字移至基準值左邊，大於者移至右邊，再到左右兩邊做快速排序。

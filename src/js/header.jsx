@@ -6,7 +6,7 @@ import "../index.css";
 const Header = (props) => {
     return (
         <Link to="/">
-            <div className="header">Watch Me</div>
+            <div className="header">VAR</div>
         </Link>
     );
 };

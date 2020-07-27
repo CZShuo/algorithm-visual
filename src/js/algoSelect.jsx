@@ -11,6 +11,8 @@ const Select = (props) => {
         setArray,
         content,
         setContent,
+        animationArray,
+        setAnimationArray,
         time,
         status,
         setStatus,
@@ -20,6 +22,8 @@ const Select = (props) => {
         position,
         setPosition,
         newPosition,
+        oldPosition,
+        setOldPosition,
         stopInterval,
         doing,
         changeDoing,
@@ -62,7 +66,6 @@ const Select = (props) => {
         colorCode.push("#000000");
     }
     const [currentCode, setCurrentCode] = useState(colorCode);
-    const [animationArray, setAnimationArray] = useState([]);
 
     const doAniSel = (animationArray, array,index) => {
         let arr = [...array];
@@ -148,6 +151,7 @@ const Select = (props) => {
                 setContent(text);
                 [arr[ele[1]], arr[ele[2]]] = [arr[ele[2]], arr[ele[1]]];
                 setArray(arr);
+                setOldPosition(position);
                 setPosition(newPosition(arr));
             }
             window.index++;
@@ -159,7 +163,7 @@ const Select = (props) => {
                 }
                 setCurrentCode(temp);
                 setContent("排序完成。");
-                clearInterval(ani);
+                clearInterval(window.ani);
             }
         }, time);
     };

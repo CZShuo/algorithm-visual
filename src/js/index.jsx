@@ -36,19 +36,46 @@ const Main = (props) => {
     ]);
     const [content, setContent] = useState("Click algorithm to start!");
     const [time, setTime] = useState(100);
+    const [page, setPage] = useState("");
 
-
-
-    //For Merge
-    // const createArrayIndex = (array) => {
-    //     let arr = [];
-    //     for (let i = 0; i < array.length; i++) {
-    //         arr.push([i, array[i]]);
-    //     }
-
-    //     return arr;
-    // };
-    
+    useEffect(() => {
+        setArray([
+            45,
+            72,
+            17,
+            55,
+            90,
+            32,
+            48,
+            23,
+            66,
+            99,
+            12,
+            62,
+            34,
+            84,
+            10,
+            70,
+        ]);
+        setPosition(newPosition(array));
+        const initialStatus = (array) => {
+            let sta = [];
+            for (let i = 0; i < array.length; i++) {
+                sta.push("null");
+            }
+            return sta;
+        };
+        setAnimationArray([]);
+        setStatus(initialStatus(array));
+        setColor(newColor(array, status));
+        changeFirstTime(true);
+        changeDoing(false);
+        stopInterval()
+        console.log(animationArray);
+        console.log(array);
+        console.log(status);
+        console.log(position);
+    }, [page]);
 
     const initialStatus = (array) => {
         let sta = [];
@@ -67,7 +94,7 @@ const Main = (props) => {
         big: "#ffa500",
         small: "#000000",
         key: "#0000ff",
-        min: "#0000ff",
+        min: "#90cebc",
     });
 
     const newColor = (array, status) => {
@@ -96,6 +123,9 @@ const Main = (props) => {
         return result;
     };
     const [position, setPosition] = useState(newPosition(array));
+    const [oldPosition, setOldPosition] = useState(position);
+    const [animationArray, setAnimationArray] = useState([]);
+
     const stopInterval = () => {
         clearInterval(window.ani);
     };
@@ -116,6 +146,8 @@ const Main = (props) => {
         setArray,
         content,
         setContent,
+        animationArray,
+        setAnimationArray,
         time,
         status,
         setStatus,
@@ -125,6 +157,8 @@ const Main = (props) => {
         position,
         setPosition,
         newPosition,
+        oldPosition,
+        setOldPosition,
         stopInterval,
         doing,
         changeDoing,
@@ -159,7 +193,7 @@ const Main = (props) => {
                     path="/tutorial"
                     render={() => (
                         <div className="tutorial-main">
-                            <LeftBar />
+                            <LeftBar page={page} setPage={setPage} />
                             <div className="main-part">
                                 <Switch>
                                     <Route
@@ -168,7 +202,10 @@ const Main = (props) => {
                                         render={() => (
                                             <div>
                                                 <svg id="svg">
-                                                    <text x="50" y="50">Choose A Sort Algorithm...</text>
+                                                    <text x="50" y="50">
+                                                        Choose A Sort
+                                                        Algorithm...
+                                                    </text>
                                                 </svg>
                                             </div>
                                         )}

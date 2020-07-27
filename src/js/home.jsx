@@ -16,7 +16,7 @@ const Home = (props) => {
     return (
         <div className="homepage">
             <div className="cover" ref={refTitle}>
-                <div className="title">Visual Algorithm React</div>
+                <div className="title">Visual AlgoRithm</div>
                 <div className="enters">
                     {/* <div className="enter">
                         Normal
@@ -38,7 +38,7 @@ const Home = (props) => {
                 </a>
                 <div className="intro" id="bub-intro" ref={refBub}>
                     <div className="intro-texts">
-                        <div className="intro-chinese">
+                        <div className="intro-title">
                             <span className="intro-ch">冒泡排序</span>
                             <span className="intro-eng">Bubble</span>
                         </div>
@@ -53,7 +53,7 @@ const Home = (props) => {
 
                 <div className="intro" id="sel-intro" ref={refSel}>
                     <div className="intro-texts">
-                        <div className="intro-chinese">
+                        <div className="intro-title">
                             <span className="intro-ch">選擇排序</span>
                             <span className="intro-eng">Selection</span>
                         </div>
@@ -68,7 +68,7 @@ const Home = (props) => {
 
                 <div className="intro" id="ins-intro" ref={refIns}>
                     <div className="intro-texts">
-                        <div className="intro-chinese">
+                        <div className="intro-title">
                             <span className="intro-ch">插入排序</span>
                             <span className="intro-eng">Insertion</span>
                         </div>
@@ -83,7 +83,7 @@ const Home = (props) => {
 
                 <div className="intro" id="mer-intro" ref={refMer}>
                     <div className="intro-texts">
-                        <div className="intro-chinese">
+                        <div className="intro-title">
                             <span className="intro-ch">合併排序</span>
                             <span className="intro-eng">Merge</span>
                         </div>
@@ -98,7 +98,7 @@ const Home = (props) => {
 
                 <div className="intro" id="qui-intro" ref={refQui}>
                     <div className="intro-texts">
-                        <div className="intro-chinese">
+                        <div className="intro-title">
                             <span className="intro-ch">快速排序</span>
                             <span className="intro-eng">Quick</span>
                         </div>

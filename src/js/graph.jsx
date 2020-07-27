@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Code from "./code.jsx";
 
 const Graph = (props) => {
-    let { array, position, color, content } = props.graph;
+    let { array, position, oldPosition, color, content } = props.graph;
 
     return (
         <svg id="svg">
@@ -17,9 +17,13 @@ const Graph = (props) => {
                             height={element}
                             width="25"
                             fill={color[index]}
-                        ></rect>
+                        >
+                            {/* <animate attributeName='x' from={oldPosition[index].x} to={position[index].x} dur='.1s' repeatCount='1' />
+                            <animate attributeName='y' from={oldPosition[index].y} to={position[index].y} dur='.1s' repeatCount='1' /> */}
+                        </rect>
                         <text x={position[index].x + 5} y={130 + 15}>
                             {element}
+                            {/* <animate attributeName='x' to={position[index].x} dur={100} repeatCount="1" /> */}
                         </text>
                     </g>
                 );

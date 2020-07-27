@@ -6,12 +6,13 @@ import Graph from "./graph.jsx";
 import Code from "./code.jsx";
 
 const Bubble = (props) => {
-    let data = props.data;
     let {
         array,
         setArray,
         content,
         setContent,
+        animationArray,
+        setAnimationArray,
         time,
         status,
         setStatus,
@@ -21,43 +22,14 @@ const Bubble = (props) => {
         position,
         setPosition,
         newPosition,
+        oldPosition,
+        setOldPosition,
         stopInterval,
         doing,
         changeDoing,
         firstTime,
         changeFirstTime,
-    } = data;
-
-    useEffect(() => {
-        setArray([
-            45,
-            72,
-            17,
-            55,
-            90,
-            32,
-            48,
-            23,
-            66,
-            99,
-            12,
-            62,
-            34,
-            84,
-            10,
-            70,
-        ]);
-        setPosition(newPosition(array));
-        const initialStatus = (array) => {
-            let sta = [];
-            for (let i = 0; i < array.length; i++) {
-                sta.push("null");
-            }
-            return sta;
-        };
-        setStatus(initialStatus(array));
-        setColor(newColor(array, status));
-    }, []);
+    } = props.data;
 
     const bubbleSort = (array) => {
         let arr = [...array];
@@ -93,7 +65,6 @@ const Bubble = (props) => {
         colorCode.push("#000000");
     }
     const [currentCode, setCurrentCode] = useState(colorCode);
-    const [animationArray, setAnimationArray] = useState([]);
 
     const doAniBub = (animationArray, array, index) => {
         let arr = [...array];
@@ -145,7 +116,7 @@ const Bubble = (props) => {
                 }
                 temp[2] = "#ff0000";
                 setCurrentCode(temp);
-
+                setOldPosition(position);
                 setPosition(newPosition(arr));
                 setColor(newColor(arr, status));
             } else if (ele[0] == "big") {
@@ -183,7 +154,7 @@ const Bubble = (props) => {
                 }
                 setCurrentCode(temp);
                 setContent("排序完成。");
-                clearInterval(ani);
+                clearInterval(window.ani);
             }
         }, time);
     };
@@ -191,6 +162,7 @@ const Bubble = (props) => {
     const graph = {
         array,
         position,
+        oldPosition,
         color,
         content,
         code,

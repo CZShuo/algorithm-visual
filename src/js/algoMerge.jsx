@@ -11,6 +11,8 @@ const Merge = (props) => {
         setArray,
         content,
         setContent,
+        animationArray,
+        setAnimationArray,
         time,
         status,
         setStatus,
@@ -20,6 +22,8 @@ const Merge = (props) => {
         position,
         setPosition,
         newPosition,
+        oldPosition,
+        setOldPosition,
         stopInterval,
         doing,
         changeDoing,
@@ -62,38 +66,37 @@ const Merge = (props) => {
         return result;
     };
 
-    const [ani, setAni] = useState([]);
 
     //push,原本index,新index
     const mergeSort = (array, startIndex) => {
         let arr = [...array];
-        if (ani.length != 0) {
-            ani.push(["range", startIndex, startIndex + arr.length - 1]);
+        if (animationArray.length != 0) {
+            animationArray.push(["range", startIndex, startIndex + arr.length - 1]);
         }
         if (arr.length < 2) {
-            ani.push(["back", startIndex, startIndex + arr.length - 1]);
+            animationArray.push(["back", startIndex, startIndex + arr.length - 1]);
             return arr;
         }
         let index = startIndex;
         let mid = Math.floor(arr.length / 2);
-        ani.push(["mid", startIndex, mid]);
+        animationArray.push(["mid", startIndex, mid]);
         let left = mergeSort(arr.slice(0, mid), index);
         let right = mergeSort(arr.slice(mid), mid + index);
 
         let result = [];
         while (left.length > 0 && right.length > 0) {
-            ani.push(["com", left[0][0], right[0][0]]);
+            animationArray.push(["com", left[0][0], right[0][0]]);
             if (right[0][1] < left[0][1]) {
-                ani.push(["small", right[0][0], left[0][0]]);
+                animationArray.push(["small", right[0][0], left[0][0]]);
                 let temp = [index, right[0][1]];
                 result.push(temp);
-                ani.push(["push", right[0][0], index]);
+                animationArray.push(["push", right[0][0], index]);
                 right.shift();
             } else {
-                ani.push(["small", left[0][0], right[0][0]]);
+                animationArray.push(["small", left[0][0], right[0][0]]);
                 let temp = [index, left[0][1]];
                 result.push(temp);
-                ani.push(["push", left[0][0], index]);
+                animationArray.push(["push", left[0][0], index]);
                 left.shift();
             }
             index++;
@@ -102,20 +105,20 @@ const Merge = (props) => {
             left.forEach((element) => {
                 let temp = [index, element[1]];
                 result.push(temp);
-                ani.push(["push", element[0], index]);
+                animationArray.push(["push", element[0], index]);
                 index++;
             });
-            ani.push(["back", startIndex, startIndex + arr.length - 1]);
+            animationArray.push(["back", startIndex, startIndex + arr.length - 1]);
         } else if (right.length > 0) {
             right.forEach((element) => {
                 let temp = [index, element[1]];
                 result.push(temp);
-                ani.push(["push", element[0], index]);
+                animationArray.push(["push", element[0], index]);
                 index++;
             });
-            ani.push(["back", startIndex, startIndex + arr.length - 1]);
+            animationArray.push(["back", startIndex, startIndex + arr.length - 1]);
         } else {
-            ani.push(["back", startIndex, startIndex + arr.length - 1]);
+            animationArray.push(["back", startIndex, startIndex + arr.length - 1]);
         }
         return result;
     };
@@ -156,6 +159,7 @@ const Merge = (props) => {
                 for (let i = ele[1]; i <= ele[2]; i++) {
                     pos[i].y += 130;
                 }
+                setOldPosition(position);
                 setPosition(pos);
                 let temp = [...colorCode];
                 for (let i = 0; i < code.length; i++) {
@@ -205,6 +209,7 @@ const Merge = (props) => {
                     pos[i].y =
                         Math.floor(pos[i].y / 130) * 130 + 130 - arr[i][1];
                 }
+                setOldPosition(position);
                 setPosition(pos);
 
                 for (let i = 0; i < arr.length; i++) {
@@ -237,6 +242,7 @@ const Merge = (props) => {
                 let pos = [...position];
                 pos[ele[1]].x = ele[2] * 50 + (900 - array.length * 50) / 2;
                 pos[ele[1]].y += 130;
+                setOldPosition(position);
                 setPosition(pos);
                 let temp = [...colorCode];
                 for (let i = 0; i < code.length; i++) {
@@ -267,6 +273,7 @@ const Merge = (props) => {
     const graph = {
         arrayIndex,
         position,
+        oldPosition,
         color,
         content,
         code,
@@ -281,8 +288,8 @@ const Merge = (props) => {
         //         onClick={() => {
         //             console.log(arrayIndex);
         //             console.log(mergeSort(arrayIndex, 0));
-        //             console.log(ani);
-        //             doAniMer(ani, arrayIndex);
+        //             console.log(animationArray);
+        //             doAniMer(animationArray, arrayIndex);
         //             console.log(arrayIndex);
         //         }}
         //     >
@@ -318,10 +325,10 @@ const Merge = (props) => {
                             for (let i = 0; i < array.length; i++) {
                                 status[i] = "null";
                             }
-                            doAniMer(ani, arrayIndex, 0);
+                            doAniMer(animationArray, arrayIndex, 0);
                         } else if (doing == false) {
                             changeDoing(true);
-                            doAniMer(ani, arrayIndex, window.index);
+                            doAniMer(animationArray, arrayIndex, window.index);
                         }
                     }}
                 >

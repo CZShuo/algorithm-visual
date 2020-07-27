@@ -30,151 +30,162 @@ const Control = (props) => {
             <div
                 className="hide-control"
                 onClick={(e) => {
-                    if(controlRef.current.style.display == "none"){
+                    if (controlRef.current.style.display == "none") {
                         controlRef.current.style.display = "flex";
-                        e.target.style.bottom = '200px';
-                        e.target.textContent = 'v';
-                    }else{
+                        e.target.style.bottom = "200px";
+                        e.target.textContent = "v";
+                    } else {
                         controlRef.current.style.display = "none";
-                        e.target.style.bottom = '0';
-                        e.target.textContent = '^';
+                        e.target.style.bottom = "0";
+                        e.target.textContent = "^";
                     }
                 }}
             >
                 V
             </div>
             <div className="control" ref={controlRef}>
-                <div className="set-array">
-                    <div>Set your array : </div>
-                    <input type="text" id="array-input" ref={inputRef} />
-                    <div
-                        id="send-array"
-                        onClick={() => {
-                            let input = inputRef.current.value;
-                            // console.log(input);
-                            let arr = input.replace(/\s/g, "").split(",");
-                            arr = arr.map((element, index) => [
-                                Number(element),
-                            ]);
-                            for (let i = 0; i < arr.length; i++) {
-                                status[i] = "null";
-                            }
-                            setPosition(newPosition(arr));
-                            setColor(newColor(arr, status));
-                            setArray(arr);
-                        }}
-                    >
-                        Set
+                <div className="left-control">
+                    <div className="control-title">Array</div>
+                    <div className="set-array">
+                        <div>Set Your Array : </div>
+                        <input type="text" id="array-input" ref={inputRef} />
+                        <div
+                            id="send-array"
+                            onClick={() => {
+                                let input = inputRef.current.value;
+                                // console.log(input);
+                                let arr = input.replace(/\s/g, "").split(",");
+                                arr = arr.map((element, index) => [
+                                    Number(element),
+                                ]);
+                                for (let i = 0; i < arr.length; i++) {
+                                    status[i] = "null";
+                                }
+                                setPosition(newPosition(arr));
+                                setColor(newColor(arr, status));
+                                setArray(arr);
+                            }}
+                        >
+                            Set
+                        </div>
+                    </div>
+                    <div className="set-array">
+                        <div>Random Array : </div>
+                        <input
+                            id="number-input"
+                            placeholder="5 ~ 20"
+                            type="number"
+                            ref={randomRef}
+                        />
+                        <div
+                            id="send-number"
+                            onClick={() => {
+                                let num = randomRef.current;
+                                if (num.value > 20) {
+                                    num.value = 20;
+                                    alert("Can't be more than 20 numbers !");
+                                }
+                                if (num.value < 5) {
+                                    num.value = 5;
+                                    alert("Can't be less than 5 numbers !");
+                                }
+                                let arr = [];
+                                for (let i = 0; i < num.value; i++) {
+                                    arr.push(
+                                        Math.floor(Math.random() * 100) + 1
+                                    );
+                                    status[i] = "null";
+                                }
+                                setPosition(newPosition(arr));
+                                setColor(newColor(arr, status));
+                                setArray(arr);
+                            }}
+                        >
+                            Random
+                        </div>
+                    </div>
+                    <div className="set-array">
+                        <div>Speed: </div>
+                        <select
+                            defaultValue="100"
+                            onChange={(e) => {
+                                setTime(e.target.value);
+                            }}
+                        >
+                            <option value="1500">新手</option>
+                            <option value="1000">0.5</option>
+                            <option value="600">1.0</option>
+                            <option value="200">1.5</option>
+                            <option value="100">專業</option>
+                        </select>
                     </div>
                 </div>
-                <div className="set-array">
-                    <div>Random Array : </div>
-                    <input id="number-input" type="number" ref={randomRef} />
+
+                <div className="right-control">
                     <div
-                        id="send-number"
-                        onClick={() => {
-                            let num = randomRef.current;
-                            if (num.value > 20) {
-                                num.value = 20;
-                                alert("Can't be more than 20 numbers !");
-                            }
-                            if (num.value < 5) {
-                                num.value = 5;
-                                alert("Can't be less than 5 numbers !");
-                            }
-                            let arr = [];
-                            for (let i = 0; i < num.value; i++) {
-                                arr.push(Math.floor(Math.random() * 100) + 1);
-                                status[i] = "null";
-                            }
-                            setPosition(newPosition(arr));
-                            setColor(newColor(arr, status));
-                            setArray(arr);
-                        }}
-                    >
-                        Random
-                    </div>
-                </div>
-                <div className="set-array">
-                    <div>Speed: </div>
-                    <select
-                        defaultValue="100"
+                        className="color-picks"
                         onChange={(e) => {
-                            setTime(e.target.value);
+                            color[e.target.name] = e.target.value;
+                            changeColor(color);
                         }}
                     >
-                        <option value="1500">新手</option>
-                        <option value="1000">0.5</option>
-                        <option value="600">1.0</option>
-                        <option value="200">1.5</option>
-                        <option value="100">專業</option>
-                    </select>
-                </div>
-                {/* <div className="set-array">
-                    <div
-                        onClick={() => {
-                            if (doing == true) {
-                                changeDoing(false);
-                                stopInterval();
-                            }
-                        }}
-                    >
-                        Pause
+                        <div className="control-title">Color</div>
+                        <div className="color-pick">
+                            <label htmlFor="color-null">Default: </label>
+                            <input
+                                type="color"
+                                defaultValue={color.null}
+                                name="null"
+                                id="color-null"
+                            ></input>
+                        </div>
+                        <div className="color-pick">
+                            <label htmlFor="color-sorted">Key: </label>
+                            <input
+                                type="color"
+                                defaultValue={color.key}
+                                name="key"
+                                id="color-key"
+                            ></input>
+                        </div>
+                        <div className="color-pick">
+                            <label htmlFor="color-sorted">Sorted: </label>
+                            <input
+                                type="color"
+                                defaultValue={color.sorted}
+                                name="sorted"
+                                id="color-sorted"
+                            ></input>
+                        </div>
+                        <div className="color-pick">
+                            <label htmlFor="color-com">Comparing: </label>
+                            <input
+                                type="color"
+                                defaultValue={color.com}
+                                name="com"
+                                id="color-com"
+                            ></input>
+                        </div>
+
+                        <div className="color-pick">
+                            <label htmlFor="color-big">Bigger: </label>
+                            <input
+                                type="color"
+                                defaultValue={color.big}
+                                name="big"
+                                id="color-big"
+                            ></input>
+                        </div>
+                        <div className="color-pick">
+                            <label htmlFor="color-small">Smaller: </label>
+                            <input
+                                type="color"
+                                defaultValue={color.small}
+                                name="small"
+                                id="color-small"
+                            ></input>
+                        </div>
                     </div>
-                    <div
-                        onClick={() => {
-                            if (doing == false) {
-                                changeDoing(true);
-                                doAniBub(animationArray, array, window.index);
-                            }
-                        }}
-                    >
-                        Start
-                    </div>
-                </div> */}
-                <div
-                    className="color-pick"
-                    onChange={(e) => {
-                        color[e.target.name] = e.target.value;
-                        changeColor(color);
-                    }}
-                >
-                    <label htmlFor="color-null">Default: </label>
-                    <input
-                        type="color"
-                        defaultValue={color.null}
-                        name="null"
-                        id="color-null"
-                    ></input>
-                    <label htmlFor="color-com">Comparing: </label>
-                    <input
-                        type="color"
-                        defaultValue={color.com}
-                        name="com"
-                        id="color-com"
-                    ></input>
-                    <label htmlFor="color-sorted">Sorted: </label>
-                    <input
-                        type="color"
-                        defaultValue={color.sorted}
-                        name="sorted"
-                        id="color-sorted"
-                    ></input>
-                    <label htmlFor="color-big">Bigger: </label>
-                    <input
-                        type="color"
-                        defaultValue={color.big}
-                        name="big"
-                        id="color-big"
-                    ></input>
-                    <label htmlFor="color-small">Smaller: </label>
-                    <input
-                        type="color"
-                        defaultValue={color.small}
-                        name="small"
-                        id="color-small"
-                    ></input>
-                    {/* {window.location.pathname=='/insertionsort'? <input type="color" defaultValue={color.key}></input> : } */}
                 </div>
             </div>
         </>

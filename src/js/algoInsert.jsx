@@ -11,6 +11,8 @@ const Insertion = (props) => {
         setArray,
         content,
         setContent,
+        animationArray,
+        setAnimationArray,
         time,
         status,
         setStatus,
@@ -20,6 +22,8 @@ const Insertion = (props) => {
         position,
         setPosition,
         newPosition,
+        oldPosition,
+        setOldPosition,
         stopInterval,
         doing,
         changeDoing,
@@ -31,7 +35,8 @@ const Insertion = (props) => {
 
     let major = -1;
     const positionInsert = (array) => {
-        console.log(major);
+        // console.log(major);
+        //????一直重跑
         let result = [];
         for (let i = 0; i < array.length; i++) {
             let temp = 130 - array[i];
@@ -46,34 +51,6 @@ const Insertion = (props) => {
         }
         return result;
     };
-    // useEffect(() => {
-    //     let arr = [
-    //         45,
-    //         72,
-    //         17,
-    //         55,
-    //         90,
-    //         32,
-    //         48,
-    //         23,
-    //         66,
-    //         99,
-    //         12,
-    //         62,
-    //         34,
-    //         84,
-    //         10,
-    //         70,
-    //     ];
-    //     setArray(arr);
-    //     setPosition(newPosition(arr));
-    //     console.log(positionInsert(arr));
-    //     for(let i = 0; i <arr.length; i++){
-    //         status[i] = "null";
-    //     }
-    //     setColor(newColor(arr, status));
-    //     // setPosition(positionInsert(arr));
-    // }, []);
 
     useEffect(() => {
         console.log(major)
@@ -91,7 +68,6 @@ const Insertion = (props) => {
         colorCode.push("#000000");
     }
     const [currentCode, setCurrentCode] = useState(colorCode);
-    const [animationArray, setAnimationArray] = useState([]);
 
     const insertionSort = (array) => {
         let arr = [...array];
@@ -153,7 +129,7 @@ const Insertion = (props) => {
                 }
                 temp[1] = "#ff0000";
                 setCurrentCode(temp);
-
+                setOldPosition(position);
                 setPosition(positionInsert(arr));
                 setColor(newColor(arr, status));
                 // console.log('com'+major);
@@ -167,6 +143,7 @@ const Insertion = (props) => {
                 major-=1;
                 // setMajor(-1);
                 [arr[ele[1]], arr[ele[2]]] = [arr[ele[2]], arr[ele[1]]];
+                setOldPosition(position);
                 setPosition(positionInsert(arr));
 
                 let temp = [...colorCode];
@@ -226,7 +203,7 @@ const Insertion = (props) => {
 
                 major=-1;
                 // setMajor(-1);
-
+                setOldPosition(position);
                 setPosition(positionInsert(arr));
             } else if (ele[0] == "min") {
                 text = `${m} Key ${arr[ele[1]]} 為最小值，放回陣列。`;
@@ -241,7 +218,7 @@ const Insertion = (props) => {
 
                 major=-1;
                 // setMajor(-1);
-
+                setOldPosition(position);
                 setPosition(positionInsert(arr));
             }
             window.index++;
@@ -262,7 +239,7 @@ const Insertion = (props) => {
                 setContent("排序完成。");
                 // setMajor(-1);
                 // setMajor(-1);
-
+                setOldPosition(position);
                 setPosition(positionInsert(arr));
             }
         }, time);
@@ -271,6 +248,7 @@ const Insertion = (props) => {
     const graph = {
         array,
         position,
+        oldPosition,
         color,
         content,
         code,

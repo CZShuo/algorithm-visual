@@ -12,7 +12,7 @@ body {
 }
 
 body {
-    background-color: rgb(200, 200, 200);
+    background-color: #87cefa;
     overflow: hidden;
 }
 
@@ -36,7 +36,17 @@ body {
 .left-bar {
     width: 15%;
     height: calc(100vh - 50px);
-    border: 1px solid rgb(0, 0, 0);
+    display: flex;
+    flex-direction: column;
+}
+
+.left-bar>a {
+    text-decoration: none;
+    color: #34526c;
+    font-weight: bold;
+    font-size: 20px;
+    margin: 10px auto;
+    height: 30px;
 }
 
 .array {
@@ -56,9 +66,18 @@ body {
     flex-direction: column;
     align-items: flex-start;
     height: 200px;
+    width: 100%;
     background-color: rgb(161, 161, 161);
     color: white;
     font-size: 20px;
+    position: fixed;
+    bottom: 0;
+}
+
+.hide-control {
+    position: fixed;
+    right: 50px;
+    top: 50px;
 }
 
 .set-array {
@@ -104,15 +123,15 @@ body {
     color: #000;
 }
 
-.graphs {
+.graph-code {
+    width: 100%;
     display: flex;
     flex-direction: row;
-    align-items: flex-start;
 }
 
 #svg {
     width: 70%;
-    height: 1000px;
+    height: 700px;
     border: 1px solid rgb(0, 0, 0);
 }
 
@@ -204,10 +223,9 @@ pre {
 }
 
 .intro {
-    background-color: lightblue;
+    background-color: #87cefa;
     width: 80%;
     height: calc(100vh - 50px);
-    border: 1px solid rgb(0, 0, 0);
     position: relative;
     display: flex;
     flex-direction: column;
@@ -278,6 +296,10 @@ pre {
     box-sizing: border-box;
 }
 
+.intro-texts {
+    color: #34526c;
+}
+
 .intro-chinese {
     font-size: 80px;
     font-weight: bold;
@@ -318,7 +340,7 @@ pre {
 
 .about {
     height: 500px;
-    background-color: #000;
+    background-color: #34526c;
 }
 
 .close-about {
@@ -327,10 +349,25 @@ pre {
 
 .top-button {
     position: fixed;
-    right: 20px;
-    bottom: 20px;
+    right: 40px;
+    bottom: 40px;
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    background-color: brown;
+    background-color: #645a51;
+    color: #90cebc;
+    text-align: center;
+    line-height: 55px;
+    font-size: 30px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.top-button:hover {
+    right: 35px;
+    bottom: 35px;
+    width: 60px;
+    height: 60px;
+    font-size: 45px;
+    line-height: 65px;
 }

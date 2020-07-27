@@ -165,10 +165,9 @@ const Main = (props) => {
                                         path="/tutorial"
                                         render={() => (
                                             <div>
-                                                <div className="sort">
-                                                    Choose Sort
-                                                </div>
-                                                <svg id="svg"></svg>
+                                                <svg id="svg">
+                                                    <text x="50" y="50">Choose A Sort Algorithm...</text>
+                                                </svg>
                                             </div>
                                         )}
                                     />

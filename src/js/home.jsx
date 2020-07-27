@@ -110,14 +110,14 @@ const Home = (props) => {
                         <span></span>...About Me
                     </a>
                 </div>
-                <div className="about" ref={refAbout}>
-                    <div className="close-about" onClick={() => moveTo(refQui)}>
-                        X
-                    </div>
+            </div>
+            <div className="about" ref={refAbout}>
+                <div className="close-about" onClick={() => moveTo(refQui)}>
+                    X
                 </div>
-                <div className="top-button" onClick={() => moveTo(refTitle)}>
-                    T
-                </div>
+            </div>
+            <div className="top-button" onClick={() => moveTo(refTitle)}>
+                ^
             </div>
         </div>
     );

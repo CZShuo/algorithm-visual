@@ -61,7 +61,9 @@ const Merge = (props) => {
     //push,原本index,新index
     const mergeSort = (array, startIndex) => {
         let arr = [...array];
-        ani.push(["range", startIndex, startIndex + arr.length - 1]);
+        if(ani.length!=0) {
+            ani.push(["range", startIndex, startIndex + arr.length - 1]);
+        }
         if (arr.length < 2) {
             ani.push(["back", startIndex, startIndex + arr.length - 1]);
             return arr;
@@ -186,7 +188,7 @@ const Merge = (props) => {
                     pos[i].x = i * 50 + (900 - array.length * 50) / 2;
                     if(i>=ele[1] && i<=ele[2]){
                         pos[i].y-=130;
-                        if(animationArray[index-1][0]!="range"){
+                        if(animationArray[index-1][0]!="range" && index!=animationArray.length-1){
                             pos[i].y-=130;
                         }
                     }

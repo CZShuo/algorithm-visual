@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import PropTypes from "prop-types";
 import Graph from "./graph.jsx";
+import Code from "./code.jsx";
 
 const Bubble = (props) => {
     let data = props.data;
@@ -26,6 +27,37 @@ const Bubble = (props) => {
         firstTime,
         changeFirstTime,
     } = data;
+
+    useEffect(() => {
+        setArray([
+            45,
+            72,
+            17,
+            55,
+            90,
+            32,
+            48,
+            23,
+            66,
+            99,
+            12,
+            62,
+            34,
+            84,
+            10,
+            70,
+        ]);
+        setPosition(newPosition(array));
+        const initialStatus = (array) => {
+            let sta = [];
+            for (let i = 0; i < array.length; i++) {
+                sta.push("null");
+            }
+            return sta;
+        };
+        setStatus(initialStatus(array));
+        setColor(newColor(array, status));
+    }, []);
 
     const bubbleSort = (array) => {
         let arr = [...array];
@@ -156,8 +188,6 @@ const Bubble = (props) => {
         }, time);
     };
 
-    
-
     const graph = {
         array,
         position,
@@ -166,10 +196,17 @@ const Bubble = (props) => {
         code,
         currentCode,
     };
-    
+    console.log('a')
 
     return (
-        <div>
+        <div className="main">
+            <div className="graph-code">
+                <Graph
+                    graph={graph}
+                />
+                <Code code={code} currentCode={currentCode} />
+            </div>
+
             <div
                 className="sort"
                 onClick={() => {
@@ -188,31 +225,28 @@ const Bubble = (props) => {
             >
                 Bubble Sort
             </div>
-            {/* <div
-                onClick={() => {
-                    if (doing == true) {
-                        changeDoing(false);
-                        stopInterval();
-                    }
-                }}
-            >
-                Stop
+            <div className="sort">
+                <div
+                    onClick={() => {
+                        if (doing == true) {
+                            changeDoing(false);
+                            stopInterval();
+                        }
+                    }}
+                >
+                    Pause
+                </div>
+                <div
+                    onClick={() => {
+                        if (doing == false) {
+                            changeDoing(true);
+                            doAniBub(animationArray, array, window.index);
+                        }
+                    }}
+                >
+                    Start
+                </div>
             </div>
-            <div
-                onClick={() => {
-                    if (doing == false) {
-                        changeDoing(true);
-                        doAniBub(animationArray, array, window.index);
-                    }
-                }}
-            >
-                Start
-            </div> */}
-            <Graph
-                graph={graph}
-                // colorCode1={colorCode1}
-                // colorCode2={colorCode2}
-            />
         </div>
     );
 };

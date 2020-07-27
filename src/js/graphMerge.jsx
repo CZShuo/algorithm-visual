@@ -4,28 +4,39 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Code from "./code.jsx";
 
 const Graph = (props) => {
-    let { arrayIndex, position, color, content, code, currentCode,range,mid } = props.graph;
+    let {
+        arrayIndex,
+        position,
+        color,
+        content,
+        code,
+        currentCode,
+        range,
+        mid,
+    } = props.graph;
 
     return (
-        <div className="graphs">
-            <svg id="svg">
-                {arrayIndex.map((element, index) => {
-                    return (
-                        <g key={index}>
-                            <rect
-                                x={position[index].x}
-                                y={position[index].y}
-                                height={element[1]}
-                                width="25"
-                                fill={color[index]}
-                            ></rect>
-                            <text x={position[index].x + 5} y={15+position[index].y+arrayIndex[index][1]}>
-                                {element[1]}
-                            </text>
-                        </g>
-                    );
-                })}
-                {/* {range.map((element, index) => {
+        <svg id="svg">
+            {arrayIndex.map((element, index) => {
+                return (
+                    <g key={index}>
+                        <rect
+                            x={position[index].x}
+                            y={position[index].y}
+                            height={element[1]}
+                            width="25"
+                            fill={color[index]}
+                        ></rect>
+                        <text
+                            x={position[index].x + 5}
+                            y={15 + position[index].y + arrayIndex[index][1]}
+                        >
+                            {element[1]}
+                        </text>
+                    </g>
+                );
+            })}
+            {/* {range.map((element, index) => {
                     return (
                         <rect
                             key={index}
@@ -41,15 +52,13 @@ const Graph = (props) => {
                         ></rect>
                     );
                 })} */}
-                {/* <text x={(mid[1] + mid[0]) * 50 + 25} y={20}>
+            {/* <text x={(mid[1] + mid[0]) * 50 + 25} y={20}>
                     mid={mid[1]}
                 </text> */}
-                {/* <text x="250" y="250" fontSize="24px">
+            {/* <text x="250" y="250" fontSize="24px">
                     {content}
                 </text> */}
-            </svg>
-            <Code code={code} currentCode={currentCode} />
-        </div>
+        </svg>
     );
 };
 

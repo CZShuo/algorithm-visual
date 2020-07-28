@@ -190,6 +190,21 @@ body {
 }
 
 
+/* Animation Control */
+
+.animation-control {
+    position: fixed;
+    left: 30px;
+    bottom: 30px;
+    width: 150px;
+    height: 200px;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+
 /* Old div */
 
 .bars {

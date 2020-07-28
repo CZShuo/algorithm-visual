@@ -153,6 +153,96 @@ const Bubble = (props) => {
         }, time);
     };
 
+    const stepAniBub = (animationArray, array, index) => {
+        let arr = [...array];
+        let ind = 0;
+        let text;
+
+        window.ani = setInterval(() => {
+            let ele = animationArray[ind];
+            if (ele[0] == "com") {
+                for (let i = 0; i < ele[1]; i++) {
+                    status[i] = "null";
+                }
+                status[ele[1]] = "com";
+                status[ele[2]] = "com";
+                text = `比較 ${arr[ele[1]]} 與 ${arr[ele[2]]}。`;
+
+                setContent(text);
+
+                let temp = [...colorCode];
+                for (let i = 0; i < code.length; i++) {
+                    temp[i] = "#000000";
+                }
+                temp[1] = "#ff0000";
+                setCurrentCode(temp);
+
+                if (ind > 1) {
+                    if (ele[2] < animationArray[ind- 1][2]) {
+                        status[animationArray[ind - 1][1]] = "null";
+                        status[animationArray[ind - 1][2]] = "sorted";
+                    }
+                }
+
+                setColor(newColor(arr, status));
+            } else if (ele[0] == "push") {
+                text = `${arr[ele[1]]} 與 ${arr[ele[2]]}互換。`;
+                setContent(text);
+                [arr[ele[1]], arr[ele[2]]] = [arr[ele[2]], arr[ele[1]]];
+                status[ele[1]] = "null";
+                status[ele[2]] = "sorted";
+                setArray(arr);
+
+                let temp = [...colorCode];
+                for (let i = 0; i < code.length; i++) {
+                    temp[i] = "#000000";
+                }
+                temp[2] = "#ff0000";
+                setCurrentCode(temp);
+                setOldPosition(position);
+                setPosition(newPosition(arr));
+                setColor(newColor(arr, status));
+            } else if (ele[0] == "big") {
+                status[ele[1]] = "big";
+                status[ele[2]] = "small";
+                text = `${arr[ele[1]]} 大於 ${arr[ele[2]]}，因此將兩者互換。`;
+                setContent(text);
+
+                let temp = [...colorCode];
+                for (let i = 0; i < code.length; i++) {
+                    temp[i] = "#000000";
+                }
+                temp[1] = "#ff0000";
+                setCurrentCode(temp);
+
+                setColor(newColor(arr, status));
+            } else if (ele[0] == "sorted") {
+                for (let i = 0; i < arr.length; i++) {
+                    status[i] = "sorted";
+                }
+                setColor(newColor(arr, status));
+            }
+            ind++;
+
+            if(ind>index){
+                clearInterval(window.ani);
+            }
+            if (ind >= animationArray.length) {
+                for (let i = 0; i < arr.length; i++) {
+                    status[i] = "sorted";
+                }
+                setColor(newColor(arr, status));
+                let temp = [...colorCode];
+                for (let i = 0; i < code.length; i++) {
+                    temp[i] = "#000000";
+                }
+                setCurrentCode(temp);
+                setContent("排序完成。");
+                clearInterval(window.ani);
+            }
+        }, 1);
+    };
+
     const graph = {
         array,
         position,
@@ -168,6 +258,58 @@ const Bubble = (props) => {
             <div className="graph-code">
                 <Graph graph={graph} />
                 <Code code={code} currentCode={currentCode} />
+            </div>
+            <div className="animation-control">
+                <div
+                    onClick={() => {
+                        if (doing == false && firstTime) {
+                            changeDoing(true);
+                            changeFirstTime(false);
+                            let ani = bubbleSort(array);
+                            setAnimationArray(ani);
+                            for (let i = 0; i < array.length; i++) {
+                                status[i] = "null";
+                            }
+                            doAniBub(ani, array, 0);
+                        } else if (doing == false) {
+                            changeDoing(true);
+                            doAniBub(animationArray, array, window.index--);
+                        }
+                    }}
+                >
+                    Start
+                </div>
+                <div
+                    onClick={() => {
+                        if (doing == true) {
+                            changeDoing(false);
+                            stopInterval();
+                        }
+                    }}
+                >
+                    Pause
+                </div>
+                <div>Restart</div>
+                <div
+                    onClick={() => {
+                        window.index--;
+                        if(window.index <0){
+                            window.index = 0;
+                        }
+                        stepAniBub(animationArray, array, window.index);
+                    }}
+                >
+                    Previous
+                </div>
+                <div
+                    onClick={() => {
+                        window.index++;
+                        stepAniBub(animationArray, array, window.index);
+                    }}
+                >
+                    Next
+                </div>
+                <div>Speed</div>
             </div>
             <div className="control-button">
                 <div

@@ -56,9 +56,9 @@ const Main = (props) => {
     const [time, setTime] = useState(100);
     const [page, setPage] = useState("");
     const [custom, setCustom] = useState(false);
+
     useEffect(() => {
-        if(custom) {
-            setAnimationArray([]);
+        if(custom && animationArray.length === 0) {
             changeFirstTime(true);
             changeDoing(false);
             stopInterval();
@@ -220,7 +220,8 @@ const Main = (props) => {
         changeDoing,
         firstTime,
         changeFirstTime,
-        setAnimationArray
+        setAnimationArray,
+        setCustom
     };
 
     return (

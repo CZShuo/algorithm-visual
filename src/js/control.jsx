@@ -21,6 +21,7 @@ const Control = (props) => {
         firstTime,
         changeFirstTime,
         setAnimationArray,
+        setCustom,
     } = props.controlData;
     let color = Object.assign({}, colorSet);
     const inputRef = useRef(null);
@@ -29,14 +30,6 @@ const Control = (props) => {
     // BUG : 建立新array並跑完一次sort之後，再建立新array不能sort
     return (
         <>
-            {/* <div className="animation-control">
-                <div>Start</div>
-                <div>Pause</div>
-                <div>Restart</div>
-                <div>Previous</div>
-                <div>Next</div>
-                <div>Speed</div>
-            </div> */}
             <div
                 className="hide-control"
                 onClick={(e) => {
@@ -69,12 +62,12 @@ const Control = (props) => {
                             onClick={() => {
                                 stopInterval();
                                 let input = inputRef.current.value;
-                                // console.log(input);
                                 let arr = input.replace(/\s/g, "").split(",");
                                 let arrIndex = [];
                                 for (let i = 0; i < arr.length; i++) {
                                     let num = Math.floor(Number(arr[i]));
-                                    if (num == NaN) {
+                                    console.log(num);
+                                    if (Number.isNaN(num)) {
                                         alert("Input must be number !");
                                         arr = [
                                             45,
@@ -112,6 +105,7 @@ const Control = (props) => {
                                             [14, 10],
                                             [15, 70],
                                         ];
+                                        inputRef.current.value = '';
                                         break;
                                     } else {
                                         if (num >= 100 || num <= 0) {
@@ -164,6 +158,7 @@ const Control = (props) => {
                                 for (let i = 0; i < arr.length; i++) {
                                     status[i] = "null";
                                 }
+                                setCustom(true);
                                 setPosition(newPosition(arr));
                                 setColor(newColor(arr, status));
                                 setAnimationArray([]);
@@ -195,7 +190,7 @@ const Control = (props) => {
                                     num.value = 20;
                                     alert("Can't be more than 20 numbers !");
                                 }
-                                if (num.value < 5 || num.value==null) {
+                                if (num.value < 5 || num.value == null) {
                                     num.value = 5;
                                     alert("Can't be less than 5 numbers !");
                                 }
@@ -206,6 +201,7 @@ const Control = (props) => {
                                     );
                                     status[i] = "null";
                                 }
+                                setCustom(true);
                                 setPosition(newPosition(arr));
                                 setColor(newColor(arr, status));
                                 setArray(arr);

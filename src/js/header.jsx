@@ -12,3 +12,12 @@ const Header = (props) => {
 };
 
 export default Header;
+
+//Custom array keep 
+//SORTING AFTER SHOULD SET BACK TO UNSORTED
+//Animation control
+//About page
+//Introduce picture
+//control panel
+//RWD
+//Big number sort?

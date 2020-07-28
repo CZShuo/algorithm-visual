@@ -34,47 +34,88 @@ const Main = (props) => {
         10,
         70,
     ]);
-    const [content, setContent] = useState("Click algorithm to start!");
+    const [arrayIndex, setArrayIndex] = useState([
+        [0, 45],
+        [1, 72],
+        [2, 17],
+        [3, 55],
+        [4, 90],
+        [5, 32],
+        [6, 48],
+        [7, 23],
+        [8, 66],
+        [9, 99],
+        [10, 12],
+        [11, 62],
+        [12, 34],
+        [13, 84],
+        [14, 10],
+        [15, 70],
+    ]);
+    const [content, setContent] = useState("Click Start!");
     const [time, setTime] = useState(100);
     const [page, setPage] = useState("");
-
+    const [custom, setCustom] = useState(false);
     useEffect(() => {
-        setArray([
-            45,
-            72,
-            17,
-            55,
-            90,
-            32,
-            48,
-            23,
-            66,
-            99,
-            12,
-            62,
-            34,
-            84,
-            10,
-            70,
-        ]);
-        setPosition(newPosition(array));
-        const initialStatus = (array) => {
+        if(custom) {
+            setAnimationArray([]);
+            changeFirstTime(true);
+            changeDoing(false);
+            stopInterval();
+        }else{
+            let arr = [
+                45,
+                72,
+                17,
+                55,
+                90,
+                32,
+                48,
+                23,
+                66,
+                99,
+                12,
+                62,
+                34,
+                84,
+                10,
+                70,
+            ];
+            setArray(arr);
+            let arrInd = [
+                [0, 45],
+                [1, 72],
+                [2, 17],
+                [3, 55],
+                [4, 90],
+                [5, 32],
+                [6, 48],
+                [7, 23],
+                [8, 66],
+                [9, 99],
+                [10, 12],
+                [11, 62],
+                [12, 34],
+                [13, 84],
+                [14, 10],
+                [15, 70],
+            ];
+            setArrayIndex(arrInd);
+            setPosition(newPosition(arr));
             let sta = [];
-            for (let i = 0; i < array.length; i++) {
-                sta.push("null");
-            }
-            return sta;
-        };
-        setAnimationArray([]);
-        setStatus(initialStatus(array));
-        setColor(newColor(array, status));
-        changeFirstTime(true);
-        changeDoing(false);
-        stopInterval()
-        console.log(animationArray);
-        console.log(array);
-        console.log(status);
-        console.log(position);
+            const initialStatus = () => {
+                for (let i = 0; i < arr.length; i++) {
+                    sta.push("null");
+                }
+                return sta;
+            };
+            setAnimationArray([]);
+            setStatus(initialStatus(arr));
+            setColor(newColor(arr, sta));
+            changeFirstTime(true);
+            changeDoing(false);
+            stopInterval();
+        }
     }, [page]);
 
     const initialStatus = (array) => {
@@ -110,13 +151,20 @@ const Main = (props) => {
     }, [colorSet]);
 
     const newPosition = (array) => {
+        let barSpace = 50;
+        let barWidth = 25;
+        let svgWidth =window.innerWidth*0.85*0.7;
+        if(array.length*barSpace+100 > svgWidth){
+            barSpace = (svgWidth*0.9)/array.length;
+            barWidth = barSpace*0.75;
+        }
         let result = [];
         for (let i = 0; i < array.length; i++) {
             let temp = 130 - array[i];
-            let tempx = (900 - array.length * 50) / 2;
+            let tempx = (svgWidth - array.length * 50) / 2;
 
             result.push({
-                x: i * 50 + tempx,
+                x: i * barSpace + tempx+12.5,
                 y: temp,
             });
         }
@@ -131,15 +179,6 @@ const Main = (props) => {
     };
     const [doing, changeDoing] = useState(false);
     const [firstTime, changeFirstTime] = useState(true);
-
-    // const [major, setMajor] = useState(-1);
-    // useEffect((array) => {
-    //     setPosition(newPosition(array));
-    // },[major]);
-
-    //Set position and set major priority
-
-    // const [sorted, setSorted] = useState([]);
 
     const data = {
         array,
@@ -167,6 +206,7 @@ const Main = (props) => {
     };
     const controlData = {
         setArray,
+        setArrayIndex,
         setTime,
         setColor,
         colorSet,
@@ -180,6 +220,7 @@ const Main = (props) => {
         changeDoing,
         firstTime,
         changeFirstTime,
+        setAnimationArray
     };
 
     return (
@@ -224,7 +265,7 @@ const Main = (props) => {
                                     />
                                     <Route
                                         path="/tutorial/mergesort"
-                                        render={() => <Merge data={data} />}
+                                        render={() => <Merge data={data} arrayIndex={arrayIndex} setArrayIndex={setArrayIndex} />}
                                     />
                                     <Route
                                         path="/tutorial/quicksort"

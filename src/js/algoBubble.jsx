@@ -79,9 +79,7 @@ const Bubble = (props) => {
                 }
                 status[ele[1]] = "com";
                 status[ele[2]] = "com";
-                text = `比較 [${ele[1]}] ${arr[ele[1]]} 與 [${ele[2]}] ${
-                    arr[ele[2]]
-                }。`;
+                text = `比較 ${arr[ele[1]]} 與 ${arr[ele[2]]}。`;
 
                 setContent(text);
 
@@ -101,9 +99,7 @@ const Bubble = (props) => {
 
                 setColor(newColor(arr, status));
             } else if (ele[0] == "push") {
-                text = `[${ele[1]}] ${arr[ele[1]]} 與 [${ele[2]}] ${
-                    arr[ele[2]]
-                }互換。`;
+                text = `${arr[ele[1]]} 與 ${arr[ele[2]]}互換。`;
                 setContent(text);
                 [arr[ele[1]], arr[ele[2]]] = [arr[ele[2]], arr[ele[1]]];
                 status[ele[1]] = "null";
@@ -122,9 +118,7 @@ const Bubble = (props) => {
             } else if (ele[0] == "big") {
                 status[ele[1]] = "big";
                 status[ele[2]] = "small";
-                text = `[${ele[1]}] ${arr[ele[1]]} 大於 [${ele[2]}] ${
-                    arr[ele[2]]
-                }，因此將兩者互換。`;
+                text = `${arr[ele[1]]} 大於 ${arr[ele[2]]}，因此將兩者互換。`;
                 setContent(text);
 
                 let temp = [...colorCode];

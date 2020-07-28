@@ -7,6 +7,7 @@ const Graph = (props) => {
     let {
         arrayIndex,
         position,
+        oldPosition,
         color,
         content,
         code,

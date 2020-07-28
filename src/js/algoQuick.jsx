@@ -57,9 +57,10 @@ const Quick = (props) => {
     };
 
     const code = [
-        "for i from 0 to array's length",
-        "\tif array[i] > array[i+1]",
-        "\t\tswap array[i] and array[i+1]",
+        "假設第一個數開始為 pivot\nfor each unsorted element\npivot = first element",
+        "\t與 pivot 之後直到下一個已排序數字\n\tfor i from pivot+1 to rightIndex",
+        "\t\t每一個數字比較\t\tcompare array[pivot] and array[i]",
+        "\t\t\t若小於 pivot 未完成．．．"
     ];
     let colorCode = [];
     for (let i = 0; i < code.length; i++) {

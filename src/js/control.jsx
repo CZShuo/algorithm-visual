@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 const Control = (props) => {
     let {
         setArray,
+        setArrayIndex,
         setTime,
         setColor,
         colorSet,
@@ -19,6 +20,7 @@ const Control = (props) => {
         changeDoing,
         firstTime,
         changeFirstTime,
+        setAnimationArray,
     } = props.controlData;
     let color = Object.assign({}, colorSet);
     const inputRef = useRef(null);
@@ -27,6 +29,14 @@ const Control = (props) => {
     // BUG : 建立新array並跑完一次sort之後，再建立新array不能sort
     return (
         <>
+            <div className="animation-control">
+                <div>Start</div>
+                <div>Pause</div>
+                <div>Restart</div>
+                <div>Previous</div>
+                <div>Next</div>
+                <div>Speed</div>
+            </div>
             <div
                 className="hide-control"
                 onClick={(e) => {
@@ -48,22 +58,119 @@ const Control = (props) => {
                     <div className="control-title">Array</div>
                     <div className="set-array">
                         <div>Set Your Array : </div>
-                        <input type="text" id="array-input" ref={inputRef} />
+                        <input
+                            type="text"
+                            id="array-input"
+                            placeholder="13,25,17,55,36 (1~99)"
+                            ref={inputRef}
+                        />
                         <div
                             id="send-array"
                             onClick={() => {
+                                stopInterval();
                                 let input = inputRef.current.value;
                                 // console.log(input);
                                 let arr = input.replace(/\s/g, "").split(",");
-                                arr = arr.map((element, index) => [
-                                    Number(element),
-                                ]);
+                                let arrIndex = [];
+                                for (let i = 0; i < arr.length; i++) {
+                                    let num = Math.floor(Number(arr[i]));
+                                    if (num == NaN) {
+                                        alert("Input must be number !");
+                                        arr = [
+                                            45,
+                                            72,
+                                            17,
+                                            55,
+                                            90,
+                                            32,
+                                            48,
+                                            23,
+                                            66,
+                                            99,
+                                            12,
+                                            62,
+                                            34,
+                                            84,
+                                            10,
+                                            70,
+                                        ];
+                                        arrIndex = [
+                                            [0, 45],
+                                            [1, 72],
+                                            [2, 17],
+                                            [3, 55],
+                                            [4, 90],
+                                            [5, 32],
+                                            [6, 48],
+                                            [7, 23],
+                                            [8, 66],
+                                            [9, 99],
+                                            [10, 12],
+                                            [11, 62],
+                                            [12, 34],
+                                            [13, 84],
+                                            [14, 10],
+                                            [15, 70],
+                                        ];
+                                        break;
+                                    } else {
+                                        if (num >= 100 || num <= 0) {
+                                            alert(
+                                                "Number must be between 0 and 100 !"
+                                            );
+                                            arr = [
+                                                45,
+                                                72,
+                                                17,
+                                                55,
+                                                90,
+                                                32,
+                                                48,
+                                                23,
+                                                66,
+                                                99,
+                                                12,
+                                                62,
+                                                34,
+                                                84,
+                                                10,
+                                                70,
+                                            ];
+                                            arrIndex = [
+                                                [0, 45],
+                                                [1, 72],
+                                                [2, 17],
+                                                [3, 55],
+                                                [4, 90],
+                                                [5, 32],
+                                                [6, 48],
+                                                [7, 23],
+                                                [8, 66],
+                                                [9, 99],
+                                                [10, 12],
+                                                [11, 62],
+                                                [12, 34],
+                                                [13, 84],
+                                                [14, 10],
+                                                [15, 70],
+                                            ];
+                                            break;
+                                        }
+                                        arr[i] = num;
+                                        arrIndex.push([i, num]);
+                                    }
+                                }
+
                                 for (let i = 0; i < arr.length; i++) {
                                     status[i] = "null";
                                 }
                                 setPosition(newPosition(arr));
                                 setColor(newColor(arr, status));
+                                setAnimationArray([]);
                                 setArray(arr);
+                                setArrayIndex(arrIndex);
+                                changeFirstTime(true);
+                                changeDoing(false);
                             }}
                         >
                             Set
@@ -75,11 +182,14 @@ const Control = (props) => {
                             id="number-input"
                             placeholder="5 ~ 20"
                             type="number"
+                            min="5"
+                            max="20"
                             ref={randomRef}
                         />
                         <div
                             id="send-number"
                             onClick={() => {
+                                stopInterval();
                                 let num = randomRef.current;
                                 if (num.value > 20) {
                                     num.value = 20;
@@ -99,6 +209,9 @@ const Control = (props) => {
                                 setPosition(newPosition(arr));
                                 setColor(newColor(arr, status));
                                 setArray(arr);
+                                setAnimationArray([]);
+                                changeFirstTime(true);
+                                changeDoing(false);
                             }}
                         >
                             Random

@@ -241,7 +241,7 @@ body {
 
 .control-button {
     position: fixed;
-    top: 450px;
+    top: 275px;
     left: 20%;
     display: flex;
     flex-direction: row;
@@ -487,11 +487,11 @@ pre {
     align-self: center;
 }
 
-.intros a:hover {
+.next-part:hover {
     opacity: .5;
 }
 
-.intros a span {
+.next-part>span {
     position: absolute;
     top: 0;
     width: 24px;

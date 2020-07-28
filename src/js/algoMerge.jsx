@@ -30,25 +30,7 @@ const Merge = (props) => {
         firstTime,
         changeFirstTime,
     } = props.data;
-
-    const [arrayIndex, setArrayIndex] = useState([
-        [0, 45],
-        [1, 72],
-        [2, 17],
-        [3, 55],
-        [4, 90],
-        [5, 32],
-        [6, 48],
-        [7, 23],
-        [8, 66],
-        [9, 99],
-        [10, 12],
-        [11, 62],
-        [12, 34],
-        [13, 84],
-        [14, 10],
-        [15, 70],
-    ]);
+    let {arrayIndex,setArrayIndex} = props;
 
     const [range, setRange] = useState([0, 16]);
     const [mid, setMid] = useState([]);
@@ -152,9 +134,6 @@ const Merge = (props) => {
         window.ani = setInterval(() => {
             let ele = animationArray[window.index];
             if (ele[0] == "range") {
-                // let rangeNew = [...range];
-                // rangeNew.push([ele[1], ele[2]]);
-                // setRange(rangeNew);
                 let pos = [...position];
                 for (let i = ele[1]; i <= ele[2]; i++) {
                     pos[i].y += 130;
@@ -166,7 +145,6 @@ const Merge = (props) => {
                     temp[i] = "#000000";
                 }
                 setCurrentCode(temp);
-                // setArrayIndex(arr);
             } else if (ele[0] == "mid") {
                 setMid([ele[1], ele[2]]);
                 let temp = [...colorCode];
@@ -186,10 +164,6 @@ const Merge = (props) => {
                 temp[3] = "#ff0000";
                 setCurrentCode(temp);
             } else if (ele[0] == "back") {
-                // let rangeNew = [...range];
-                // rangeNew.pop();
-                // setRange(rangeNew);
-
                 arr = reSort(arr);
                 setArrayIndex(arr);
 
@@ -282,21 +256,6 @@ const Merge = (props) => {
         mid,
     };
     return (
-        // <div>
-        //     <div
-        //         className="sort"
-        //         onClick={() => {
-        //             console.log(arrayIndex);
-        //             console.log(mergeSort(arrayIndex, 0));
-        //             console.log(animationArray);
-        //             doAniMer(animationArray, arrayIndex);
-        //             console.log(arrayIndex);
-        //         }}
-        //     >
-        //         Merge Sort
-        //     </div>
-        //     <Graph graph={graph} />
-        // </div>
         <div className="main">
             <div className="graph-code">
                 <Graph graph={graph} />

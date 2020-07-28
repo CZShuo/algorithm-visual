@@ -106,9 +106,7 @@ const Select = (props) => {
                 for (let i = ele[1] + 1; i < ele[2]; i++) {
                     status[i] = "null";
                 }
-                text = `比較 [${ele[1]}] ${arr[ele[1]]} 與 [${ele[2]}] ${
-                    arr[ele[2]]
-                }。`;
+                text = `比較 ${arr[ele[1]]} 與 ${arr[ele[2]]}。`;
                 setContent(text);
 
                 let temp = [...colorCode];
@@ -142,11 +140,9 @@ const Select = (props) => {
                 setColor(newColor(arr, status));
 
                 if (ele[1] == ele[2]) {
-                    text = `[${ele[1]}] ${arr[ele[1]]} 位置不變。`;
+                    text = `${arr[ele[1]]} 位置不變。`;
                 } else {
-                    text = `[${ele[1]}] ${arr[ele[1]]} 與 [${ele[2]}] ${
-                        arr[ele[2]]
-                    }互換。`;
+                    text = `${arr[ele[1]]} 與 ${arr[ele[2]]}互換。`;
                 }
                 setContent(text);
                 [arr[ele[1]], arr[ele[2]]] = [arr[ele[2]], arr[ele[1]]];
@@ -157,6 +153,11 @@ const Select = (props) => {
             window.index++;
 
             if (window.index >= animationArray.length) {
+                for (let i = 0; i < array.length; i++) {
+                    status[i] = "after";
+                }
+                setColor(newColor(arr, status));
+
                 let temp = [...colorCode];
                 for (let i = 0; i < code.length; i++) {
                     temp[i] = "#000000";

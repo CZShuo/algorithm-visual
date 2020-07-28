@@ -12,11 +12,99 @@ const Home = (props) => {
     const refMer = useRef(null);
     const refQui = useRef(null);
     const refAbout = useRef(null);
-    const moveTo = (ref) => scrollToRef(ref);
+    let current = 0;
+    let scrolling = false;
+    const moveTo = (ref) => {
+        scrollToRef(ref);
+        switch (ref) {
+            case refTitle:
+                current = 0;
+                break;
+            case refBub:
+                current = 1;
+                break;
+            case refIns:
+                current = 2;
+                break;
+            case refSel:
+                current = 3;
+                break;
+            case refMer:
+                current = 4;
+                break;
+            case refQui:
+                current = 5;
+                break;
+            case refAbout:
+                current = 6;
+                break;
+        }
+        setTimeout(() => {
+            scrolling = false;
+        }, 800);
+    };
+    window.addEventListener("mousewheel", (e) => {
+        if (scrolling == false && (e.deltaY > 6 || e.deltaY < -6)) {
+            scrolling = true;
+            if (e.deltaY > 6) {
+                switch (current) {
+                    case 0:
+                        moveTo(refBub);
+                        break;
+                    case 1:
+                        moveTo(refIns);
+                        break;
+                    case 2:
+                        moveTo(refSel);
+                        break;
+                    case 3:
+                        moveTo(refMer);
+                        break;
+                    case 4:
+                        moveTo(refQui);
+                        break;
+                    case 5:
+                        moveTo(refAbout);
+                        break;
+                    case 6:
+                        setTimeout(() => {
+                            scrolling = false;
+                        }, 800);
+                        break;
+                }
+            } else if (e.deltaY < -6) {
+                switch (current) {
+                    case 0:
+                        setTimeout(() => {
+                            scrolling = false;
+                        }, 800);
+                        break;
+                    case 1:
+                        moveTo(refTitle);
+                        break;
+                    case 2:
+                        moveTo(refBub);
+                        break;
+                    case 3:
+                        moveTo(refIns);
+                        break;
+                    case 4:
+                        moveTo(refSel);
+                        break;
+                    case 5:
+                        moveTo(refMer);
+                        break;
+                    case 6:
+                        moveTo(refQui);
+                        break;
+                }
+            }
+        }
+    });
     return (
         <div className="homepage">
             <div className="cover" ref={refTitle}>
-                <div className="title">Visual AlgoRithm</div>
+                <div className="title">VisuAlgoRithm</div>
                 <div className="enters">
                     {/* <div className="enter">
                         Normal
@@ -33,80 +121,88 @@ const Home = (props) => {
                 </div>
             </div>
             <div className="intros">
-                <a onClick={() => moveTo(refBub)}>
+                <a onClick={() => moveTo(refBub)} className="next-part">
                     <span></span>Click to learn more
                 </a>
                 <div className="intro" id="bub-intro" ref={refBub}>
                     <div className="intro-texts">
-                        <div className="intro-title">
-                            <span className="intro-ch">冒泡排序</span>
-                            <span className="intro-eng">Bubble</span>
-                        </div>
+                        <Link to="/tutorial/bubblesort">
+                            <div className="intro-title">
+                                <span className="intro-ch">冒泡排序</span>
+                                <span className="intro-eng">Bubble</span>
+                            </div>
+                        </Link>
                         <div className="intro-text">
                             前後兩個數字依次比較，將較大的數字往後移動，再往之後兩個數字進行下一次比較。
                         </div>
                     </div>
-                    <a onClick={() => moveTo(refSel)}>
-                        <span></span>Selection
-                    </a>
-                </div>
-
-                <div className="intro" id="sel-intro" ref={refSel}>
-                    <div className="intro-texts">
-                        <div className="intro-title">
-                            <span className="intro-ch">選擇排序</span>
-                            <span className="intro-eng">Selection</span>
-                        </div>
-                        <div className="intro-text">
-                            找出最小的數字，移動到第一個位置成為已排序區，再從剩下未排序的找出最小的，放到已排序區之後第一個位置，依此類推。
-                        </div>
-                    </div>
-                    <a onClick={() => moveTo(refIns)}>
+                    <a onClick={() => moveTo(refIns)} className="next-part">
                         <span></span>Insertion
                     </a>
                 </div>
-
                 <div className="intro" id="ins-intro" ref={refIns}>
                     <div className="intro-texts">
-                        <div className="intro-title">
-                            <span className="intro-ch">插入排序</span>
-                            <span className="intro-eng">Insertion</span>
-                        </div>
+                        <Link to="/tutorial/insertionsort">
+                            <div className="intro-title">
+                                <span className="intro-ch">插入排序</span>
+                                <span className="intro-eng">Insertion</span>
+                            </div>
+                        </Link>
                         <div className="intro-text">
                             未排序的資料依次往前移動，在已排序區由後往前找到適當位置並放入。
                         </div>
                     </div>
-                    <a onClick={() => moveTo(refMer)}>
+                    <a onClick={() => moveTo(refSel)} className="next-part">
+                        <span></span>Selection
+                    </a>
+                </div>
+                <div className="intro" id="sel-intro" ref={refSel}>
+                    <div className="intro-texts">
+                        <Link to="/tutorial/selectionsort">
+                            <div className="intro-title">
+                                <span className="intro-ch">選擇排序</span>
+                                <span className="intro-eng">Selection</span>
+                            </div>
+                        </Link>
+                        <div className="intro-text">
+                            找出最小的數字，移動到第一個位置成為已排序區，再從剩下未排序的找出最小的，放到已排序區之後第一個位置，依此類推。
+                        </div>
+                    </div>
+                    <a onClick={() => moveTo(refMer)} className="next-part">
                         <span></span>Merge
                     </a>
                 </div>
 
                 <div className="intro" id="mer-intro" ref={refMer}>
                     <div className="intro-texts">
-                        <div className="intro-title">
-                            <span className="intro-ch">合併排序</span>
-                            <span className="intro-eng">Merge</span>
-                        </div>
+                        <Link to="/tutorial/mergesort">
+                            <div className="intro-title">
+                                <span className="intro-ch">合併排序</span>
+                                <span className="intro-eng">Merge</span>
+                            </div>
+                        </Link>
                         <div className="intro-text">
                             將陣列分成兩半，兩側各自再以合併排序處理，處理完的再做合併。
                         </div>
                     </div>
-                    <a onClick={() => moveTo(refQui)}>
+                    <a onClick={() => moveTo(refQui)} className="next-part">
                         <span></span>Quick
                     </a>
                 </div>
 
                 <div className="intro" id="qui-intro" ref={refQui}>
                     <div className="intro-texts">
-                        <div className="intro-title">
-                            <span className="intro-ch">快速排序</span>
-                            <span className="intro-eng">Quick</span>
-                        </div>
+                        <Link to="/tutorial/quicksort">
+                            <div className="intro-title">
+                                <span className="intro-ch">快速排序</span>
+                                <span className="intro-eng">Quick</span>
+                            </div>
+                        </Link>
                         <div className="intro-text">
                             先從陣列中選出一個數字當基準值，所有小於基準值的數字移至基準值左邊，大於者移至右邊，再到左右兩邊做快速排序。
                         </div>
                     </div>
-                    <a onClick={() => moveTo(refAbout)}>
+                    <a onClick={() => moveTo(refAbout)} className="next-part">
                         <span></span>...About Me
                     </a>
                 </div>

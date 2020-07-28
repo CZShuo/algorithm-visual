@@ -149,25 +149,25 @@ const Main = (props) => {
     useEffect(() => {
         setColor(newColor(array, status));
     }, [colorSet]);
-
     const newPosition = (array) => {
         let barSpace = 50;
         let barWidth = 25;
-        let svgWidth =window.innerWidth*0.85*0.7;
+        let svgWidth =window.innerWidth*0.85*0.7-2;
         if(array.length*barSpace+100 > svgWidth){
             barSpace = (svgWidth*0.9)/array.length;
-            barWidth = barSpace*0.75;
+            barWidth = barSpace*0.65;
         }
         let result = [];
         for (let i = 0; i < array.length; i++) {
             let temp = 130 - array[i];
-            let tempx = (svgWidth - array.length * 50) / 2;
+            let xOuter = (svgWidth - array.length * barSpace) / 2;
 
             result.push({
-                x: i * barSpace + tempx+12.5,
+                x: i * barSpace + xOuter + (barSpace-barWidth)/2,
                 y: temp,
             });
         }
+        result.push(barWidth);
         return result;
     };
     const [position, setPosition] = useState(newPosition(array));

@@ -15,7 +15,7 @@ const Graph = (props) => {
                             x={position[index].x}
                             y={position[index].y}
                             height={element}
-                            width="25"
+                            width={position[position.length-1]}
                             fill={color[index]}
                         >
                             {/* <animate attributeName='x' from={oldPosition[index].x} to={position[index].x} dur='.1s' repeatCount='1' />

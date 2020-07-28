@@ -125,6 +125,15 @@ const Merge = (props) => {
     };
 
     const doAniMer = (animationArray, arrayIndex, index) => {
+        let barSpace = 50;
+        let barWidth = 25;
+        let svgWidth =window.innerWidth*0.85*0.7-2;
+        if(array.length*barSpace+100 > svgWidth){
+            barSpace = (svgWidth*0.9)/array.length;
+            barWidth = barSpace*0.65;
+        }
+        let xOuter = (svgWidth - array.length * barSpace) / 2;
+
         let arr = [...arrayIndex];
         window.index = index;
         let text;
@@ -170,7 +179,7 @@ const Merge = (props) => {
                 let pos = [...position];
 
                 for (let i = 0; i < array.length; i++) {
-                    pos[i].x = i * 50 + (900 - array.length * 50) / 2;
+                    pos[i].x = i * barSpace + xOuter +(barSpace-barWidth)/2;
                     if (i >= ele[1] && i <= ele[2]) {
                         pos[i].y -= 130;
                         if (
@@ -214,7 +223,7 @@ const Merge = (props) => {
                 setArrayIndex(arr);
 
                 let pos = [...position];
-                pos[ele[1]].x = ele[2] * 50 + (900 - array.length * 50) / 2;
+                pos[ele[1]].x = ele[2] * barSpace + xOuter +(barSpace-barWidth)/2;
                 pos[ele[1]].y += 130;
                 setOldPosition(position);
                 setPosition(pos);

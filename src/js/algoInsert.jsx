@@ -35,20 +35,26 @@ const Insertion = (props) => {
 
     let major = -1;
     const positionInsert = (array) => {
-        // console.log(major);
-        //????一直重跑
+        let barSpace = 50;
+        let barWidth = 25;
+        let svgWidth =window.innerWidth*0.85*0.7-2;
+        if(array.length*barSpace+100 > svgWidth){
+            barSpace = (svgWidth*0.9)/array.length;
+            barWidth = barSpace*0.65;
+        }
         let result = [];
         for (let i = 0; i < array.length; i++) {
             let temp = 130 - array[i];
-            let tempx = (900 - array.length * 50) / 2;
+            let xOuter = (svgWidth - array.length * barSpace) / 2;
             if (i == major) {
                 temp = 230 - array[i];
             }
             result.push({
-                x: i * 50 + tempx,
+                x: i * barSpace + xOuter +(barSpace-barWidth)/2,
                 y: temp,
             });
         }
+        result.push(barWidth);
         return result;
     };
 

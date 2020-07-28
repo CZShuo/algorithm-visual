@@ -25,7 +25,7 @@ const Graph = (props) => {
                             x={position[index].x}
                             y={position[index].y}
                             height={element[1]}
-                            width="25"
+                            width={position[position.length-1]}
                             fill={color[index]}
                         ></rect>
                         <text

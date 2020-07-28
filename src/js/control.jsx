@@ -29,14 +29,14 @@ const Control = (props) => {
     // BUG : 建立新array並跑完一次sort之後，再建立新array不能sort
     return (
         <>
-            <div className="animation-control">
+            {/* <div className="animation-control">
                 <div>Start</div>
                 <div>Pause</div>
                 <div>Restart</div>
                 <div>Previous</div>
                 <div>Next</div>
                 <div>Speed</div>
-            </div>
+            </div> */}
             <div
                 className="hide-control"
                 onClick={(e) => {
@@ -195,7 +195,7 @@ const Control = (props) => {
                                     num.value = 20;
                                     alert("Can't be more than 20 numbers !");
                                 }
-                                if (num.value < 5) {
+                                if (num.value < 5 || num.value==null) {
                                     num.value = 5;
                                     alert("Can't be less than 5 numbers !");
                                 }

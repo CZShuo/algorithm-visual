@@ -68,6 +68,7 @@ const Insertion = (props) => {
         colorCode.push("#000000");
     }
     const [currentCode, setCurrentCode] = useState(colorCode);
+    const [mainKey,setMainKey] = useState(-1);
 
     const insertionSort = (array) => {
         let arr = [...array];
@@ -173,10 +174,16 @@ const Insertion = (props) => {
                     status[i] = "after";
                 }
                 status[ele[1]] = "key";
-                console.log(ele[1]);
+                
+                setMainKey(arr[ele[1]]);
+                // console.log(ele[1]);
                 major= ele[1];
                 // setMajor(ele[1]);
-                m = `${arr[ele[1]]} 為 key。`;
+                if(mainKey!=-1){
+                    m = `${mainKey} 為 key。`;//???????????
+                }else{
+                    m=`${arr[ele[1]]} 為 key。`;
+                }
                 mNum = arr[ele[1]];
                 minIndex = ele[1];
 

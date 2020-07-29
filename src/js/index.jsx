@@ -173,6 +173,7 @@ const Main = (props) => {
     const [position, setPosition] = useState(newPosition(array));
     const [oldPosition, setOldPosition] = useState(position);
     const [animationArray, setAnimationArray] = useState([]);
+    const [initialArray, setInitialArray] = useState(array);
 
     const stopInterval = () => {
         clearInterval(window.ani);
@@ -187,6 +188,7 @@ const Main = (props) => {
         setContent,
         animationArray,
         setAnimationArray,
+        initialArray,
         time,
         status,
         setStatus,
@@ -207,6 +209,8 @@ const Main = (props) => {
     const controlData = {
         setArray,
         setArrayIndex,
+        initialArray,
+        setInitialArray,
         setTime,
         setColor,
         colorSet,

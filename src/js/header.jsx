@@ -6,7 +6,7 @@ import "../index.css";
 const Header = (props) => {
     return (
         <Link to="/">
-            <div className="header">VAR v1.1.3t</div>
+            <div className="header">VAR v1.1.4t</div>
         </Link>
     );
 };

@@ -7,6 +7,8 @@ const Control = (props) => {
     let {
         setArray,
         setArrayIndex,
+        initialArray,
+        setInitialArray,
         setTime,
         setColor,
         colorSet,
@@ -164,6 +166,7 @@ const Control = (props) => {
                                 setAnimationArray([]);
                                 setArray(arr);
                                 setArrayIndex(arrIndex);
+                                setInitialArray(arr);
                                 changeFirstTime(true);
                                 changeDoing(false);
                             }}
@@ -206,6 +209,7 @@ const Control = (props) => {
                                 setColor(newColor(arr, status));
                                 setArray(arr);
                                 setAnimationArray([]);
+                                setInitialArray(arr);
                                 changeFirstTime(true);
                                 changeDoing(false);
                             }}

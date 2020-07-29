@@ -13,6 +13,8 @@ const Bubble = (props) => {
         setContent,
         animationArray,
         setAnimationArray,
+        initialArray,
+        setInitialArray,
         time,
         status,
         setStatus,
@@ -79,8 +81,16 @@ const Bubble = (props) => {
                 }
                 status[ele[1]] = "com";
                 status[ele[2]] = "com";
-                text = `比較 ${arr[ele[1]]} 與 ${arr[ele[2]]}。`;
+                if (window.index > 1) {
+                    if (ele[2] < animationArray[window.index - 1][2]) {
+                        status[animationArray[window.index - 1][1]] =
+                            "null";
+                        status[animationArray[window.index - 1][2]] =
+                            "sorted";
+                    }
+                }
 
+                text = `比較 ${arr[ele[1]]} 與 ${arr[ele[2]]}。`;
                 setContent(text);
 
                 let temp = [...colorCode];
@@ -90,20 +100,15 @@ const Bubble = (props) => {
                 temp[1] = "#ff0000";
                 setCurrentCode(temp);
 
-                if (window.index > 1) {
-                    if (ele[2] < animationArray[window.index - 1][2]) {
-                        status[animationArray[window.index - 1][1]] = "null";
-                        status[animationArray[window.index - 1][2]] = "sorted";
-                    }
-                }
-
                 setColor(newColor(arr, status));
             } else if (ele[0] == "push") {
                 text = `${arr[ele[1]]} 與 ${arr[ele[2]]}互換。`;
                 setContent(text);
-                [arr[ele[1]], arr[ele[2]]] = [arr[ele[2]], arr[ele[1]]];
+
                 status[ele[1]] = "null";
                 status[ele[2]] = "sorted";
+
+                [arr[ele[1]], arr[ele[2]]] = [arr[ele[2]], arr[ele[1]]];
                 setArray(arr);
 
                 let temp = [...colorCode];
@@ -112,6 +117,7 @@ const Bubble = (props) => {
                 }
                 temp[2] = "#ff0000";
                 setCurrentCode(temp);
+
                 setOldPosition(position);
                 setPosition(newPosition(arr));
                 setColor(newColor(arr, status));
@@ -149,25 +155,128 @@ const Bubble = (props) => {
                 setCurrentCode(temp);
                 setContent("排序完成。");
                 clearInterval(window.ani);
+                window.index++;
             }
         }, time);
+        {
+            // Can't work because of status state
+            // window.ani = setInterval(() => {
+            //     let ele = animationArray[window.index];
+            //     if (ele[0] == "com") {
+            //         let statusTemp = [...status];
+            //         for (let i = 0; i < ele[1]; i++) {
+            //             statusTemp[i] = "null";
+            //         }
+            //         statusTemp[ele[1]] = "com";
+            //         statusTemp[ele[2]] = "com";
+            //         text = `比較 ${arr[ele[1]]} 與 ${arr[ele[2]]}。`;
+            //         setContent(text);
+            //         let colorTemp = [...colorCode];
+            //         for (let i = 0; i < code.length; i++) {
+            //             colorTemp[i] = "#000000";
+            //         }
+            //         colorTemp[1] = "#ff0000";
+            //         setCurrentCode(colorTemp);
+            //         if (window.index > 1) {
+            //             if (ele[2] < animationArray[window.index - 1][2]) {
+            //                 statusTemp[animationArray[window.index - 1][1]] = "null";
+            //                 statusTemp[animationArray[window.index - 1][2]] = "sorted";
+            //             }
+            //         }
+            //         setStatus(statusTemp);
+            //         setColor(newColor(arr, statusTemp));
+            //     } else if (ele[0] == "push") {
+            //         text = `${arr[ele[1]]} 與 ${arr[ele[2]]}互換。`;
+            //         setContent(text);
+            //         let statusTemp = [...status];
+            //         statusTemp[ele[1]] = "null";
+            //         statusTemp[ele[2]] = "sorted";
+            //         setStatus(statusTemp);
+            //         [arr[ele[1]], arr[ele[2]]] = [arr[ele[2]], arr[ele[1]]];
+            //         setArray(arr);
+            //         let colorTemp = [...colorCode];
+            //         for (let i = 0; i < code.length; i++) {
+            //             colorTemp[i] = "#000000";
+            //         }
+            //         colorTemp[2] = "#ff0000";
+            //         setCurrentCode(colorTemp);
+            //         setOldPosition(position);
+            //         setPosition(newPosition(arr));
+            //         setColor(newColor(arr, statusTemp));
+            //     } else if (ele[0] == "big") {
+            //         let statusTemp = [...status];
+            //         statusTemp[ele[1]] = "big";
+            //         statusTemp[ele[2]] = "small";
+            //         setStatus(statusTemp);
+            //         text = `${arr[ele[1]]} 大於 ${arr[ele[2]]}，因此將兩者互換。`;
+            //         setContent(text);
+            //         let colorTemp = [...colorCode];
+            //         for (let i = 0; i < code.length; i++) {
+            //             colorTemp[i] = "#000000";
+            //         }
+            //         colorTemp[1] = "#ff0000";
+            //         setCurrentCode(colorTemp);
+            //         setColor(newColor(arr, statusTemp));
+            //     } else if (ele[0] == "sorted") {
+            //         let statusTemp = [...status];
+            //         for (let i = 0; i < arr.length; i++) {
+            //             statusTemp[i] = "sorted";
+            //         }
+            //         setStatus(statusTemp);
+            //         setColor(newColor(arr, statusTemp));
+            //     }
+            //     window.index++;
+            //     if (window.index >= animationArray.length) {
+            //         let statusTemp = [...status];
+            //         for (let i = 0; i < arr.length; i++) {
+            //             statusTemp[i] = "sorted";
+            //         }
+            //         setColor(newColor(arr, statusTemp));
+            //         let colorTemp = [...colorCode];
+            //         for (let i = 0; i < code.length; i++) {
+            //             colorTemp[i] = "#000000";
+            //         }
+            //         setCurrentCode(colorTemp);
+            //         setContent("排序完成。");
+            //         clearInterval(window.ani);
+            //     }
+            // }, time);
+        }
     };
 
     const stepAniBub = (animationArray, array, index) => {
-        let arr = [...array];
-        let ind = 0;
         let text;
+        let arr = [...initialArray];
+        setArray(arr);
+        setPosition(newPosition(arr));
 
-        window.ani = setInterval(() => {
-            let ele = animationArray[ind];
+        let statusTemp = [];
+        for (let i = 0; i < array.length; i++) {
+            statusTemp.push("null");
+        }
+        setColor(newColor(arr, statusTemp));
+        setContent("Click Start!");
+
+        let final = index;
+        if (final == animationArray.length + 1) {
+            final = animationArray.length;
+        }
+        for (let stepIndex = 0; stepIndex < final; stepIndex++) {
+            let ele = animationArray[stepIndex];
             if (ele[0] == "com") {
                 for (let i = 0; i < ele[1]; i++) {
-                    status[i] = "null";
+                    statusTemp[i] = "null";
                 }
-                status[ele[1]] = "com";
-                status[ele[2]] = "com";
-                text = `比較 ${arr[ele[1]]} 與 ${arr[ele[2]]}。`;
+                statusTemp[ele[1]] = "com";
+                statusTemp[ele[2]] = "com";
+                if (stepIndex > 1) {
+                    if (ele[2] < animationArray[stepIndex - 1][2]) {
+                        statusTemp[animationArray[stepIndex - 1][1]] = "null";
+                        statusTemp[animationArray[stepIndex - 1][2]] = "sorted";
+                    }
+                }
 
+                text = `比較 ${arr[ele[1]]} 與 ${arr[ele[2]]}。`;
                 setContent(text);
 
                 let temp = [...colorCode];
@@ -177,20 +286,15 @@ const Bubble = (props) => {
                 temp[1] = "#ff0000";
                 setCurrentCode(temp);
 
-                if (ind > 1) {
-                    if (ele[2] < animationArray[ind- 1][2]) {
-                        status[animationArray[ind - 1][1]] = "null";
-                        status[animationArray[ind - 1][2]] = "sorted";
-                    }
-                }
-
-                setColor(newColor(arr, status));
+                setColor(newColor(arr, statusTemp));
             } else if (ele[0] == "push") {
                 text = `${arr[ele[1]]} 與 ${arr[ele[2]]}互換。`;
                 setContent(text);
+
+                statusTemp[ele[1]] = "null";
+                statusTemp[ele[2]] = "sorted";
+
                 [arr[ele[1]], arr[ele[2]]] = [arr[ele[2]], arr[ele[1]]];
-                status[ele[1]] = "null";
-                status[ele[2]] = "sorted";
                 setArray(arr);
 
                 let temp = [...colorCode];
@@ -199,12 +303,14 @@ const Bubble = (props) => {
                 }
                 temp[2] = "#ff0000";
                 setCurrentCode(temp);
+
                 setOldPosition(position);
                 setPosition(newPosition(arr));
-                setColor(newColor(arr, status));
+                setColor(newColor(arr, statusTemp));
             } else if (ele[0] == "big") {
-                status[ele[1]] = "big";
-                status[ele[2]] = "small";
+                statusTemp[ele[1]] = "big";
+                statusTemp[ele[2]] = "small";
+
                 text = `${arr[ele[1]]} 大於 ${arr[ele[2]]}，因此將兩者互換。`;
                 setContent(text);
 
@@ -215,32 +321,28 @@ const Bubble = (props) => {
                 temp[1] = "#ff0000";
                 setCurrentCode(temp);
 
-                setColor(newColor(arr, status));
+                setColor(newColor(arr, statusTemp));
             } else if (ele[0] == "sorted") {
                 for (let i = 0; i < arr.length; i++) {
-                    status[i] = "sorted";
+                    statusTemp[i] = "sorted";
                 }
-                setColor(newColor(arr, status));
+                setColor(newColor(arr, statusTemp));
             }
-            ind++;
+        }
+        if (index == animationArray.length + 1) {
+            for (let i = 0; i < arr.length; i++) {
+                statusTemp[i] = "sorted";
+            }
+            setColor(newColor(arr, statusTemp));
 
-            if(ind>index){
-                clearInterval(window.ani);
+            let temp = [...colorCode];
+            for (let i = 0; i < code.length; i++) {
+                temp[i] = "#000000";
             }
-            if (ind >= animationArray.length) {
-                for (let i = 0; i < arr.length; i++) {
-                    status[i] = "sorted";
-                }
-                setColor(newColor(arr, status));
-                let temp = [...colorCode];
-                for (let i = 0; i < code.length; i++) {
-                    temp[i] = "#000000";
-                }
-                setCurrentCode(temp);
-                setContent("排序完成。");
-                clearInterval(window.ani);
-            }
-        }, 1);
+            setCurrentCode(temp);
+            setContent("排序完成。");
+        }
+        setStatus(statusTemp);
     };
 
     const graph = {
@@ -289,11 +391,21 @@ const Bubble = (props) => {
                 >
                     Pause
                 </div>
-                <div>Restart</div>
+                <div
+                    onClick={() => {
+                        changeDoing(false);
+                        changeFirstTime(true);
+                        stopInterval();
+                        window.index = 0;
+                        stepAniBub(animationArray, array, window.index);
+                    }}
+                >
+                    Reset
+                </div>
                 <div
                     onClick={() => {
                         window.index--;
-                        if(window.index <0){
+                        if (window.index < 0) {
                             window.index = 0;
                         }
                         stepAniBub(animationArray, array, window.index);
@@ -304,6 +416,9 @@ const Bubble = (props) => {
                 <div
                     onClick={() => {
                         window.index++;
+                        if (window.index > animationArray.length) {
+                            window.index = animationArray.length + 1;
+                        }
                         stepAniBub(animationArray, array, window.index);
                     }}
                 >

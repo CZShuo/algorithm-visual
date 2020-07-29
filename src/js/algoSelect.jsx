@@ -13,6 +13,8 @@ const Select = (props) => {
         setContent,
         animationArray,
         setAnimationArray,
+        initialArray,
+        setInitialArray,
         time,
         status,
         setStatus,
@@ -67,18 +69,19 @@ const Select = (props) => {
     }
     const [currentCode, setCurrentCode] = useState(colorCode);
 
-    const doAniSel = (animationArray, array,index) => {
+    const doAniSel = (animationArray, array, index) => {
         let arr = [...array];
         window.index = index;
         let text;
-        // for (let i = 0; i < arr.length; i++) {
-        //     status[i] = "null";
-        // }
+
         window.ani = setInterval(() => {
             let ele = animationArray[window.index];
             if (ele[0] == "min") {
                 status[ele[1]] = "min";
-                if (window.index > 1 && animationArray[window.index - 1][0] != "push") {
+                if (
+                    window.index > 1 &&
+                    animationArray[window.index - 1][0] != "push"
+                ) {
                     status[animationArray[window.index - 1][1]] = "null";
                     let temp = [...colorCode];
                     for (let i = 0; i < code.length; i++) {
@@ -169,6 +172,123 @@ const Select = (props) => {
         }, time);
     };
 
+    const stepAniSel = (animationArray, array, index) => {
+        let text;
+        let arr = [...initialArray];
+        setArray(arr);
+        setPosition(newPosition(arr));
+
+        let statusTemp = [];
+        for (let i = 0; i < array.length; i++) {
+            statusTemp.push("null");
+        }
+        setColor(newColor(arr, statusTemp));
+        setContent("Click Start!");
+
+        let final = index;
+        if (final == animationArray.length + 1) {
+            final = animationArray.length;
+        }
+
+        for (let stepIndex = 0; stepIndex < final; stepIndex++) {
+            let ele = animationArray[stepIndex];
+            if (ele[0] == "min") {
+                statusTemp[ele[1]] = "min";
+                if (
+                    stepIndex > 1 &&
+                    animationArray[stepIndex - 1][0] != "push"
+                ) {
+                    statusTemp[animationArray[stepIndex - 1][1]] = "null";
+                    let temp = [...colorCode];
+                    for (let i = 0; i < code.length; i++) {
+                        temp[i] = "#000000";
+                    }
+                    temp[0] = "#ff0000";
+                    temp[1] = "ff0000";
+                    setCurrentCode(temp);
+                } else {
+                    let temp = [...colorCode];
+                    for (let i = 0; i < code.length; i++) {
+                        temp[i] = "#000000";
+                    }
+                    temp[3] = "#ff0000";
+                    setCurrentCode(temp);
+                }
+
+                text = `最小值為 ${arr[ele[1]]}`;
+                setContent(text);
+                setColor(newColor(arr, statusTemp));
+            } else if (ele[0] == "com") {
+                statusTemp[ele[1]] = "min";
+                statusTemp[ele[2]] = "com";
+
+                for (let i = ele[1] + 1; i < ele[2]; i++) {
+                    statusTemp[i] = "null";
+                }
+                text = `比較 ${arr[ele[1]]} 與 ${arr[ele[2]]}。`;
+                setContent(text);
+
+                let temp = [...colorCode];
+                for (let i = 0; i < code.length; i++) {
+                    temp[i] = "#000000";
+                }
+                temp[2] = "#ff0000";
+                setCurrentCode(temp);
+
+                setColor(newColor(arr, statusTemp));
+            } else if (ele[0] == "push") {
+                for (let i = 0; i <= ele[1]; i++) {
+                    statusTemp[i] = "after";
+                }
+                for (let i = ele[1] + 1; i < arr.length; i++) {
+                    statusTemp[i] = "null";
+                }
+
+                let temp = [...colorCode];
+                for (let i = 0; i < code.length; i++) {
+                    temp[i] = "#000000";
+                }
+                temp[4] = "#ff0000";
+                setCurrentCode(temp);
+
+                if (index == animationArray.length - 1) {
+                    for (let i = 0; i < array.length; i++) {
+                        statusTemp[i] = "after";
+                    }
+                }
+                setColor(newColor(arr, statusTemp));
+
+                if (ele[1] == ele[2]) {
+                    text = `${arr[ele[1]]} 位置不變。`;
+                } else {
+                    text = `${arr[ele[1]]} 與 ${arr[ele[2]]}互換。`;
+                }
+                setContent(text);
+                [arr[ele[1]], arr[ele[2]]] = [arr[ele[2]], arr[ele[1]]];
+                setArray(arr);
+                setOldPosition(position);
+                setPosition(newPosition(arr));
+            }
+        }
+        if (index == animationArray.length + 1) {
+            for (let i = 0; i < arr.length; i++) {
+                statusTemp[i] = "after";
+            }
+
+            let temp = [...colorCode];
+            for (let i = 0; i < code.length; i++) {
+                temp[i] = "#000000";
+            }
+            setCurrentCode(temp);
+
+            setColor(newColor(arr, statusTemp));
+            setContent("排序完成。");
+            setOldPosition(position);
+            setPosition(newPosition(arr));
+        }
+        setStatus(statusTemp);
+    };
+
     const graph = {
         array,
         position,
@@ -183,6 +303,73 @@ const Select = (props) => {
             <div className="graph-code">
                 <Graph graph={graph} />
                 <Code code={code} currentCode={currentCode} />
+            </div>
+            <div className="animation-control">
+                <div
+                    onClick={() => {
+                        if (doing == false && firstTime) {
+                            changeDoing(true);
+                            changeFirstTime(false);
+                            let ani = selectionSort(array);
+                            setAnimationArray(ani);
+                            for (let i = 0; i < array.length; i++) {
+                                status[i] = "null";
+                            }
+                            doAniSel(ani, array, 0);
+                        } else if (doing == false) {
+                            changeDoing(true);
+                            doAniSel(animationArray, array, window.index);
+                            //pause後開始position會有問題
+                            //pause後開始key會變undefined
+                        }
+                    }}
+                >
+                    Start
+                </div>
+                <div
+                    onClick={() => {
+                        if (doing == true) {
+                            changeDoing(false);
+                            stopInterval();
+                        }
+                    }}
+                >
+                    Pause
+                </div>
+                <div
+                    onClick={() => {
+                        changeDoing(false);
+                        changeFirstTime(true);
+                        stopInterval();
+                        window.index = 0;
+                        stepAniSel(animationArray, array, window.index);
+                    }}
+                >
+                    Reset
+                </div>
+                <div
+                    onClick={() => {
+                        window.index--;
+                        if (window.index < 0) {
+                            window.index = 0;
+                        }
+                        stepAniSel(animationArray, array, window.index);
+                    }}
+                >
+                    Previous
+                </div>
+                <div
+                    onClick={() => {
+                        window.index++;
+                        if (window.index > animationArray.length) {
+                            window.index = animationArray.length + 1;
+                        }
+                        stepAniSel(animationArray, array, window.index);
+                    }}
+                >
+                    Next
+                </div>
+                <div>Speed</div>
             </div>
             <div className="control-button">
                 <div

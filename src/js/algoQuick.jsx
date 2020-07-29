@@ -13,6 +13,8 @@ const Quick = (props) => {
         setContent,
         animationArray,
         setAnimationArray,
+        initialArray,
+        setInitialArray,
         time,
         status,
         setStatus,
@@ -156,6 +158,106 @@ const Quick = (props) => {
         }, time);
     };
 
+    const stepAniQui = (animationArray, array, index) => {
+        let text;
+        let arr = [...initialArray];
+        setArray(arr);
+        setPosition(newPosition(arr));
+
+        let statusTemp = [];
+        for (let i = 0; i < array.length; i++) {
+            statusTemp.push("null");
+        }
+        setColor(newColor(arr, statusTemp));
+        setContent("Click Start!");
+
+        let final = index;
+        if (final == animationArray.length + 1) {
+            final = animationArray.length;
+        }
+
+        for (let stepIndex = 0; stepIndex < final; stepIndex++) {
+            let ele = animationArray[stepIndex];
+            if (ele[0] == "com") {
+                //pivot, i
+                for (let i =ele[1];i<ele[2];i++) {
+                    if(statusTemp[i]!='sorted'){
+                        statusTemp[i]='com';
+                    }
+                }
+                statusTemp[ele[1]] = "key";
+                statusTemp[ele[2]] = "com";
+                setColor(newColor(arr, statusTemp));
+            } else if (ele[0] == "min") {
+                // for (let i =0;i<arr.length;i++) {
+                //     if(statusTemp[i]!='sorted'){
+                //         statusTemp[i]='null';
+                //     }
+                // }
+                statusTemp[ele[1]] = "key";
+                statusTemp[ele[2]] = "min";
+                setColor(newColor(arr, statusTemp));
+            } else if (ele[0] == "push1") {
+                //pivot ,i
+                for (let i =ele[1];i<ele[2];i++) {
+                    if(statusTemp[i]!='sorted'){
+                        statusTemp[i]='com';
+                    }
+                }
+                statusTemp[ele[2]] = "key";
+                for (let i = 0; i <ele[1];i++) {
+                    if(statusTemp[i]!='sorted'){
+                        statusTemp[i]='com';
+                    }
+                }
+                statusTemp[ele[1]] = "com";
+                
+                [arr[ele[1]], arr[ele[2]]] = [arr[ele[2]], arr[ele[1]]];
+                setArray(arr);
+                
+                setColor(newColor(arr, statusTemp));
+                setPosition(newPosition(arr));
+            } else if (ele[0] == "push2") {
+                //pivot ,i
+                for (let i =0;i<ele[2];i++) {
+                    if(statusTemp[i]!='sorted'){
+                        statusTemp[i]='com';
+                    }
+                }
+                statusTemp[ele[1]] = 'com';
+                statusTemp[ele[2]] = "key";
+                
+                [arr[ele[1]], arr[ele[2]]] = [arr[ele[2]], arr[ele[1]]];
+                setArray(arr);
+                
+                setColor(newColor(arr, statusTemp));
+                setPosition(newPosition(arr));
+            } else if (ele[0] == "pivot") {
+                for (let i =0;i<arr.length;i++) {
+                    if(statusTemp[i]!='sorted'){
+                        statusTemp[i]='null';
+                    }
+                }
+                statusTemp[ele[1]] = "sorted";
+                setColor(newColor(arr, statusTemp));
+            }
+        }
+        if (index >= animationArray.length-1) {
+            let temp = [...colorCode];
+            for (let i = 0; i < code.length; i++) {
+                temp[i] = "#000000";
+            }
+            setCurrentCode(temp);
+            for (let i = 0; i < array.length; i++) {
+                statusTemp[i] = "sorted";
+            }
+            setColor(newColor(arr, statusTemp));
+
+            setContent("排序完成。");
+        }
+        setStatus(statusTemp);
+    }
+
     const graph = {
         array,
         position,
@@ -170,6 +272,72 @@ const Quick = (props) => {
             <div className="graph-code">
                 <Graph graph={graph} />
                 <Code code={code} currentCode={currentCode} />
+            </div>
+            <div className="animation-control">
+                <div
+                    onClick={() => {
+                        if (doing == false && firstTime) {
+                            changeDoing(true);
+                            changeFirstTime(false);
+                            let arr1 = [...array];
+                            quickSort(arr1, 0, array.length - 1);
+
+                            for (let i = 0; i < array.length; i++) {
+                                status[i] = "null";
+                            }
+                            doAniQui(animationArray, array, 0);
+                        } else if (doing == false) {
+                            changeDoing(true);
+                            doAniQui(animationArray, array, window.index);
+                        }
+                    }}
+                >
+                    Start
+                </div>
+                <div
+                    onClick={() => {
+                        if (doing == true) {
+                            changeDoing(false);
+                            stopInterval();
+                        }
+                    }}
+                >
+                    Pause
+                </div>
+                <div
+                    onClick={() => {
+                        changeDoing(false);
+                        changeFirstTime(true);
+                        stopInterval();
+                        window.index = 0;
+                        stepAniQui(animationArray, array, window.index);
+                    }}
+                >
+                    Reset
+                </div>
+                <div
+                    onClick={() => {
+                        window.index--;
+                        if (window.index < 0) {
+                            window.index = 0;
+                        }
+                        stepAniQui(animationArray, array, window.index);
+                    }}
+                >
+                    Previous
+                </div>
+                <div
+                    onClick={() => {
+                        window.index++;
+                        if (window.index > animationArray.length) {
+                            window.index = animationArray.length + 1;
+                        }
+                        stepAniQui(animationArray, array, window.index);
+                    }}
+                >
+                    Next
+                </div>
+                <div>Speed</div>
             </div>
             <div className="control-button">
                 <div

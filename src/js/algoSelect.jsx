@@ -319,8 +319,6 @@ const Select = (props) => {
                         } else if (doing == false) {
                             changeDoing(true);
                             doAniSel(animationArray, array, window.index);
-                            //pause後開始position會有問題
-                            //pause後開始key會變undefined
                         }
                     }}
                 >

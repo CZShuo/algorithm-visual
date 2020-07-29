@@ -58,11 +58,11 @@ const Main = (props) => {
     const [custom, setCustom] = useState(false);
 
     useEffect(() => {
-        if(custom && animationArray.length === 0) {
+        if (custom && animationArray.length === 0) {
             changeFirstTime(true);
             changeDoing(false);
             stopInterval();
-        }else{
+        } else {
             let arr = [
                 45,
                 72,
@@ -152,10 +152,10 @@ const Main = (props) => {
     const newPosition = (array) => {
         let barSpace = 50;
         let barWidth = 25;
-        let svgWidth =window.innerWidth*0.85*0.7-2;
-        if(array.length*barSpace+100 > svgWidth){
-            barSpace = (svgWidth*0.9)/array.length;
-            barWidth = barSpace*0.65;
+        let svgWidth = window.innerWidth * 0.85 * 0.7 - 2;
+        if (array.length * barSpace + 100 > svgWidth) {
+            barSpace = (svgWidth * 0.9) / array.length;
+            barWidth = barSpace * 0.65;
         }
         let result = [];
         for (let i = 0; i < array.length; i++) {
@@ -163,7 +163,7 @@ const Main = (props) => {
             let xOuter = (svgWidth - array.length * barSpace) / 2;
 
             result.push({
-                x: i * barSpace + xOuter + (barSpace-barWidth)/2,
+                x: i * barSpace + xOuter + (barSpace - barWidth) / 2,
                 y: temp,
             });
         }
@@ -171,9 +171,10 @@ const Main = (props) => {
         return result;
     };
     const [position, setPosition] = useState(newPosition(array));
-    const [oldPosition, setOldPosition] = useState(position);
+    const [oldPosition, setOldPosition] = useState(newPosition(array));
     const [animationArray, setAnimationArray] = useState([]);
     const [initialArray, setInitialArray] = useState(array);
+    const [initialArrayIndex, setInitialArrayIndex] = useState(arrayIndex);
 
     const stopInterval = () => {
         clearInterval(window.ani);
@@ -206,11 +207,19 @@ const Main = (props) => {
         firstTime,
         changeFirstTime,
     };
+    const mergeData = {
+        arrayIndex,
+        setArrayIndex,
+        initialArrayIndex,
+        setInitialArrayIndex,
+    };
     const controlData = {
         setArray,
         setArrayIndex,
         initialArray,
         setInitialArray,
+        initialArrayIndex,
+        setInitialArrayIndex,
         setTime,
         setColor,
         colorSet,
@@ -225,7 +234,7 @@ const Main = (props) => {
         firstTime,
         changeFirstTime,
         setAnimationArray,
-        setCustom
+        setCustom,
     };
 
     return (
@@ -270,7 +279,12 @@ const Main = (props) => {
                                     />
                                     <Route
                                         path="/tutorial/mergesort"
-                                        render={() => <Merge data={data} arrayIndex={arrayIndex} setArrayIndex={setArrayIndex} />}
+                                        render={() => (
+                                            <Merge
+                                                data={data}
+                                                mergeData={mergeData}
+                                            />
+                                        )}
                                     />
                                     <Route
                                         path="/tutorial/quicksort"

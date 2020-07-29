@@ -14,6 +14,7 @@ const Control = (props) => {
         colorSet,
         changeColor,
         setPosition,
+        setOldPosition,
         newColor,
         newPosition,
         status,
@@ -162,11 +163,13 @@ const Control = (props) => {
                                 }
                                 setCustom(true);
                                 setPosition(newPosition(arr));
+                                setOldPosition(newPosition(arr));
                                 setColor(newColor(arr, status));
                                 setAnimationArray([]);
                                 setArray(arr);
                                 setArrayIndex(arrIndex);
                                 setInitialArray(arr);
+                                setInitialArrayIndex(arrIndex);
                                 changeFirstTime(true);
                                 changeDoing(false);
                             }}
@@ -198,18 +201,21 @@ const Control = (props) => {
                                     alert("Can't be less than 5 numbers !");
                                 }
                                 let arr = [];
+                                let arrIndex = [];
                                 for (let i = 0; i < num.value; i++) {
-                                    arr.push(
-                                        Math.floor(Math.random() * 100) + 1
-                                    );
+                                    let random = Math.floor(Math.random() * 100) + 1;
+                                    arr.push(random);
+                                    arrIndex.push([i,random]);
                                     status[i] = "null";
                                 }
                                 setCustom(true);
                                 setPosition(newPosition(arr));
+                                setOldPosition(newPosition(arr));
                                 setColor(newColor(arr, status));
                                 setArray(arr);
                                 setAnimationArray([]);
                                 setInitialArray(arr);
+                                setInitialArrayIndex(arrIndex);
                                 changeFirstTime(true);
                                 changeDoing(false);
                             }}

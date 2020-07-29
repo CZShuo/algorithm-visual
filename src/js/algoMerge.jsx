@@ -30,33 +30,32 @@ const Merge = (props) => {
         firstTime,
         changeFirstTime,
     } = props.data;
-    let {arrayIndex,setArrayIndex} = props;
+    let {
+        arrayIndex,
+        setArrayIndex,
+        initialArrayIndex,
+        setInitialArrayIndex,
+    } = props.mergeData;
 
     const [range, setRange] = useState([0, 16]);
     const [mid, setMid] = useState([]);
-    const positionMerge = (array) => {
-        let result = [];
-        for (let i = 0; i < array.length; i++) {
-            let temp = 130 - array[i];
-            let tempx = (900 - array.length * 50) / 2;
-
-            result.push({
-                x: i * 50 + tempx,
-                y: temp,
-            });
-        }
-        return result;
-    };
-
 
     //push,原本index,新index
     const mergeSort = (array, startIndex) => {
         let arr = [...array];
         if (animationArray.length != 0) {
-            animationArray.push(["range", startIndex, startIndex + arr.length - 1]);
+            animationArray.push([
+                "range",
+                startIndex,
+                startIndex + arr.length - 1,
+            ]);
         }
         if (arr.length < 2) {
-            animationArray.push(["back", startIndex, startIndex + arr.length - 1]);
+            animationArray.push([
+                "back",
+                startIndex,
+                startIndex + arr.length - 1,
+            ]);
             return arr;
         }
         let index = startIndex;
@@ -90,7 +89,11 @@ const Merge = (props) => {
                 animationArray.push(["push", element[0], index]);
                 index++;
             });
-            animationArray.push(["back", startIndex, startIndex + arr.length - 1]);
+            animationArray.push([
+                "back",
+                startIndex,
+                startIndex + arr.length - 1,
+            ]);
         } else if (right.length > 0) {
             right.forEach((element) => {
                 let temp = [index, element[1]];
@@ -98,9 +101,17 @@ const Merge = (props) => {
                 animationArray.push(["push", element[0], index]);
                 index++;
             });
-            animationArray.push(["back", startIndex, startIndex + arr.length - 1]);
+            animationArray.push([
+                "back",
+                startIndex,
+                startIndex + arr.length - 1,
+            ]);
         } else {
-            animationArray.push(["back", startIndex, startIndex + arr.length - 1]);
+            animationArray.push([
+                "back",
+                startIndex,
+                startIndex + arr.length - 1,
+            ]);
         }
         return result;
     };
@@ -127,10 +138,10 @@ const Merge = (props) => {
     const doAniMer = (animationArray, arrayIndex, index) => {
         let barSpace = 50;
         let barWidth = 25;
-        let svgWidth =window.innerWidth*0.85*0.7-2;
-        if(array.length*barSpace+100 > svgWidth){
-            barSpace = (svgWidth*0.9)/array.length;
-            barWidth = barSpace*0.65;
+        let svgWidth = window.innerWidth * 0.85 * 0.7 - 2;
+        if (array.length * barSpace + 100 > svgWidth) {
+            barSpace = (svgWidth * 0.9) / array.length;
+            barWidth = barSpace * 0.65;
         }
         let xOuter = (svgWidth - array.length * barSpace) / 2;
 
@@ -147,8 +158,9 @@ const Merge = (props) => {
                 for (let i = ele[1]; i <= ele[2]; i++) {
                     pos[i].y += 130;
                 }
-                setOldPosition(position);
+                // setOldPosition(position);
                 setPosition(pos);
+
                 let temp = [...colorCode];
                 for (let i = 0; i < code.length; i++) {
                     temp[i] = "#000000";
@@ -156,6 +168,7 @@ const Merge = (props) => {
                 setCurrentCode(temp);
             } else if (ele[0] == "mid") {
                 setMid([ele[1], ele[2]]);
+
                 let temp = [...colorCode];
                 for (let i = 0; i < code.length; i++) {
                     temp[i] = "#000000";
@@ -166,6 +179,7 @@ const Merge = (props) => {
                 status[ele[1]] = "small";
                 status[ele[2]] = "big";
                 setColor(newColor(arr, status));
+
                 let temp = [...colorCode];
                 for (let i = 0; i < code.length; i++) {
                     temp[i] = "#000000";
@@ -179,7 +193,8 @@ const Merge = (props) => {
                 let pos = [...position];
 
                 for (let i = 0; i < array.length; i++) {
-                    pos[i].x = i * barSpace + xOuter +(barSpace-barWidth)/2;
+                    pos[i].x =
+                        i * barSpace + xOuter + (barSpace - barWidth) / 2;
                     if (i >= ele[1] && i <= ele[2]) {
                         pos[i].y -= 130;
                         if (
@@ -192,7 +207,7 @@ const Merge = (props) => {
                     pos[i].y =
                         Math.floor(pos[i].y / 130) * 130 + 130 - arr[i][1];
                 }
-                setOldPosition(position);
+                // setOldPosition(position);
                 setPosition(pos);
 
                 for (let i = 0; i < arr.length; i++) {
@@ -223,9 +238,10 @@ const Merge = (props) => {
                 setArrayIndex(arr);
 
                 let pos = [...position];
-                pos[ele[1]].x = ele[2] * barSpace + xOuter +(barSpace-barWidth)/2;
+                pos[ele[1]].x =
+                    ele[2] * barSpace + xOuter + (barSpace - barWidth) / 2;
                 pos[ele[1]].y += 130;
-                setOldPosition(position);
+                // setOldPosition(position);
                 setPosition(pos);
                 let temp = [...colorCode];
                 for (let i = 0; i < code.length; i++) {
@@ -253,6 +269,149 @@ const Merge = (props) => {
         }, time);
     };
 
+    const stepAniMer = (animationArray, arrayIndex, index) => {
+        let barSpace = 50;
+        let barWidth = 25;
+        let svgWidth = window.innerWidth * 0.85 * 0.7 - 2;
+        if (array.length * barSpace + 100 > svgWidth) {
+            barSpace = (svgWidth * 0.9) / array.length;
+            barWidth = barSpace * 0.65;
+        }
+        let xOuter = (svgWidth - array.length * barSpace) / 2;
+
+        let arr= [...arrayIndex];
+        setArrayIndex(arr);
+        // setPosition(oldPosition);
+
+        let pos = [...oldPosition];
+        //上下層???
+
+        let statusTemp = [];
+        for (let i = 0; i < array.length; i++) {
+            statusTemp.push("null");
+        }
+        setColor(newColor(arr, statusTemp));
+        // setContent("Click Start!");
+
+        let final = index;
+        if (final == animationArray.length + 1) {
+            final = animationArray.length;
+        }
+
+        for (let stepIndex = 0; stepIndex < final; stepIndex++) {
+            let ele = animationArray[stepIndex];
+            if (ele[0] == "range") {
+                for (let i = ele[1]; i <= ele[2]; i++) {
+                    pos[i].y += 130;
+                }
+                // setOldPosition(pos);
+                // setPosition(pos);
+
+                let temp = [...colorCode];
+                for (let i = 0; i < code.length; i++) {
+                    temp[i] = "#000000";
+                }
+                setCurrentCode(temp);
+            } else if (ele[0] == "mid") {
+                setMid([ele[1], ele[2]]);
+
+                let temp = [...colorCode];
+                for (let i = 0; i < code.length; i++) {
+                    temp[i] = "#000000";
+                }
+                temp[0] = "#ff0000";
+                setCurrentCode(temp);
+            } else if (ele[0] == "small") {
+                statusTemp[ele[1]] = "small";
+                statusTemp[ele[2]] = "big";
+                setColor(newColor(arr, statusTemp));
+
+                let temp = [...colorCode];
+                for (let i = 0; i < code.length; i++) {
+                    temp[i] = "#000000";
+                }
+                temp[3] = "#ff0000";
+                setCurrentCode(temp);
+            } else if (ele[0] == "back") {
+                arr = reSort(arr);
+                setArrayIndex(arr);
+
+                // let pos = [...position];
+                for (let i = 0; i < array.length; i++) {
+                    pos[i].x =
+                        i * barSpace + xOuter + (barSpace - barWidth) / 2;
+                    if (i >= ele[1] && i <= ele[2]) {
+                        pos[i].y -= 130;
+                        if (
+                            animationArray[stepIndex - 1][0] != "range" &&
+                            stepIndex != animationArray.length - 1
+                        ) {
+                            pos[i].y -= 130;
+                        }
+                    }
+                    pos[i].y =
+                        Math.floor(pos[i].y / 130) * 130 + 130 - arr[i][1];
+                }
+                // setOldPosition(pos);
+                // setPosition(pos);
+
+                for (let i = 0; i < arr.length; i++) {
+                    statusTemp[i] = "null";
+                }
+                setColor(newColor(arr, statusTemp));
+                let temp = [...colorCode];
+                for (let i = 0; i < code.length; i++) {
+                    temp[i] = "#000000";
+                }
+                temp[4] = "#ff0000";
+                setCurrentCode(temp);
+            } else if (ele[0] == "com") {
+                for (let i = 0; i < arr.length; i++) {
+                    statusTemp[i] = "null";
+                }
+                statusTemp[ele[1]] = "com";
+                statusTemp[ele[2]] = "com";
+                setColor(newColor(arr, statusTemp));
+                let temp = [...colorCode];
+                for (let i = 0; i < code.length; i++) {
+                    temp[i] = "#000000";
+                }
+                temp[2] = "#ff0000";
+                setCurrentCode(temp);
+            } else if (ele[0] == "push") {
+                arr[ele[1]][0] = ele[2];
+                setArrayIndex(arr);
+
+                // let pos = [...position];
+                pos[ele[1]].x =
+                    ele[2] * barSpace + xOuter + (barSpace - barWidth) / 2;
+                pos[ele[1]].y += 130;
+                // setOldPosition(pos);
+                // setPosition(pos);
+                let temp = [...colorCode];
+                for (let i = 0; i < code.length; i++) {
+                    temp[i] = "#000000";
+                }
+                temp[3] = "#ff0000";
+                setCurrentCode(temp);
+            }
+        }
+
+        if (index >= animationArray.length) {
+            for (let i = 0; i < arr.length; i++) {
+                statusTemp[i] = "sorted";
+            }
+            setColor(newColor(arr, statusTemp));
+            let temp = [...colorCode];
+            for (let i = 0; i < code.length; i++) {
+                temp[i] = "#000000";
+            }
+            setCurrentCode(temp);
+            setContent("排序完成。");
+        }
+        setStatus(statusTemp);
+    };
+
     const graph = {
         arrayIndex,
         position,
@@ -269,6 +428,75 @@ const Merge = (props) => {
             <div className="graph-code">
                 <Graph graph={graph} />
                 <Code code={code} currentCode={currentCode} />
+            </div>
+            <div className="animation-control">
+                <div
+                    onClick={() => {
+                        if (doing == false && firstTime) {
+                            changeDoing(true);
+                            changeFirstTime(false);
+                            mergeSort(arrayIndex, 0);
+
+                            for (let i = 0; i < array.length; i++) {
+                                status[i] = "null";
+                            }
+                            doAniMer(animationArray, arrayIndex, 0);
+                        } else if (doing == false) {
+                            changeDoing(true);
+                            doAniMer(animationArray, arrayIndex, window.index);
+                        }
+                    }}
+                >
+                    Start
+                </div>
+                <div
+                    onClick={() => {
+                        if (doing == true) {
+                            changeDoing(false);
+                            stopInterval();
+                        }
+                    }}
+                >
+                    Pause
+                </div>
+                <div
+                    onClick={() => {
+                        changeDoing(false);
+                        changeFirstTime(true);
+                        stopInterval();
+                        window.index = 0;
+                        stepAniMer(animationArray, initialArrayIndex, window.index);
+                    }}
+                >
+                    Reset
+                </div>
+                <div
+                    onClick={() => {
+                        window.index--;
+                        if (window.index < 0) {
+                            window.index = 0;
+                        }
+                        stepAniMer(animationArray, initialArrayIndex, window.index);
+                    }}
+                >
+                    Previous
+                </div>
+                <div
+                    onClick={() => {
+                        window.index++;
+                        if (window.index > animationArray.length) {
+                            window.index = animationArray.length + 1;
+                        }
+                        console.log(position);
+                        console.log(oldPosition);
+                        stepAniMer(animationArray, initialArrayIndex, window.index);
+                        console.log(position);
+                        console.log(oldPosition);
+                    }}
+                >
+                    Next
+                </div>
+                <div>Speed</div>
             </div>
             <div className="control-button">
                 <div
@@ -288,7 +516,7 @@ const Merge = (props) => {
                         if (doing == false && firstTime) {
                             changeDoing(true);
                             changeFirstTime(false);
-                            mergeSort(arrayIndex,0);
+                            mergeSort(arrayIndex, 0);
 
                             for (let i = 0; i < array.length; i++) {
                                 status[i] = "null";

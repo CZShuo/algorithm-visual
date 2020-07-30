@@ -10,21 +10,8 @@ const LeftBar = (props) => {
     const titleSel = useRef(null);
     const titleMer = useRef(null);
     const titleQui = useRef(null);
-    let setOverColor;
-    let setLeaveColor;
-    // const setOverColor = () => {
-    //     ele.current.style.color = "#13a9c7";
-    // }
-    // const setLeaveColor = (ele) => {
-    //     ele.current.style.color = "#34526c";
-    // }
     const resetTitleColor = () => {
         let tags = [titleBub, titleIns, titleSel, titleMer, titleQui];
-        // titleBub.current.style.color = "#34526c";
-        // titleIns.current.style.color = "#34526c";
-        // titleSel.current.style.color = "#34526c";
-        // titleMer.current.style.color = "#34526c";
-        // titleQui.current.style.color = "#34526c";
         for (let i = 0; i <tags.length; i++){
             if(tags[i].current.id){
                 tags[i].current.removeAttribute("id");

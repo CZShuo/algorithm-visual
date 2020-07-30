@@ -40,15 +40,15 @@ const Control = (props) => {
                     if (controlRef.current.style.display == "none") {
                         controlRef.current.style.display = "flex";
                         e.target.style.bottom = "200px";
-                        e.target.textContent = "v";
+                        e.target.textContent = "⇩Hide⇩";
                     } else {
                         controlRef.current.style.display = "none";
                         e.target.style.bottom = "0";
-                        e.target.textContent = "^";
+                        e.target.textContent = "⇧Open⇧";
                     }
                 }}
             >
-                V
+                &#8681;Hide&#8681;
             </div>
             <div className="control" ref={controlRef}>
                 <div className="left-control">
@@ -224,7 +224,7 @@ const Control = (props) => {
                             Random
                         </div>
                     </div>
-                    <div className="set-array">
+                    {/* <div className="set-array">
                         <div>Speed: </div>
                         <select
                             defaultValue="100"
@@ -238,7 +238,7 @@ const Control = (props) => {
                             <option value="200">1.5</option>
                             <option value="100">專業</option>
                         </select>
-                    </div>
+                    </div> */}
                 </div>
 
                 <div className="right-control">

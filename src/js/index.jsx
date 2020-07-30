@@ -53,7 +53,7 @@ const Main = (props) => {
         [15, 70],
     ]);
     const [content, setContent] = useState("Click Start!");
-    const [time, setTime] = useState(100);
+    const [time, setTime] = useState(1500 / 7);
     const [page, setPage] = useState("");
     const [custom, setCustom] = useState(false);
 
@@ -190,10 +190,10 @@ const Main = (props) => {
             element.style.top = top;
             element.style.left = left;
         } else {
-            element.style.top = "500px";
-            setTop("500px");
-            element.style.left = "50px";
-            setLeft("50px");
+            element.style.top = "40%";
+            setTop("40%");
+            element.style.left = "25%";
+            setLeft("25%");
         }
         //W3Schools - How TO - Create a Draggable HTML Element
         //Todo : Use useRef
@@ -234,10 +234,7 @@ const Main = (props) => {
             let newTop = 0;
             if (element.offsetTop - posY2 < 50) {
                 newTop = 50;
-            } else if (
-                element.offsetTop - posY2 >
-                window.innerHeight - 80
-            ) {
+            } else if (element.offsetTop - posY2 > window.innerHeight - 80) {
                 newTop = window.innerHeight - 80;
             } else {
                 newTop = element.offsetTop - posY2;
@@ -248,10 +245,7 @@ const Main = (props) => {
             let newLeft = 0;
             if (element.offsetLeft - posX2 < 0) {
                 newLeft = 0;
-            } else if (
-                element.offsetLeft - posX2 >
-                window.innerWidth - 300
-            ) {
+            } else if (element.offsetLeft - posX2 > window.innerWidth - 300) {
                 newLeft = window.innerWidth - 300;
             } else {
                 newLeft = element.offsetLeft - posX2;
@@ -292,6 +286,7 @@ const Main = (props) => {
         firstTime,
         changeFirstTime,
         dragElement,
+        setTime,
     };
     const mergeData = {
         arrayIndex,
@@ -345,7 +340,7 @@ const Main = (props) => {
                                             <div>
                                                 <svg id="svg">
                                                     <text x="50" y="50">
-                                                        Choose A Sort
+                                                        &#8678;  Choose A Sort
                                                         Algorithm...
                                                     </text>
                                                 </svg>

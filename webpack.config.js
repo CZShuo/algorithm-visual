@@ -16,11 +16,10 @@ module.exports = {
             exclude: /node_modules/,
             loader: "babel-loader"
         }, {
-            test: /\.(jpg|png|svg)$/,
-            loader: 'file-loader',
-            options: {
-                name: '[path][name].[hash].[ext]',
-            }
+            test: /\.(png|jpe?g|gif)$/i,
+            use: [{
+                loader: 'file-loader',
+            }],
         }]
     },
     devServer: {

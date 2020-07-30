@@ -6,13 +6,14 @@ import "../index.css";
 const Header = (props) => {
     return (
         <Link to="/">
-            <div className="header">VAR v1.1.4t</div>
+            <div className="header">VAR</div>
         </Link>
     );
 };
 
 export default Header;
 
+//1.1.5
 //Custom array keep 
 //SORTING AFTER SHOULD SET BACK TO UNSORTED
 //Animation control

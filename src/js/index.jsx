@@ -182,6 +182,91 @@ const Main = (props) => {
     const [doing, changeDoing] = useState(false);
     const [firstTime, changeFirstTime] = useState(true);
 
+    const [top, setTop] = useState("");
+    const [left, setLeft] = useState("");
+
+    const dragElement = (element) => {
+        if (top != "") {
+            element.style.top = top;
+            element.style.left = left;
+        } else {
+            element.style.top = "500px";
+            setTop("500px");
+            element.style.left = "50px";
+            setLeft("50px");
+        }
+        //W3Schools - How TO - Create a Draggable HTML Element
+        //Todo : Use useRef
+        let posX1 = 0,
+            posY1 = 0,
+            posX2 = 0,
+            posY2 = 0;
+        if (document.getElementById(element.id + "header")) {
+            // if present, the header is where you move the DIV from:
+            document.getElementById(
+                element.id + "header"
+            ).onmousedown = dragMouseDown;
+        } else {
+            // otherwise, move the DIV from anywhere inside the DIV:
+            element.onmousedown = dragMouseDown;
+        }
+
+        function dragMouseDown(e) {
+            e = e || window.event;
+            e.preventDefault();
+            // get the mouse cursor position at startup:
+            posX1 = e.clientX;
+            posY1 = e.clientY;
+            document.onmouseup = closeDragElement;
+            // call a function whenever the cursor moves:
+            document.onmousemove = elementDrag;
+        }
+
+        function elementDrag(e) {
+            e = e || window.event;
+            e.preventDefault();
+            // calculate the new cursor position:
+            posX2 = posX1 - e.clientX;
+            posY2 = posY1 - e.clientY;
+            posX1 = e.clientX;
+            posY1 = e.clientY;
+            // set the element's new position:
+            let newTop = 0;
+            if (element.offsetTop - posY2 < 50) {
+                newTop = 50;
+            } else if (
+                element.offsetTop - posY2 >
+                window.innerHeight - 80
+            ) {
+                newTop = window.innerHeight - 80;
+            } else {
+                newTop = element.offsetTop - posY2;
+            }
+            element.style.top = newTop + "px";
+            setTop(newTop + "px");
+
+            let newLeft = 0;
+            if (element.offsetLeft - posX2 < 0) {
+                newLeft = 0;
+            } else if (
+                element.offsetLeft - posX2 >
+                window.innerWidth - 300
+            ) {
+                newLeft = window.innerWidth - 300;
+            } else {
+                newLeft = element.offsetLeft - posX2;
+            }
+            element.style.left = newLeft + "px";
+            setLeft(newLeft + "px");
+        }
+
+        function closeDragElement() {
+            // stop moving when mouse button is released:
+            document.onmouseup = null;
+            document.onmousemove = null;
+        }
+    };
+
     const data = {
         array,
         setArray,
@@ -206,6 +291,7 @@ const Main = (props) => {
         changeDoing,
         firstTime,
         changeFirstTime,
+        dragElement,
     };
     const mergeData = {
         arrayIndex,
@@ -225,6 +311,7 @@ const Main = (props) => {
         colorSet,
         changeColor,
         setPosition,
+        setOldPosition,
         newColor,
         newPosition,
         status,

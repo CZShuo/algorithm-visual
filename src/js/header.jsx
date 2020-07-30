@@ -16,8 +16,9 @@ export default Header;
 //Custom array keep 
 //SORTING AFTER SHOULD SET BACK TO UNSORTED
 //Animation control
-//Reset 時 code顏色沒變回去
+//Reset 時 code顏色沒變回去(V)
 //換頁時 svg文字沒重置
+//Quick sort 在自訂array animationarray沒清乾淨
 //About page
 //Introduce picture
 //control panel

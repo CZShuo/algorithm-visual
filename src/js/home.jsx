@@ -64,13 +64,16 @@ const Home = (props) => {
                         moveTo(refQui);
                         break;
                     case 5:
-                        moveTo(refAbout);
-                        break;
-                    case 6:
+                        // moveTo(refAbout);
                         setTimeout(() => {
                             scrolling = false;
                         }, 800);
                         break;
+                    // case 6:
+                    //     setTimeout(() => {
+                    //         scrolling = false;
+                    //     }, 800);
+                    //     break;
                 }
             } else if (e.deltaY < -6) {
                 switch (current) {
@@ -94,9 +97,9 @@ const Home = (props) => {
                     case 5:
                         moveTo(refMer);
                         break;
-                    case 6:
-                        moveTo(refQui);
-                        break;
+                    // case 6:
+                    //     moveTo(refQui);
+                    //     break;
                 }
             }
         }
@@ -202,19 +205,19 @@ const Home = (props) => {
                             先從陣列中選出一個數字當基準值，所有小於基準值的數字移至基準值左邊，大於者移至右邊，再到左右兩邊做快速排序。
                         </div>
                     </div>
-                    <a onClick={() => moveTo(refAbout)} className="next-part">
+                    {/* <a onClick={() => moveTo(refAbout)} className="next-part">
                         <span></span>...About Me
-                    </a>
+                    </a> */}
                 </div>
             </div>
-            <div className="about" ref={refAbout}>
+            {/* <div className="about" ref={refAbout}>
                 <div className="close-about" onClick={() => moveTo(refQui)}>
                     X
                 </div>
             </div>
             <div className="top-button" onClick={() => moveTo(refTitle)}>
                 ^
-            </div>
+            </div> */}
         </div>
     );
 };

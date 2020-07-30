@@ -15,7 +15,13 @@ module.exports = {
             test: /\.jsx$/,
             exclude: /node_modules/,
             loader: "babel-loader"
-        }],
+        }, {
+            test: /\.(jpg|png|svg)$/,
+            loader: 'file-loader',
+            options: {
+                name: '[path][name].[hash].[ext]',
+            }
+        }]
     },
     devServer: {
         contentBase: './dist',

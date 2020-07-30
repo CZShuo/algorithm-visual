@@ -9,6 +9,7 @@ const Control = (props) => {
         setArrayIndex,
         initialArray,
         setInitialArray,
+        setInitialArrayIndex,
         setTime,
         setColor,
         colorSet,

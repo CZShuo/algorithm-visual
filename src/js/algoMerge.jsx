@@ -5,6 +5,19 @@ import PropTypes from "prop-types";
 import Graph from "./graphMerge.jsx";
 import Code from "./code.jsx";
 
+import Start from "../img/start.png";
+import StartHover from "../img/startHover.png";
+import Pause from "../img/pause.png";
+import PauseHover from "../img/pauseHover.png";
+import Reset from "../img/reset.png";
+import ResetHover from "../img/resetHover.png";
+import Next from "../img/next.png";
+import NextHover from "../img/nextHover.png";
+import NextUnclick from "../img/nextUnclick.png";
+import Previous from "../img/previous.png";
+import PreviousHover from "../img/previousHover.png";
+import PreviousUnclick from "../img/previousUnclick.png";
+
 const Merge = (props) => {
     let {
         array,
@@ -29,6 +42,7 @@ const Merge = (props) => {
         changeDoing,
         firstTime,
         changeFirstTime,
+        dragElement,
     } = props.data;
     let {
         arrayIndex,
@@ -279,7 +293,7 @@ const Merge = (props) => {
         }
         let xOuter = (svgWidth - array.length * barSpace) / 2;
 
-        let arr= [...arrayIndex];
+        let arr = [...arrayIndex];
         setArrayIndex(arr);
         // setPosition(oldPosition);
 
@@ -412,6 +426,21 @@ const Merge = (props) => {
         setStatus(statusTemp);
     };
 
+    useEffect(() => {
+        dragElement(refDrag.current);
+        refPause.current.style.display = "none";
+        refNextUnclick.current.style.display = "none";
+        refPreviousUnclick.current.style.display = "none";
+    }, []);
+
+    const refStart = useRef(null);
+    const refPause = useRef(null);
+    const refDrag = useRef(null);
+    const refPreviousUnclick = useRef(null);
+    const refPreviousImg = useRef(null);
+    const refNextImg = useRef(null);
+    const refNextUnclick = useRef(null);
+
     const graph = {
         arrayIndex,
         position,
@@ -429,107 +458,173 @@ const Merge = (props) => {
                 <Graph graph={graph} />
                 <Code code={code} currentCode={currentCode} />
             </div>
-            <div className="animation-control">
-                <div
-                    onClick={() => {
-                        if (doing == false && firstTime) {
-                            changeDoing(true);
-                            changeFirstTime(false);
-                            mergeSort(arrayIndex, 0);
-
-                            for (let i = 0; i < array.length; i++) {
-                                status[i] = "null";
-                            }
-                            doAniMer(animationArray, arrayIndex, 0);
-                        } else if (doing == false) {
-                            changeDoing(true);
-                            doAniMer(animationArray, arrayIndex, window.index);
-                        }
-                    }}
-                >
-                    Start
-                </div>
-                <div
-                    onClick={() => {
-                        if (doing == true) {
+            <div className="animation-control" id="drag" ref={refDrag}>
+                <div id="dragheader">Drag</div>
+                <div id="dragbody">
+                    <div
+                        id="reset"
+                        onClick={() => {
                             changeDoing(false);
-                            stopInterval();
-                        }
-                    }}
-                >
-                    Pause
-                </div>
-                <div
-                    onClick={() => {
-                        changeDoing(false);
-                        changeFirstTime(true);
-                        stopInterval();
-                        window.index = 0;
-                        stepAniMer(animationArray, initialArrayIndex, window.index);
-                    }}
-                >
-                    Reset
-                </div>
-                <div
-                    onClick={() => {
-                        window.index--;
-                        if (window.index < 0) {
+                            changeFirstTime(true);
+                            if (window.ani) {
+                                stopInterval();
+                            }
+                            setAnimationArray([]);
+                            let temp = [...colorCode];
+                            for (let i = 0; i < code.length; i++) {
+                                temp[i] = "#000000";
+                            }
+                            setCurrentCode(temp);
                             window.index = 0;
-                        }
-                        stepAniMer(animationArray, initialArrayIndex, window.index);
-                    }}
-                >
-                    Previous
-                </div>
-                <div
-                    onClick={() => {
-                        window.index++;
-                        if (window.index > animationArray.length) {
-                            window.index = animationArray.length + 1;
-                        }
-                        console.log(position);
-                        console.log(oldPosition);
-                        stepAniMer(animationArray, initialArrayIndex, window.index);
-                        console.log(position);
-                        console.log(oldPosition);
-                    }}
-                >
-                    Next
+                            stepAniMer(
+                                animationArray,
+                                initialArrayIndex,
+                                window.index
+                            );
+                            refPause.current.style.display = "none";
+                            refStart.current.style.display = "block";
+                            refPause.current.style.display = "none";
+                            refStart.current.style.display = "block";
+                            refNextImg.current.style.display = "block";
+                            refPreviousImg.current.style.display = "block";
+                            refNextUnclick.current.style.display = "none";
+                            refPreviousUnclick.current.style.display = "none";
+                        }}
+                    >
+                        <img
+                            src={"/" + Reset}
+                            onMouseEnter={(e) =>
+                                (e.target.src = "/" + ResetHover)
+                            }
+                            onMouseLeave={(e) => (e.target.src = "/" + Reset)}
+                        />
+                    </div>
+
+                    <div
+                        id="previous"
+                        onClick={() => {
+                            window.index--;
+                            if (window.index < 0) {
+                                window.index = 0;
+                            }
+                            stepAniMer(
+                                animationArray,
+                                initialArrayIndex,
+                                window.index
+                            );
+                        }}
+                    >
+                        <img
+                            ref={refPreviousUnclick}
+                            src={"/" + PreviousUnclick}
+                        />
+                        <img
+                            ref={refPreviousImg}
+                            src={"/" + Previous}
+                            onMouseEnter={(e) =>
+                                (e.target.src = "/" + PreviousHover)
+                            }
+                            onMouseLeave={(e) =>
+                                (e.target.src = "/" + Previous)
+                            }
+                        />
+                    </div>
+
+                    <div
+                        ref={refStart}
+                        id="start"
+                        onClick={() => {
+                            if (doing == false && firstTime) {
+                                changeDoing(true);
+                                changeFirstTime(false);
+                                mergeSort(arrayIndex, 0);
+
+                                for (let i = 0; i < array.length; i++) {
+                                    status[i] = "null";
+                                }
+                                doAniMer(animationArray, arrayIndex, 0);
+                            } else if (doing == false) {
+                                changeDoing(true);
+                                doAniMer(
+                                    animationArray,
+                                    arrayIndex,
+                                    window.index
+                                );
+                            }
+                            refStart.current.style.display = "none";
+                            refPause.current.style.display = "block";
+                            refNextImg.current.style.display = "none";
+                            refPreviousImg.current.style.display = "none";
+                            refNextUnclick.current.style.display = "block";
+                            refNextUnclick.current.style.cursor = "not-allowed";
+                            refPreviousUnclick.current.style.display = "block";
+                            refPreviousUnclick.current.style.cursor =
+                                "not-allowed";
+                        }}
+                    >
+                        <img
+                            src={"/" + Start}
+                            onMouseEnter={(e) =>
+                                (e.target.src = "/" + StartHover)
+                            }
+                            onMouseLeave={(e) => (e.target.src = "/" + Start)}
+                        />
+                    </div>
+
+                    <div
+                        ref={refPause}
+                        id="pause"
+                        onClick={() => {
+                            if (doing == true) {
+                                changeDoing(false);
+                                stopInterval();
+                            }
+                            refPause.current.style.display = "none";
+                            refStart.current.style.display = "block";
+                            refNextImg.current.style.display = "block";
+                            refPreviousImg.current.style.display = "block";
+                            refNextUnclick.current.style.display = "none";
+                            refPreviousUnclick.current.style.display = "none";
+                        }}
+                    >
+                        <img
+                            src={"/" + Pause}
+                            onMouseEnter={(e) =>
+                                (e.target.src = "/" + PauseHover)
+                            }
+                            onMouseLeave={(e) => (e.target.src = "/" + Pause)}
+                        />
+                    </div>
+
+                    <div
+                        id="next"
+                        onClick={() => {
+                            window.index++;
+                            if (window.index > animationArray.length) {
+                                window.index = animationArray.length + 1;
+                            }
+                            if (animationArray.length == 0) {
+                                mergeSort(arrayIndex, 0);
+                            }
+                            stepAniMer(
+                                animationArray,
+                                initialArrayIndex,
+                                window.index
+                            );
+                        }}
+                    >
+                        <img ref={refNextUnclick} src={"/" + NextUnclick} />
+                        <img
+                            ref={refNextImg}
+                            src={"/" + Next}
+                            onMouseEnter={(e) =>
+                                (e.target.src = "/" + NextHover)
+                            }
+                            onMouseLeave={(e) => (e.target.src = "/" + Next)}
+                        />
+                    </div>
                 </div>
                 <div>Speed</div>
-            </div>
-            <div className="control-button">
-                <div
-                    className="sort"
-                    onClick={() => {
-                        if (doing == true) {
-                            changeDoing(false);
-                            stopInterval();
-                        }
-                    }}
-                >
-                    Pause
-                </div>
-                <div
-                    className="sort"
-                    onClick={() => {
-                        if (doing == false && firstTime) {
-                            changeDoing(true);
-                            changeFirstTime(false);
-                            mergeSort(arrayIndex, 0);
-
-                            for (let i = 0; i < array.length; i++) {
-                                status[i] = "null";
-                            }
-                            doAniMer(animationArray, arrayIndex, 0);
-                        } else if (doing == false) {
-                            changeDoing(true);
-                            doAniMer(animationArray, arrayIndex, window.index);
-                        }
-                    }}
-                >
-                    Start
-                </div>
             </div>
         </div>
     );

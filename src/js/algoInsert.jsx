@@ -5,6 +5,19 @@ import PropTypes from "prop-types";
 import Graph from "./graph.jsx";
 import Code from "./code.jsx";
 
+import Start from "../img/start.png";
+import StartHover from "../img/startHover.png";
+import Pause from "../img/pause.png";
+import PauseHover from "../img/pauseHover.png";
+import Reset from "../img/reset.png";
+import ResetHover from "../img/resetHover.png";
+import Next from "../img/next.png";
+import NextHover from "../img/nextHover.png";
+import NextUnclick from "../img/nextUnclick.png";
+import Previous from "../img/previous.png";
+import PreviousHover from "../img/previousHover.png";
+import PreviousUnclick from "../img/previousUnclick.png";
+
 const Insertion = (props) => {
     let {
         array,
@@ -31,6 +44,7 @@ const Insertion = (props) => {
         changeDoing,
         firstTime,
         changeFirstTime,
+        dragElement,
     } = props.data;
     // let {major,setMajor}= props;
     // const [major, setMajor]= useState(-1);
@@ -99,7 +113,7 @@ const Insertion = (props) => {
         }
         return ani;
     };
-    
+
     const doAniIns = (animationArray, array, index) => {
         let arr = [...array];
         window.index = index;
@@ -117,7 +131,9 @@ const Insertion = (props) => {
                 }
                 status[ele[1]] = "com";
                 status[ele[2]] = "com";
-                text = `${arr[window.major]} 為 key。比較 ${arr[ele[1]]} 與 ${arr[ele[2]]}。`;
+                text = `${arr[window.major]} 為 key。比較 ${arr[ele[1]]} 與 ${
+                    arr[ele[2]]
+                }。`;
                 setContent(text);
                 if (window.index > 1) {
                     if (ele[2] < animationArray[window.index - 1][2]) {
@@ -138,9 +154,9 @@ const Insertion = (props) => {
             } else if (ele[0] == "push") {
                 //left one should wait for next compare
                 //right one should be after
-                text = `${arr[window.major]} 為 key ，${arr[ele[1]]} < ${arr[ele[2]]}，將 ${
-                    arr[ele[1]]
-                } 與 ${arr[ele[2]]} 互換。`;
+                text = `${arr[window.major]} 為 key ，${arr[ele[1]]} < ${
+                    arr[ele[2]]
+                }，將 ${arr[ele[1]]} 與 ${arr[ele[2]]} 互換。`;
                 setContent(text);
                 window.major -= 1;
                 [arr[ele[1]], arr[ele[2]]] = [arr[ele[2]], arr[ele[1]]];
@@ -179,7 +195,9 @@ const Insertion = (props) => {
                 setPosition(positionInsert(arr));
                 setColor(newColor(arr, status));
             } else if (ele[0] == "stop") {
-                text = `${arr[window.major]} 為 key 。 ${arr[ele[2]]} > ${arr[ele[1]]}，放回陣列。`;
+                text = `${arr[window.major]} 為 key 。 ${arr[ele[2]]} > ${
+                    arr[ele[1]]
+                }，放回陣列。`;
                 setContent(text);
 
                 let temp = [...colorCode];
@@ -193,7 +211,9 @@ const Insertion = (props) => {
                 setOldPosition(position);
                 setPosition(positionInsert(arr));
             } else if (ele[0] == "min") {
-                text = `${arr[window.major]} 為 key 。 ${arr[ele[1]]} 為最小值，放回陣列。`;
+                text = `${arr[window.major]} 為 key 。 ${
+                    arr[ele[1]]
+                } 為最小值，放回陣列。`;
                 setContent(text);
 
                 let temp = [...colorCode];
@@ -256,7 +276,9 @@ const Insertion = (props) => {
                 }
                 statusTemp[ele[1]] = "com";
                 statusTemp[ele[2]] = "com";
-                text = `${arr[window.major]} 為 key 。比較 ${arr[ele[1]]} 與 ${arr[ele[2]]}。`;
+                text = `${arr[window.major]} 為 key 。比較 ${arr[ele[1]]} 與 ${
+                    arr[ele[2]]
+                }。`;
                 setContent(text);
 
                 if (stepIndex > 1) {
@@ -280,15 +302,14 @@ const Insertion = (props) => {
                 //left one should wait for next compare
                 //right one should be after
                 window.major -= 1;
-                
+
                 [arr[ele[1]], arr[ele[2]]] = [arr[ele[2]], arr[ele[1]]];
                 setArray(arr);
 
-                text = `${arr[window.major]} 為 key 。 ${arr[ele[1]]} < ${arr[ele[2]]}，將 ${
-                    arr[ele[1]]
-                } 與 ${arr[ele[2]]} 互換。`;
+                text = `${arr[window.major]} 為 key 。 ${arr[ele[1]]} < ${
+                    arr[ele[2]]
+                }，將 ${arr[ele[1]]} 與 ${arr[ele[2]]} 互換。`;
                 setContent(text);
-
 
                 setOldPosition(position);
                 setPosition(positionInsert(arr));
@@ -323,7 +344,9 @@ const Insertion = (props) => {
 
                 setColor(newColor(arr, statusTemp));
             } else if (ele[0] == "stop") {
-                text = `${arr[window.major]} 為 key 。 ${arr[ele[2]]} > ${arr[ele[1]]}，放回陣列。`;
+                text = `${arr[window.major]} 為 key 。 ${arr[ele[2]]} > ${
+                    arr[ele[1]]
+                }，放回陣列。`;
                 setContent(text);
 
                 let temp = [...colorCode];
@@ -337,7 +360,9 @@ const Insertion = (props) => {
                 setOldPosition(position);
                 setPosition(positionInsert(arr));
             } else if (ele[0] == "min") {
-                text = `${arr[window.major]} 為 key 。 ${arr[ele[1]]} 為最小值，放回陣列。`;
+                text = `${arr[window.major]} 為 key 。 ${
+                    arr[ele[1]]
+                } 為最小值，放回陣列。`;
                 setContent(text);
 
                 let temp = [...colorCode];
@@ -372,6 +397,21 @@ const Insertion = (props) => {
         setStatus(statusTemp);
     };
 
+    useEffect(() => {
+        dragElement(refDrag.current);
+        refPause.current.style.display = "none";
+        refNextUnclick.current.style.display = "none";
+        refPreviousUnclick.current.style.display = "none";
+    }, []);
+
+    const refStart = useRef(null);
+    const refPause = useRef(null);
+    const refDrag = useRef(null);
+    const refPreviousUnclick = useRef(null);
+    const refPreviousImg = useRef(null);
+    const refNextImg = useRef(null);
+    const refNextUnclick = useRef(null);
+
     const graph = {
         array,
         position,
@@ -388,106 +428,160 @@ const Insertion = (props) => {
                 <Graph graph={graph} />
                 <Code code={code} currentCode={currentCode} />
             </div>
-            <div className="animation-control">
-                <div
-                    onClick={() => {
-                        if (doing == false && firstTime) {
-                            changeDoing(true);
-                            changeFirstTime(false);
-                            let ani = insertionSort(array);
-                            setAnimationArray(ani);
-                            for (let i = 0; i < array.length; i++) {
-                                status[i] = "null";
-                            }
-                            doAniIns(ani, array, 0);
-                        } else if (doing == false) {
-                            changeDoing(true);
-                            doAniIns(animationArray, array, window.index);
-                            //pause後開始position會有問題
-                            //pause後開始key會變undefined
-                        }
-                    }}
-                >
-                    Start
-                </div>
-                <div
-                    onClick={() => {
-                        if (doing == true) {
+            <div className="animation-control" id="drag" ref={refDrag}>
+                <div id="dragheader">Drag</div>
+                <div id="dragbody">
+                    <div
+                        id="reset"
+                        onClick={() => {
                             changeDoing(false);
-                            stopInterval();
-                        }
-                    }}
-                >
-                    Pause
-                </div>
-                <div
-                    onClick={() => {
-                        changeDoing(false);
-                        changeFirstTime(true);
-                        stopInterval();
-                        window.index = 0;
-                        stepAniIns(animationArray, array, window.index);
-                    }}
-                >
-                    Reset
-                </div>
-                <div
-                    onClick={() => {
-                        window.index--;
-                        if (window.index < 0) {
+                            changeFirstTime(true);
+                            if (window.ani) {
+                                stopInterval();
+                            }
+                            setAnimationArray([]);
+                            let temp = [...colorCode];
+                            for (let i = 0; i < code.length; i++) {
+                                temp[i] = "#000000";
+                            }
+                            setCurrentCode(temp);
                             window.index = 0;
-                        }
-                        stepAniIns(animationArray, array, window.index);
-                    }}
-                >
-                    Previous
-                </div>
-                <div
-                    onClick={() => {
-                        window.index++;
-                        if (window.index > animationArray.length) {
-                            window.index = animationArray.length + 1;
-                        }
-                        stepAniIns(animationArray, array, window.index);
-                    }}
-                >
-                    Next
+                            stepAniIns(animationArray, array, window.index);
+                            refPause.current.style.display = "none";
+                            refStart.current.style.display = "block";
+                            refPause.current.style.display = "none";
+                            refStart.current.style.display = "block";
+                            refNextImg.current.style.display = "block";
+                            refPreviousImg.current.style.display = "block";
+                            refNextUnclick.current.style.display = "none";
+                            refPreviousUnclick.current.style.display = "none";
+                        }}
+                    >
+                        <img
+                            src={"/" + Reset}
+                            onMouseEnter={(e) =>
+                                (e.target.src = "/" + ResetHover)
+                            }
+                            onMouseLeave={(e) => (e.target.src = "/" + Reset)}
+                        />
+                    </div>
+
+                    <div
+                        id="previous"
+                        onClick={() => {
+                            window.index--;
+                            if (window.index < 0) {
+                                window.index = 0;
+                            }
+                            stepAniIns(animationArray, array, window.index);
+                        }}
+                    >
+                        <img
+                            ref={refPreviousUnclick}
+                            src={"/" + PreviousUnclick}
+                        />
+                        <img
+                            ref={refPreviousImg}
+                            src={"/" + Previous}
+                            onMouseEnter={(e) =>
+                                (e.target.src = "/" + PreviousHover)
+                            }
+                            onMouseLeave={(e) =>
+                                (e.target.src = "/" + Previous)
+                            }
+                        />
+                    </div>
+
+                    <div
+                        ref={refStart}
+                        id="start"
+                        onClick={() => {
+                            if (doing == false && firstTime) {
+                                changeDoing(true);
+                                changeFirstTime(false);
+                                let ani = insertionSort(array);
+                                setAnimationArray(ani);
+                                for (let i = 0; i < array.length; i++) {
+                                    status[i] = "null";
+                                }
+                                doAniIns(ani, array, 0);
+                            } else if (doing == false) {
+                                changeDoing(true);
+                                doAniIns(animationArray, array, window.index);
+                                //pause後開始position會有問題
+                                //pause後開始key會變undefined
+                            }
+                            refStart.current.style.display = "none";
+                            refPause.current.style.display = "block";
+                            refNextImg.current.style.display = "none";
+                            refPreviousImg.current.style.display = "none";
+                            refNextUnclick.current.style.display = "block";
+                            refNextUnclick.current.style.cursor = "not-allowed";
+                            refPreviousUnclick.current.style.display = "block";
+                            refPreviousUnclick.current.style.cursor =
+                                "not-allowed";
+                        }}
+                    >
+                        <img
+                            src={"/" + Start}
+                            onMouseEnter={(e) =>
+                                (e.target.src = "/" + StartHover)
+                            }
+                            onMouseLeave={(e) => (e.target.src = "/" + Start)}
+                        />
+                    </div>
+
+                    <div
+                        ref={refPause}
+                        id="pause"
+                        onClick={() => {
+                            if (doing == true) {
+                                changeDoing(false);
+                                stopInterval();
+                            }
+                            refPause.current.style.display = "none";
+                            refStart.current.style.display = "block";
+                            refNextImg.current.style.display = "block";
+                            refPreviousImg.current.style.display = "block";
+                            refNextUnclick.current.style.display = "none";
+                            refPreviousUnclick.current.style.display = "none";
+                        }}
+                    >
+                        <img
+                            src={"/" + Pause}
+                            onMouseEnter={(e) =>
+                                (e.target.src = "/" + PauseHover)
+                            }
+                            onMouseLeave={(e) => (e.target.src = "/" + Pause)}
+                        />
+                    </div>
+
+                    <div
+                        id="next"
+                        onClick={() => {
+                            window.index++;
+                            if (window.index > animationArray.length) {
+                                window.index = animationArray.length + 1;
+                            }
+                            if (animationArray.length == 0) {
+                                let ani = insertionSort(array);
+                                setAnimationArray(ani);
+                            }
+                            stepAniIns(animationArray, array, window.index);
+                        }}
+                    >
+                        <img ref={refNextUnclick} src={"/" + NextUnclick} />
+                        <img
+                            ref={refNextImg}
+                            src={"/" + Next}
+                            onMouseEnter={(e) =>
+                                (e.target.src = "/" + NextHover)
+                            }
+                            onMouseLeave={(e) => (e.target.src = "/" + Next)}
+                        />
+                    </div>
                 </div>
                 <div>Speed</div>
-            </div>
-            <div className="control-button">
-                <div
-                    className="sort"
-                    onClick={() => {
-                        if (doing == true) {
-                            changeDoing(false);
-                            stopInterval();
-                        }
-                    }}
-                >
-                    Pause
-                </div>
-                <div
-                    className="sort"
-                    onClick={() => {
-                        if (doing == false && firstTime) {
-                            changeDoing(true);
-                            changeFirstTime(false);
-                            let ani = insertionSort(array);
-                            setAnimationArray(ani);
-                            for (let i = 0; i < array.length; i++) {
-                                status[i] = "null";
-                            }
-                            doAniIns(ani, array, 0);
-                        } else if (doing == false) {
-                            changeDoing(true);
-                            doAniIns(animationArray, array, window.index);
-                            //pause後開始position會有問題
-                        }
-                    }}
-                >
-                    Start
-                </div>
             </div>
         </div>
     );

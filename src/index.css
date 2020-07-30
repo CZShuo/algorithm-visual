@@ -58,6 +58,10 @@ body {
     color: #13a9c7;
 }
 
+#current-title {
+    color: #fff;
+}
+
 .array {
     display: flex;
     flex-direction: row;

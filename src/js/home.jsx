@@ -215,9 +215,10 @@ const Home = (props) => {
                     X
                 </div>
             </div>
+            */}
             <div className="top-button" onClick={() => moveTo(refTitle)}>
                 ^
-            </div> */}
+            </div> 
         </div>
     );
 };

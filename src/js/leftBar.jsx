@@ -25,21 +25,14 @@ const LeftBar = (props) => {
         // titleSel.current.style.color = "#34526c";
         // titleMer.current.style.color = "#34526c";
         // titleQui.current.style.color = "#34526c";
-        tags.forEach((ele) => {
-            ele.current.style.color = "#34526c";
-            ele.current.addEventListener("mouseenter", setOverColor = () => {
-                ele.current.style.color = "#13a9c7";
-            });
-            ele.current.addEventListener("mouseleave", setLeaveColor = () => {
-                ele.current.style.color = "#34526c";
-            });
-        });
+        for (let i = 0; i <tags.length; i++){
+            if(tags[i].current.id){
+                tags[i].current.removeAttribute("id");
+                break;
+            }
+        }
     };
-    const setCurrentTitle = (ele) => {
-        ele.current.style.color = "#fff";
-        ele.current.removeEventListener("mouseenter", setOverColor);
-        ele.current.removeEventListener("mouseleave", setLeaveColor);
-    };
+    
     return (
         <div className="left-bar">
             <Link
@@ -47,7 +40,7 @@ const LeftBar = (props) => {
                 onClick={() => {
                     setPage("Bub");
                     resetTitleColor();
-                    setCurrentTitle(titleBub);
+                    titleBub.current.id="current-title";
                 }}
             >
                 <div ref={titleBub}>Bubble Sort</div>
@@ -57,7 +50,7 @@ const LeftBar = (props) => {
                 onClick={() => {
                     setPage("Ins");
                     resetTitleColor();
-                    titleIns.current.style.color = "#fff";
+                    titleIns.current.id="current-title";
                 }}
             >
                 <div ref={titleIns}>Insertion Sort</div>
@@ -67,7 +60,7 @@ const LeftBar = (props) => {
                 onClick={() => {
                     setPage("Sel");
                     resetTitleColor();
-                    titleSel.current.style.color = "#fff";
+                    titleSel.current.id="current-title";
                 }}
             >
                 <div ref={titleSel}>Selection Sort</div>
@@ -77,7 +70,7 @@ const LeftBar = (props) => {
                 onClick={() => {
                     setPage("Mer");
                     resetTitleColor();
-                    titleMer.current.style.color = "#fff";
+                    titleMer.current.id="current-title";
                 }}
             >
                 <div ref={titleMer}>Merge Sort</div>
@@ -87,7 +80,7 @@ const LeftBar = (props) => {
                 onClick={() => {
                     setPage("Qui");
                     resetTitleColor();
-                    titleQui.current.style.color = "#fff";
+                    titleQui.current.id="current-title";
                 }}
             >
                 <div ref={titleQui}>Quick Sort</div>

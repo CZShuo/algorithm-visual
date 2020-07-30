@@ -24,3 +24,7 @@ export default Header;
 //control panel
 //RWD
 //Big number sort?
+
+
+//Merge step
+//Merge reset position沒重置

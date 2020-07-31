@@ -268,8 +268,10 @@ const Bubble = (props) => {
     };
 
     useEffect(() => {
-        stopInterval();
-        doAniBub(animationArray, array, window.index);
+        if(doing){
+            stopInterval();
+            doAniBub(animationArray, array, window.index);
+        }
     }, [time]);
 
     const stepAniBub = (animationArray, array, index) => {

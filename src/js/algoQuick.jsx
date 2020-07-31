@@ -230,8 +230,10 @@ const Quick = (props) => {
     };
 
     useEffect(() => {
-        stopInterval();
-        doAniQui(animationArray, array, window.index);
+        if(doing){
+            stopInterval();
+            doAniQui(animationArray, array, window.index);
+        }
     }, [time]);
 
     const stepAniQui = (animationArray, array, index) => {

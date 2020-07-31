@@ -198,8 +198,10 @@ const Select = (props) => {
     };
 
     useEffect(() => {
-        stopInterval();
-        doAniSel(animationArray, array, window.index);
+        if(doing){
+            stopInterval();
+            doAniSel(animationArray, array, window.index);
+        }
     }, [time]);
 
     const stepAniSel = (animationArray, array, index) => {

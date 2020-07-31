@@ -295,8 +295,10 @@ const Merge = (props) => {
     };
 
     useEffect(() => {
-        stopInterval();
-        doAniMer(animationArray, arrayIndex, window.index);
+        if(doing){
+            stopInterval();
+            doAniMer(animationArray, arrayIndex, window.index);
+        }
     }, [time]);
 
     const stepAniMer = (animationArray, arrayIndex, index) => {
@@ -313,8 +315,13 @@ const Merge = (props) => {
         setArrayIndex(arr);
         // setPosition(oldPosition);
 
-        let pos = [...oldPosition];
-        //上下層???
+
+        setPosition(oldPosition);
+        console.log(oldPosition)
+        console.log(position)
+        // console.log('a')
+        // position = [...oldPosition];
+        // console.log(position)
 
         let statusTemp = [];
         for (let i = 0; i < array.length; i++) {
@@ -331,11 +338,12 @@ const Merge = (props) => {
         for (let stepIndex = 0; stepIndex < final; stepIndex++) {
             let ele = animationArray[stepIndex];
             if (ele[0] == "range") {
+                let pos = [...position];
                 for (let i = ele[1]; i <= ele[2]; i++) {
                     pos[i].y += 130;
                 }
                 // setOldPosition(pos);
-                // setPosition(pos);
+                setPosition(pos);
 
                 let temp = [...colorCode];
                 for (let i = 0; i < code.length; i++) {
@@ -366,7 +374,7 @@ const Merge = (props) => {
                 arr = reSort(arr);
                 setArrayIndex(arr);
 
-                // let pos = [...position];
+                let pos = [...position];
                 for (let i = 0; i < array.length; i++) {
                     pos[i].x =
                         i * barSpace + xOuter + (barSpace - barWidth) / 2;
@@ -383,7 +391,7 @@ const Merge = (props) => {
                         Math.floor(pos[i].y / 130) * 130 + 130 - arr[i][1];
                 }
                 // setOldPosition(pos);
-                // setPosition(pos);
+                setPosition(pos);
 
                 for (let i = 0; i < arr.length; i++) {
                     statusTemp[i] = "null";
@@ -412,12 +420,12 @@ const Merge = (props) => {
                 arr[ele[1]][0] = ele[2];
                 setArrayIndex(arr);
 
-                // let pos = [...position];
+                let pos = [...position];
                 pos[ele[1]].x =
                     ele[2] * barSpace + xOuter + (barSpace - barWidth) / 2;
                 pos[ele[1]].y += 130;
                 // setOldPosition(pos);
-                // setPosition(pos);
+                setPosition(pos);
                 let temp = [...colorCode];
                 for (let i = 0; i < code.length; i++) {
                     temp[i] = "#000000";

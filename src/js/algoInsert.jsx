@@ -261,8 +261,10 @@ const Insertion = (props) => {
     };
 
     useEffect(() => {
-        stopInterval();
-        doAniIns(animationArray, array, window.index--);
+        if(doing){
+            stopInterval();
+            doAniIns(animationArray, array, window.index--);
+        }
     }, [time]);
 
     const stepAniIns = (animationArray, array, index) => {

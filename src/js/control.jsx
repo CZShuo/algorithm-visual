@@ -40,15 +40,15 @@ const Control = (props) => {
                     if (controlRef.current.style.display == "none") {
                         controlRef.current.style.display = "flex";
                         e.target.style.bottom = "200px";
-                        e.target.textContent = "⇩Hide⇩";
+                        e.target.textContent = "Hide";
                     } else {
                         controlRef.current.style.display = "none";
                         e.target.style.bottom = "0";
-                        e.target.textContent = "⇧Open⇧";
+                        e.target.textContent = "Open";
                     }
                 }}
             >
-                &#8681;Hide&#8681;
+                Hide
             </div>
             <div className="control" ref={controlRef}>
                 <div className="left-control">
@@ -64,7 +64,9 @@ const Control = (props) => {
                         <div
                             id="send-array"
                             onClick={() => {
-                                stopInterval();
+                                if(doing){
+                                    stopInterval();
+                                }
                                 let input = inputRef.current.value;
                                 let arr = input.replace(/\s/g, "").split(",");
                                 let arrIndex = [];
@@ -191,7 +193,9 @@ const Control = (props) => {
                         <div
                             id="send-number"
                             onClick={() => {
-                                stopInterval();
+                                if(doing){
+                                    stopInterval();
+                                }
                                 let num = randomRef.current;
                                 if (num.value > 20) {
                                     num.value = 20;
@@ -214,6 +218,7 @@ const Control = (props) => {
                                 setOldPosition(newPosition(arr));
                                 setColor(newColor(arr, status));
                                 setArray(arr);
+                                setArrayIndex(arrIndex);
                                 setAnimationArray([]);
                                 setInitialArray(arr);
                                 setInitialArrayIndex(arrIndex);

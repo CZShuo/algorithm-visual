@@ -81,7 +81,7 @@ const Insertion = (props) => {
     // }, [major]);
 
     const code = [
-        "從第二個數字開始當主要Key\nfor i from 0 to array's length (Key)",
+        "從第二個數字開始當主要Key\nKey from 0 to array's length",
         "\t向前依序比較，找尋適當位置\n\tfor j from i-1 to 0 (Compare)",
         "\t\t若Key小於前一個數，向前移動\n\t\tif Key < Compare\n\t\t\tSwap Key and Compare",
         "\t\tKey大於前一個數，放置於此\n\t\telse if Key > Compare\n\t\t\tBreak",

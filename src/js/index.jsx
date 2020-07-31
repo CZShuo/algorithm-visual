@@ -234,8 +234,8 @@ const Main = (props) => {
             let newTop = 0;
             if (element.offsetTop - posY2 < 50) {
                 newTop = 50;
-            } else if (element.offsetTop - posY2 > window.innerHeight - 80) {
-                newTop = window.innerHeight - 80;
+            } else if (element.offsetTop - posY2 > window.innerHeight - 100) {
+                newTop = window.innerHeight - 100;
             } else {
                 newTop = element.offsetTop - posY2;
             }
@@ -324,7 +324,7 @@ const Main = (props) => {
             <Header />
             <div className="array">
                 <Route path="/" exact>
-                    <Home />
+                    <Home page={page} setPage={setPage}/>
                 </Route>
                 <Route
                     path="/tutorial"

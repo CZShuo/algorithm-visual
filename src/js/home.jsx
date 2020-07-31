@@ -11,6 +11,7 @@ import QuickGIF from "../img/quick.gif";
 import HomeGIF from "../img/home.gif";
 
 const Home = (props) => {
+    let {page,setPage}=props;
     const scrollToRef = (ref) => window.scrollTo(0, ref.current.offsetTop - 50);
     const refTitle = useRef(null);
     const refBub = useRef(null);

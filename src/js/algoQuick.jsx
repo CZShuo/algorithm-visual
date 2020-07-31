@@ -86,11 +86,12 @@ const Quick = (props) => {
         colorCode.push("#000000");
     }
     const [currentCode, setCurrentCode] = useState(colorCode);
-    setContent(' ');
+    
 
     const doAniQui = (animationArray, array, index) => {
         let arr = [...array];
         window.index = index;
+        let text;
 
         window.ani = setInterval(() => {
             let ele = animationArray[window.index];
@@ -104,6 +105,8 @@ const Quick = (props) => {
                 status[ele[1]] = "key";
                 status[ele[2]] = "com";
                 setColor(newColor(arr, status));
+                text=`比較 pivot ${arr[ele[1]]} 與 ${arr[ele[2]]}`;
+                setContent(text);
                 let temp = [...colorCode];
                 for (let i = 0; i < code.length; i++) {
                     temp[i] = "#000000";
@@ -122,6 +125,8 @@ const Quick = (props) => {
                 }
                 temp[2] = "#ff0000";
                 setCurrentCode(temp);
+                text=`${arr[ele[2]]} < pivot ${arr[ele[1]]}`;
+                setContent(text);
                 status[ele[1]] = "key";
                 status[ele[2]] = "min";
                 setColor(newColor(arr, status));
@@ -143,6 +148,9 @@ const Quick = (props) => {
                 [arr[ele[1]], arr[ele[2]]] = [arr[ele[2]], arr[ele[1]]];
                 setArray(arr);
 
+                text = `Pivot ${arr[ele[1]]} 與 ${arr[ele[2]]}互換。`;
+                setContent(text);
+                
                 let temp = [...colorCode];
                 for (let i = 0; i < code.length; i++) {
                     temp[i] = "#000000";
@@ -164,6 +172,9 @@ const Quick = (props) => {
                 [arr[ele[1]], arr[ele[2]]] = [arr[ele[2]], arr[ele[1]]];
                 setArray(arr);
 
+                text = `Pivot ${arr[ele[1]]} 與 ${arr[ele[2]]}互換。`;
+                setContent(text);
+
                 let temp = [...colorCode];
                 for (let i = 0; i < code.length; i++) {
                     temp[i] = "#000000";
@@ -180,6 +191,10 @@ const Quick = (props) => {
                 }
                 status[ele[1]] = "sorted";
                 setColor(newColor(arr, status));
+
+                text = `Pivot ${arr[ele[1]]} 排序完成`;
+                setContent(text);
+
                 let temp = [...colorCode];
                 for (let i = 0; i < code.length; i++) {
                     temp[i] = "#000000";
@@ -249,6 +264,8 @@ const Quick = (props) => {
                 statusTemp[ele[1]] = "key";
                 statusTemp[ele[2]] = "com";
                 setColor(newColor(arr, statusTemp));
+                text=`比較 pivot ${arr[ele[1]]} 與 ${arr[ele[2]]}`;
+                setContent(text);
                 let temp = [...colorCode];
                 for (let i = 0; i < code.length; i++) {
                     temp[i] = "#000000";
@@ -264,6 +281,8 @@ const Quick = (props) => {
                 statusTemp[ele[1]] = "key";
                 statusTemp[ele[2]] = "min";
                 setColor(newColor(arr, statusTemp));
+                text=`${arr[ele[2]]} < pivot ${arr[ele[1]]}`;
+                setContent(text);
                 let temp = [...colorCode];
                 for (let i = 0; i < code.length; i++) {
                     temp[i] = "#000000";
@@ -284,6 +303,9 @@ const Quick = (props) => {
                     }
                 }
                 statusTemp[ele[1]] = "com";
+
+                text = `Pivot ${arr[ele[1]]} 與 ${arr[ele[2]]}互換。`;
+                setContent(text);
 
                 [arr[ele[1]], arr[ele[2]]] = [arr[ele[2]], arr[ele[1]]];
                 setArray(arr);
@@ -306,6 +328,9 @@ const Quick = (props) => {
                 statusTemp[ele[1]] = "com";
                 statusTemp[ele[2]] = "key";
 
+                text = `Pivot ${arr[ele[1]]} 與 ${arr[ele[2]]}互換。`;
+                setContent(text);
+
                 [arr[ele[1]], arr[ele[2]]] = [arr[ele[2]], arr[ele[1]]];
                 setArray(arr);
                 let temp = [...colorCode];
@@ -324,6 +349,8 @@ const Quick = (props) => {
                 }
                 statusTemp[ele[1]] = "sorted";
                 setColor(newColor(arr, statusTemp));
+                text = `Pivot ${arr[ele[1]]} 排序完成`;
+                setContent(text);
                 let temp = [...colorCode];
                 for (let i = 0; i < code.length; i++) {
                     temp[i] = "#000000";

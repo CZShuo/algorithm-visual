@@ -28,7 +28,7 @@ const Graph = (props) => {
                     </g>
                 );
             })}
-            <text x="250" y="250" fontSize="24px">
+            <text x="300" y="300" fontSize="24px">
                 {content}
             </text>
             {/* <rect

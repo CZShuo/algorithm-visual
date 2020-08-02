@@ -8,7 +8,11 @@ const Code = (props) => {
     return (
         <div className="code-area">
             {code.map((ele,index) => {
-                return <pre className="code" key={index} style={{color:currentCode[index]}}>{ele}</pre>;
+                if(currentCode[index]!='#000000'){
+                    return <pre className="code" key={index} style={{color:currentCode[index],fontWeight:'bold'}}>{ele}</pre>;
+                }else{
+                    return <pre className="code" key={index} style={{color:currentCode[index]}}>{ele}</pre>;
+                }
             })}
         </div>
     );

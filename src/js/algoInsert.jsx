@@ -129,7 +129,7 @@ const Insertion = (props) => {
             if (ele[0] == "com") {
                 //key & elements before key until find its position
                 for (let i = 0; i < ele[1]; i++) {
-                    status[i] = "after";
+                    status[i] = "sorted";
                 }
                 status[ele[1]] = "com";
                 status[ele[2]] = "com";
@@ -140,7 +140,7 @@ const Insertion = (props) => {
                 if (window.index > 1) {
                     if (ele[2] < animationArray[window.index - 1][2]) {
                         status[animationArray[window.index - 1][1]] = "com";
-                        status[animationArray[window.index - 1][2]] = "after";
+                        status[animationArray[window.index - 1][2]] = "sorted";
                     }
                 }
 
@@ -155,7 +155,7 @@ const Insertion = (props) => {
                 setColor(newColor(arr, status));
             } else if (ele[0] == "push") {
                 //left one should wait for next compare
-                //right one should be after
+                //right one should be sorted
                 text = `${arr[window.major]} 為 key ，${arr[ele[1]]} < ${
                     arr[ele[2]]
                 }，將 ${arr[ele[1]]} 與 ${arr[ele[2]]} 互換。`;
@@ -173,13 +173,13 @@ const Insertion = (props) => {
                 setCurrentCode(temp);
 
                 status[ele[1]] = "com";
-                status[ele[2]] = "after";
+                status[ele[2]] = "sorted";
                 setArray(arr);
                 setColor(newColor(arr, status));
             } else if (ele[0] == "major") {
                 //key highlight
                 for (let i = 0; i < ele[1]; i++) {
-                    status[i] = "after";
+                    status[i] = "sorted";
                 }
                 status[ele[1]] = "key";
 
@@ -234,7 +234,7 @@ const Insertion = (props) => {
             if (window.index == animationArray.length) {
                 clearInterval(ani);
                 for (let i = 0; i < arr.length; i++) {
-                    status[i] = "after";
+                    status[i] = "sorted";
                 }
 
                 let temp = [...colorCode];
@@ -290,7 +290,7 @@ const Insertion = (props) => {
             if (ele[0] == "com") {
                 //key & elements before key until find its position
                 for (let i = 0; i < ele[1]; i++) {
-                    statusTemp[i] = "after";
+                    statusTemp[i] = "sorted";
                 }
                 statusTemp[ele[1]] = "com";
                 statusTemp[ele[2]] = "com";
@@ -302,7 +302,7 @@ const Insertion = (props) => {
                 if (stepIndex > 1) {
                     if (ele[2] < animationArray[stepIndex - 1][2]) {
                         statusTemp[animationArray[stepIndex - 1][1]] = "com";
-                        statusTemp[animationArray[stepIndex - 1][2]] = "after";
+                        statusTemp[animationArray[stepIndex - 1][2]] = "sorted";
                     }
                 }
 
@@ -318,7 +318,7 @@ const Insertion = (props) => {
                 setColor(newColor(arr, statusTemp));
             } else if (ele[0] == "push") {
                 //left one should wait for next compare
-                //right one should be after
+                //right one should be sorted
                 window.major -= 1;
 
                 [arr[ele[1]], arr[ele[2]]] = [arr[ele[2]], arr[ele[1]]];
@@ -340,12 +340,12 @@ const Insertion = (props) => {
                 setCurrentCode(temp);
 
                 statusTemp[ele[1]] = "com";
-                statusTemp[ele[2]] = "after";
+                statusTemp[ele[2]] = "sorted";
                 setColor(newColor(arr, statusTemp));
             } else if (ele[0] == "major") {
                 //key highlight
                 for (let i = 0; i < ele[1]; i++) {
-                    statusTemp[i] = "after";
+                    statusTemp[i] = "sorted";
                 }
                 statusTemp[ele[1]] = "key";
 
@@ -398,7 +398,7 @@ const Insertion = (props) => {
 
         if (index == animationArray.length + 1) {
             for (let i = 0; i < arr.length; i++) {
-                statusTemp[i] = "after";
+                statusTemp[i] = "sorted";
             }
 
             let temp = [...colorCode];

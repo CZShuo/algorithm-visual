@@ -177,6 +177,9 @@ const Merge = (props) => {
                 // setOldPosition(position);
                 setPosition(pos);
 
+                text=`對 array[${ele[1]}] 到 array[${ele[2]}] 進行合併排序。`;
+                setContent(text);
+
                 let temp = [...colorCode];
                 for (let i = 0; i < code.length; i++) {
                     temp[i] = "#000000";
@@ -185,6 +188,8 @@ const Merge = (props) => {
             } else if (ele[0] == "mid") {
                 setMid([ele[1], ele[2]]);
 
+                text=`中間值為 ${ele[2]}。`;
+                setContent(text);
                 let temp = [...colorCode];
                 for (let i = 0; i < code.length; i++) {
                     temp[i] = "#000000";
@@ -196,6 +201,8 @@ const Merge = (props) => {
                 status[ele[2]] = "big";
                 setColor(newColor(arr, status));
 
+                text=`${arr[ele[1]][1]} < ${arr[ele[2]][1]}`
+                setContent(text);
                 let temp = [...colorCode];
                 for (let i = 0; i < code.length; i++) {
                     temp[i] = "#000000";
@@ -206,6 +213,8 @@ const Merge = (props) => {
                 arr = reSort(arr);
                 setArrayIndex(arr);
 
+                text=`此層合併排序完成。`
+                setContent(text);
                 let pos = [...position];
 
                 for (let i = 0; i < array.length; i++) {
@@ -243,6 +252,8 @@ const Merge = (props) => {
                 status[ele[1]] = "com";
                 status[ele[2]] = "com";
                 setColor(newColor(arr, status));
+                text=`比較 left[0] 與 right[0] 。`
+                setContent(text);
                 let temp = [...colorCode];
                 for (let i = 0; i < code.length; i++) {
                     temp[i] = "#000000";
@@ -259,6 +270,8 @@ const Merge = (props) => {
                 pos[ele[1]].y += 130;
                 // setOldPosition(position);
                 setPosition(pos);
+                text=`較小者 push 至 result 。`
+                setContent(text);
                 let temp = [...colorCode];
                 for (let i = 0; i < code.length; i++) {
                     temp[i] = "#000000";
@@ -295,7 +308,7 @@ const Merge = (props) => {
     };
 
     useEffect(() => {
-        if(doing){
+        if (doing) {
             stopInterval();
             doAniMer(animationArray, arrayIndex, window.index);
         }
@@ -311,29 +324,83 @@ const Merge = (props) => {
         }
         let xOuter = (svgWidth - array.length * barSpace) / 2;
 
-        let arr = [...arrayIndex];
-        setArrayIndex(arr);
+        let arr = [
+            [0, 45],
+            [1, 72],
+            [2, 17],
+            [3, 55],
+            [4, 90],
+            [5, 32],
+            [6, 48],
+            [7, 23],
+            [8, 66],
+            [9, 99],
+            [10, 12],
+            [11, 62],
+            [12, 34],
+            [13, 84],
+            [14, 10],
+            [15, 70],
+        ];
+        // setArrayIndex(arr);
         // setPosition(oldPosition);
 
-
-        setPosition(oldPosition);
-        console.log(oldPosition)
-        console.log(position)
-        // console.log('a')
-        // position = [...oldPosition];
-        // console.log(position)
+        let arrNoIndex = [
+            45,
+            72,
+            17,
+            55,
+            90,
+            32,
+            48,
+            23,
+            66,
+            99,
+            12,
+            62,
+            34,
+            84,
+            10,
+            70,
+        ];
+        // setArrayIndex([
+        // [0, 45],
+        // [1, 72],
+        // [2, 17],
+        // [3, 55],
+        // [4, 90],
+        // [5, 32],
+        // [6, 48],
+        // [7, 23],
+        // [8, 66],
+        // [9, 99],
+        // [10, 12],
+        // [11, 62],
+        // [12, 34],
+        // [13, 84],
+        // [14, 10],
+        // [15, 70],
+        // ]);
+        let temp = [...colorCode];
+        for (let i = 0; i < code.length; i++) {
+            temp[i] = "#000000";
+        }
+        setCurrentCode(temp);
+        // setPosition(newPosition(arrNoIndex));
+        position = newPosition(arrNoIndex);
 
         let statusTemp = [];
-        for (let i = 0; i < array.length; i++) {
+        for (let i = 0; i < arrNoIndex.length; i++) {
             statusTemp.push("null");
         }
-        setColor(newColor(arr, statusTemp));
+        setColor(newColor(arrNoIndex, statusTemp));
         // setContent("Click Start!");
 
         let final = index;
         if (final == animationArray.length + 1) {
             final = animationArray.length;
         }
+        let text;
 
         for (let stepIndex = 0; stepIndex < final; stepIndex++) {
             let ele = animationArray[stepIndex];
@@ -345,6 +412,8 @@ const Merge = (props) => {
                 // setOldPosition(pos);
                 setPosition(pos);
 
+                text=`對 array[${ele[1]}] 到 array[${ele[2]}] 進行合併排序。`;
+                setContent(text);
                 let temp = [...colorCode];
                 for (let i = 0; i < code.length; i++) {
                     temp[i] = "#000000";
@@ -353,6 +422,8 @@ const Merge = (props) => {
             } else if (ele[0] == "mid") {
                 setMid([ele[1], ele[2]]);
 
+                text=`中間值為 ${ele[2]}。`;
+                setContent(text);
                 let temp = [...colorCode];
                 for (let i = 0; i < code.length; i++) {
                     temp[i] = "#000000";
@@ -364,6 +435,8 @@ const Merge = (props) => {
                 statusTemp[ele[2]] = "big";
                 setColor(newColor(arr, statusTemp));
 
+                text=`${arr[ele[1]][1]} < ${arr[ele[2]][1]}`
+                setContent(text);
                 let temp = [...colorCode];
                 for (let i = 0; i < code.length; i++) {
                     temp[i] = "#000000";
@@ -374,6 +447,8 @@ const Merge = (props) => {
                 arr = reSort(arr);
                 setArrayIndex(arr);
 
+                text=`此層合併排序完成。`
+                setContent(text);
                 let pos = [...position];
                 for (let i = 0; i < array.length; i++) {
                     pos[i].x =
@@ -410,6 +485,8 @@ const Merge = (props) => {
                 statusTemp[ele[1]] = "com";
                 statusTemp[ele[2]] = "com";
                 setColor(newColor(arr, statusTemp));
+                text=`比較 left[0] 與 right[0] 。`
+                setContent(text);
                 let temp = [...colorCode];
                 for (let i = 0; i < code.length; i++) {
                     temp[i] = "#000000";
@@ -426,6 +503,8 @@ const Merge = (props) => {
                 pos[ele[1]].y += 130;
                 // setOldPosition(pos);
                 setPosition(pos);
+                text=`較小者 push 至 result 。`
+                setContent(text);
                 let temp = [...colorCode];
                 for (let i = 0; i < code.length; i++) {
                     temp[i] = "#000000";
@@ -455,6 +534,7 @@ const Merge = (props) => {
             refNextImg.current.style.display = "none";
             refNextUnclick.current.style.display = "block";
         }
+        // setPosition(pos);
         setStatus(statusTemp);
     };
 
@@ -506,18 +586,60 @@ const Merge = (props) => {
                             if (window.ani) {
                                 stopInterval();
                             }
-                            setAnimationArray([]);
+                            window.index = 0;
+                            setContent('Click Start!');
+                            let arr = [
+                                45,
+                                72,
+                                17,
+                                55,
+                                90,
+                                32,
+                                48,
+                                23,
+                                66,
+                                99,
+                                12,
+                                62,
+                                34,
+                                84,
+                                10,
+                                70,
+                            ];
+                            setArrayIndex([
+                                [0, 45],
+                                [1, 72],
+                                [2, 17],
+                                [3, 55],
+                                [4, 90],
+                                [5, 32],
+                                [6, 48],
+                                [7, 23],
+                                [8, 66],
+                                [9, 99],
+                                [10, 12],
+                                [11, 62],
+                                [12, 34],
+                                [13, 84],
+                                [14, 10],
+                                [15, 70],
+                            ]);
                             let temp = [...colorCode];
                             for (let i = 0; i < code.length; i++) {
                                 temp[i] = "#000000";
                             }
                             setCurrentCode(temp);
-                            window.index = 0;
-                            stepAniMer(
-                                animationArray,
-                                initialArrayIndex,
-                                window.index
-                            );
+                            setPosition(newPosition(arr));
+                            for (let i = 0; i < arr.length; i++) {
+                                status[i] = "null";
+                            }
+                            setColor(newColor(arr, status));
+                            // stepAniMer(
+                            //     animationArray,
+                            //     initialArrayIndex,
+                            //     window.index
+                            // );
+
                             refPause.current.style.display = "none";
                             refStart.current.style.display = "block";
                             refStartUnclick.current.style.display = "none";
@@ -555,12 +677,51 @@ const Merge = (props) => {
                             }
                             onClick={() => {
                                 window.index--;
+                                console.log(window.index);
+
                                 if (window.index < 0) {
                                     window.index = 0;
                                 }
+                                let arr = [
+                                    45,
+                                    72,
+                                    17,
+                                    55,
+                                    90,
+                                    32,
+                                    48,
+                                    23,
+                                    66,
+                                    99,
+                                    12,
+                                    62,
+                                    34,
+                                    84,
+                                    10,
+                                    70,
+                                ];
+                                setPosition(newPosition(arr));
+                                setArrayIndex([
+                                    [0, 45],
+                                    [1, 72],
+                                    [2, 17],
+                                    [3, 55],
+                                    [4, 90],
+                                    [5, 32],
+                                    [6, 48],
+                                    [7, 23],
+                                    [8, 66],
+                                    [9, 99],
+                                    [10, 12],
+                                    [11, 62],
+                                    [12, 34],
+                                    [13, 84],
+                                    [14, 10],
+                                    [15, 70],
+                                ]);
                                 stepAniMer(
                                     animationArray,
-                                    initialArrayIndex,
+                                    arrayIndex,
                                     window.index
                                 );
                                 refStartUnclick.current.style.display = "none";
@@ -581,9 +742,13 @@ const Merge = (props) => {
                             }
                             onMouseLeave={(e) => (e.target.src = "/" + Start)}
                             onClick={() => {
+                                console.log(animationArray);
                                 if (doing == false && firstTime) {
                                     changeDoing(true);
                                     changeFirstTime(false);
+                                    if (animationArray.length != 0) {
+                                        setAnimationArray([]);
+                                    }
                                     mergeSort(arrayIndex, 0);
 
                                     for (let i = 0; i < array.length; i++) {
@@ -650,15 +815,53 @@ const Merge = (props) => {
                             onMouseLeave={(e) => (e.target.src = "/" + Next)}
                             onClick={() => {
                                 window.index++;
+                                console.log(window.index);
                                 if (window.index > animationArray.length) {
                                     window.index = animationArray.length + 1;
                                 }
                                 if (animationArray.length == 0) {
                                     mergeSort(arrayIndex, 0);
                                 }
+                                let arr = [
+                                    45,
+                                    72,
+                                    17,
+                                    55,
+                                    90,
+                                    32,
+                                    48,
+                                    23,
+                                    66,
+                                    99,
+                                    12,
+                                    62,
+                                    34,
+                                    84,
+                                    10,
+                                    70,
+                                ];
+                                setPosition(newPosition(arr));
+                                setArrayIndex([
+                                    [0, 45],
+                                    [1, 72],
+                                    [2, 17],
+                                    [3, 55],
+                                    [4, 90],
+                                    [5, 32],
+                                    [6, 48],
+                                    [7, 23],
+                                    [8, 66],
+                                    [9, 99],
+                                    [10, 12],
+                                    [11, 62],
+                                    [12, 34],
+                                    [13, 84],
+                                    [14, 10],
+                                    [15, 70],
+                                ]);
                                 stepAniMer(
                                     animationArray,
-                                    initialArrayIndex,
+                                    arrayIndex,
                                     window.index
                                 );
                             }}

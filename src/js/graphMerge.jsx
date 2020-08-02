@@ -56,9 +56,9 @@ const Graph = (props) => {
             {/* <text x={(mid[1] + mid[0]) * 50 + 25} y={20}>
                     mid={mid[1]}
                 </text> */}
-            {/* <text x="250" y="250" fontSize="24px">
+            <text x="300" y="28" fontSize="20px">
                     {content}
-                </text> */}
+                </text>
         </svg>
     );
 };

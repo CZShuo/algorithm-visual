@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import PropTypes from "prop-types";
 import Graph from "./graph.jsx";
 import Code from "./code.jsx";
+// import AniControl from "./animationControl.jsx";
 
 import Start from "../img/start.png";
 import StartHover from "../img/startHover.png";
@@ -268,7 +269,7 @@ const Bubble = (props) => {
     };
 
     useEffect(() => {
-        if(doing){
+        if (doing) {
             stopInterval();
             doAniBub(animationArray, array, window.index);
         }
@@ -411,6 +412,22 @@ const Bubble = (props) => {
         code,
         currentCode,
     };
+
+    // const control = {
+    //     changeDoing,
+    //     changeFirstTime,
+    //     stopInterval,
+    //     setAnimationArray,
+    //     setCurrentCode,
+    //     colorCode,
+    //     setTime,
+    //     dragElement
+    // };
+    // const animation = {
+    //     sort: bubbleSort,
+    //     doAni: doAniBub,
+    //     stepAni: stepAniBub,
+    // };
 
     return (
         <div className="main">
@@ -595,6 +612,7 @@ const Bubble = (props) => {
                     />
                 </div>
             </div>
+            {/* <AniControl control={control} animation={animation} /> */}
         </div>
     );
 };

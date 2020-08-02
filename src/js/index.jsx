@@ -132,8 +132,8 @@ const Main = (props) => {
         null: "#2e6ea6",
         sorted: "#ffa500",
         after: "#ff7f00",
-        big: "#ffa500",
-        small: "#000000",
+        big: "#ff0000",
+        small: "#00ff00",
         key: "#0000ff",
         min: "#90cebc",
     });
@@ -190,10 +190,10 @@ const Main = (props) => {
             element.style.top = top;
             element.style.left = left;
         } else {
-            element.style.top = "40%";
-            setTop("40%");
-            element.style.left = "25%";
-            setLeft("25%");
+            element.style.top = "55%";
+            setTop("55%");
+            element.style.left = "77%";
+            setLeft("77%");
         }
         //W3Schools - How TO - Create a Draggable HTML Element
         //Todo : Use useRef
@@ -340,7 +340,7 @@ const Main = (props) => {
                                             <div>
                                                 <svg id="svg">
                                                     <text x="50" y="50">
-                                                        &#8678;  Choose A Sort
+                                                        &#8678;  Choose A Sorting
                                                         Algorithm...
                                                     </text>
                                                 </svg>

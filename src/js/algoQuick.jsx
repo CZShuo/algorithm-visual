@@ -75,9 +75,9 @@ const Quick = (props) => {
     };
 
     const code = [
-        "假設第一個數開始為 pivot\nfor each unsorted element\npivot = first element",
-        "\t與 pivot 之後直到下一個已排序數字\n\tfor i from pivot+1 to rightIndex",
-        "\t\t每一個數字比較\n\t\tcompare array[pivot] and array[i]",
+        "假設未排序的第一個數為 pivot\nfor each unsorted element\npivot = first element",
+        "\tpivot 之後直到下一個已排序數字\n\tfor i from pivot+1 to rightIndex",
+        "\t\tpivot 與每一個數字比較\n\t\tcompare array[pivot] and array[i]",
         "\t\t\t若小於 pivot ，移至 pivot 左邊\n\t\t\tswap array[pivot] and array[i]",
         "\t\t\tpivot 向右移動一位\n\t\t\tswap array[i] and array[pivot+1]",
     ];
@@ -128,7 +128,7 @@ const Quick = (props) => {
                 text=`${arr[ele[2]]} < pivot ${arr[ele[1]]}`;
                 setContent(text);
                 status[ele[1]] = "key";
-                status[ele[2]] = "min";
+                status[ele[2]] = "small";
                 setColor(newColor(arr, status));
             } else if (ele[0] == "push1") {
                 //pivot ,i
@@ -281,7 +281,7 @@ const Quick = (props) => {
                 //     }
                 // }
                 statusTemp[ele[1]] = "key";
-                statusTemp[ele[2]] = "min";
+                statusTemp[ele[2]] = "small";
                 setColor(newColor(arr, statusTemp));
                 text=`${arr[ele[2]]} < pivot ${arr[ele[1]]}`;
                 setContent(text);

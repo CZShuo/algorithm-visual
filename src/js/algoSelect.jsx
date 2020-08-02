@@ -93,7 +93,7 @@ const Select = (props) => {
         window.ani = setInterval(() => {
             let ele = animationArray[window.index];
             if (ele[0] == "min") {
-                status[ele[1]] = "min";
+                status[ele[1]] = "small";
                 if (
                     window.index > 1 &&
                     animationArray[window.index - 1][0] != "push"
@@ -119,7 +119,7 @@ const Select = (props) => {
                 setContent(text);
                 setColor(newColor(arr, status));
             } else if (ele[0] == "com") {
-                status[ele[1]] = "min";
+                status[ele[1]] = "small";
                 status[ele[2]] = "com";
 
                 for (let i = ele[1] + 1; i < ele[2]; i++) {
@@ -138,7 +138,7 @@ const Select = (props) => {
                 setColor(newColor(arr, status));
             } else if (ele[0] == "push") {
                 for (let i = 0; i <= ele[1]; i++) {
-                    status[i] = "after";
+                    status[i] = "sorted";
                 }
                 for (let i = ele[1] + 1; i < arr.length; i++) {
                     status[i] = "null";
@@ -153,7 +153,7 @@ const Select = (props) => {
 
                 if (index == animationArray.length - 1) {
                     for (let i = 0; i < array.length; i++) {
-                        status[i] = "after";
+                        status[i] = "sorted";
                     }
                 }
                 setColor(newColor(arr, status));
@@ -173,7 +173,7 @@ const Select = (props) => {
 
             if (window.index >= animationArray.length) {
                 for (let i = 0; i < array.length; i++) {
-                    status[i] = "after";
+                    status[i] = "sorted";
                 }
                 setColor(newColor(arr, status));
 
@@ -225,7 +225,7 @@ const Select = (props) => {
         for (let stepIndex = 0; stepIndex < final; stepIndex++) {
             let ele = animationArray[stepIndex];
             if (ele[0] == "min") {
-                statusTemp[ele[1]] = "min";
+                statusTemp[ele[1]] = "small";
                 if (
                     stepIndex > 1 &&
                     animationArray[stepIndex - 1][0] != "push"
@@ -251,7 +251,7 @@ const Select = (props) => {
                 setContent(text);
                 setColor(newColor(arr, statusTemp));
             } else if (ele[0] == "com") {
-                statusTemp[ele[1]] = "min";
+                statusTemp[ele[1]] = "small";
                 statusTemp[ele[2]] = "com";
 
                 for (let i = ele[1] + 1; i < ele[2]; i++) {
@@ -270,7 +270,7 @@ const Select = (props) => {
                 setColor(newColor(arr, statusTemp));
             } else if (ele[0] == "push") {
                 for (let i = 0; i <= ele[1]; i++) {
-                    statusTemp[i] = "after";
+                    statusTemp[i] = "sorted";
                 }
                 for (let i = ele[1] + 1; i < arr.length; i++) {
                     statusTemp[i] = "null";
@@ -285,7 +285,7 @@ const Select = (props) => {
 
                 if (index == animationArray.length - 1) {
                     for (let i = 0; i < array.length; i++) {
-                        statusTemp[i] = "after";
+                        statusTemp[i] = "sorted";
                     }
                 }
                 setColor(newColor(arr, statusTemp));
@@ -304,7 +304,7 @@ const Select = (props) => {
         }
         if (index == animationArray.length + 1) {
             for (let i = 0; i < arr.length; i++) {
-                statusTemp[i] = "after";
+                statusTemp[i] = "sorted";
             }
 
             let temp = [...colorCode];

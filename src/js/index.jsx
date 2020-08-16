@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import "../index.css";
-import Graph from "./graph.jsx";
 import Home from "./home.jsx";
 import Bubble from "./algoBubble.jsx";
 import Insertion from "./algoInsert.jsx";
@@ -13,9 +12,8 @@ import Control from "./control.jsx";
 import LeftBar from "./leftBar.jsx";
 import Header from "./header.jsx";
 
-// const Algo = require("./sorting-algorithms.js");
-
 const Main = (props) => {
+    //Array
     const [array, setArray] = useState([
         45,
         72,
@@ -52,103 +50,43 @@ const Main = (props) => {
         [14, 10],
         [15, 70],
     ]);
-    const [content, setContent] = useState("Click Start!");
-    const [time, setTime] = useState(1500 / 7);
-    const [page, setPage] = useState("");
     const [custom, setCustom] = useState(false);
-
-    useEffect(() => {
-        if (custom && animationArray.length === 0) {
-            changeFirstTime(true);
-            changeDoing(false);
-            stopInterval();
-        } else {
-            let arr = [
-                45,
-                72,
-                17,
-                55,
-                90,
-                32,
-                48,
-                23,
-                66,
-                99,
-                12,
-                62,
-                34,
-                84,
-                10,
-                70,
-            ];
-            setArray(arr);
-            let arrInd = [
-                [0, 45],
-                [1, 72],
-                [2, 17],
-                [3, 55],
-                [4, 90],
-                [5, 32],
-                [6, 48],
-                [7, 23],
-                [8, 66],
-                [9, 99],
-                [10, 12],
-                [11, 62],
-                [12, 34],
-                [13, 84],
-                [14, 10],
-                [15, 70],
-            ];
-            setArrayIndex(arrInd);
-            setPosition(newPosition(arr));
-            let sta = [];
-            const initialStatus = () => {
-                for (let i = 0; i < arr.length; i++) {
-                    sta.push("null");
-                }
-                return sta;
-            };
-            setAnimationArray([]);
-            setStatus(initialStatus(arr));
-            setColor(newColor(arr, sta));
-            changeFirstTime(true);
-            changeDoing(false);
-            stopInterval();
-        }
-    }, [page]);
-
-    const initialStatus = (array) => {
+    const [customArray, setCustomArray] = useState([]);
+    const [animationArray, setAnimationArray] = useState([]);
+    const [initialArray, setInitialArray] = useState(array);
+    // const [initialArrayIndex, setInitialArrayIndex] = useState(arrayIndex);
+    //Status
+    const initialStatus = () => {
         let sta = [];
         for (let i = 0; i < array.length; i++) {
             sta.push("null");
         }
         return sta;
     };
-    const [status, setStatus] = useState(initialStatus(array));
-
+    const [status, setStatus] = useState(initialStatus());
+    //Content
+    const [content, setContent] = useState("Click Start!");
+    //Color
     const [colorSet, changeColor] = useState({
-        com: "#228b22",
         null: "#2e6ea6",
+        key: "#0000ff",
         sorted: "#ffa500",
-        after: "#ff7f00",
+        com: "#228b22",
         big: "#ff0000",
         small: "#00ff00",
-        key: "#0000ff",
-        min: "#90cebc",
     });
-
-    const newColor = (array, status) => {
+    const newColor = (status) => {
         let colorList = [];
         for (let i = 0; i < array.length; i++) {
             colorList.push(colorSet[status[i]]);
         }
         return colorList;
     };
-    const [color, setColor] = useState(newColor(array, status));
+    const [color, setColor] = useState(newColor(status));
     useEffect(() => {
-        setColor(newColor(array, status));
+        setColor(newColor(status));
     }, [colorSet]);
+    //Position
     const newPosition = (array) => {
         let barSpace = 50;
         let barWidth = 25;
@@ -171,20 +109,140 @@ const Main = (props) => {
         return result;
     };
     const [position, setPosition] = useState(newPosition(array));
-    const [oldPosition, setOldPosition] = useState(newPosition(array));
-    const [animationArray, setAnimationArray] = useState([]);
-    const [initialArray, setInitialArray] = useState(array);
-    const [initialArrayIndex, setInitialArrayIndex] = useState(arrayIndex);
 
+    const [doing, changeDoing] = useState(false);
+    const [firstTime, changeFirstTime] = useState(true);
+    const [time, setTime] = useState(1500 / 7);
+    const [page, setPage] = useState("");
     const stopInterval = () => {
         clearInterval(window.ani);
     };
-    const [doing, changeDoing] = useState(false);
-    const [firstTime, changeFirstTime] = useState(true);
 
+    const resetArray = () => {
+        if (custom) {
+            setArray(customArray);
+            let arrIndex = [];
+            for (let i = 0; i < customArray.length; i++) {
+                arrIndex.push([i, customArray[i]]);
+            }
+            setArrayIndex(arrIndex);
+        } else {
+            let arr = [
+                45,
+                72,
+                17,
+                55,
+                90,
+                32,
+                48,
+                23,
+                66,
+                99,
+                12,
+                62,
+                34,
+                84,
+                10,
+                70,
+            ];
+            setArray(arr);
+            let arrIndex = [
+                [0, 45],
+                [1, 72],
+                [2, 17],
+                [3, 55],
+                [4, 90],
+                [5, 32],
+                [6, 48],
+                [7, 23],
+                [8, 66],
+                [9, 99],
+                [10, 12],
+                [11, 62],
+                [12, 34],
+                [13, 84],
+                [14, 10],
+                [15, 70],
+            ];
+            setArrayIndex(arrIndex);
+        }
+    };
+
+    const resetEverything = () => {
+        changeFirstTime(true);
+        changeDoing(false);
+        if (window.ani) {
+            stopInterval();
+        }
+        setAnimationArray([]);
+        setContent("Click Start!");
+        // resetArray();
+    };
+
+    // useEffect(() => {
+    //     changeFirstTime(true);
+    //     changeDoing(false);
+    //     if (window.ani) {
+    //         stopInterval();
+    //     }
+    //     setAnimationArray([]);
+
+    //     if (custom && animationArray.length === 0) {
+    //     } else {
+    //         let arr = [
+    //             45,
+    //             72,
+    //             17,
+    //             55,
+    //             90,
+    //             32,
+    //             48,
+    //             23,
+    //             66,
+    //             99,
+    //             12,
+    //             62,
+    //             34,
+    //             84,
+    //             10,
+    //             70,
+    //         ];
+    //         setArray(arr);
+    //         let arrInd = [
+    //             [0, 45],
+    //             [1, 72],
+    //             [2, 17],
+    //             [3, 55],
+    //             [4, 90],
+    //             [5, 32],
+    //             [6, 48],
+    //             [7, 23],
+    //             [8, 66],
+    //             [9, 99],
+    //             [10, 12],
+    //             [11, 62],
+    //             [12, 34],
+    //             [13, 84],
+    //             [14, 10],
+    //             [15, 70],
+    //         ];
+    //         setArrayIndex(arrInd);
+    //         setPosition(newPosition(arr));
+    //         let sta = [];
+    //         const initialStatus = () => {
+    //             for (let i = 0; i < arr.length; i++) {
+    //                 sta.push("null");
+    //             }
+    //             return sta;
+    //         };
+    //         setStatus(initialStatus(arr));
+    //         setColor(newColor(arr, sta));
+    //     }
+    // }, [page]);
+
+    //Animation Control Panel Position
     const [top, setTop] = useState("");
     const [left, setLeft] = useState("");
-
     const dragElement = (element) => {
         if (top != "") {
             element.style.top = top;
@@ -261,6 +319,16 @@ const Main = (props) => {
         }
     };
 
+    const displayOn = (refs) => {
+        for(let ref of refs) {
+            ref.current.style.display = "block";
+        }
+    }
+    const displayOff = (refs) => {
+        for (let ref of refs) {
+            ref.current.style.display = "none";
+        }
+    }
     const data = {
         array,
         setArray,
@@ -278,8 +346,6 @@ const Main = (props) => {
         position,
         setPosition,
         newPosition,
-        oldPosition,
-        setOldPosition,
         stopInterval,
         doing,
         changeDoing,
@@ -287,29 +353,35 @@ const Main = (props) => {
         changeFirstTime,
         dragElement,
         setTime,
+        resetEverything,
+        resetArray,
+        displayOn,
+        displayOff
     };
     const mergeData = {
         arrayIndex,
         setArrayIndex,
-        initialArrayIndex,
-        setInitialArrayIndex,
+        // initialArrayIndex,
+        // setInitialArrayIndex,
     };
     const controlData = {
         setArray,
         setArrayIndex,
         initialArray,
         setInitialArray,
-        initialArrayIndex,
-        setInitialArrayIndex,
+        customArray,
+        setCustomArray,
+        // initialArrayIndex,
+        // setInitialArrayIndex,
         setTime,
         setColor,
         colorSet,
         changeColor,
         setPosition,
-        setOldPosition,
         newColor,
         newPosition,
         status,
+        setStatus,
         stopInterval,
         doing,
         changeDoing,
@@ -317,6 +389,8 @@ const Main = (props) => {
         changeFirstTime,
         setAnimationArray,
         setCustom,
+        resetEverything,
+        resetArray
     };
 
     return (
@@ -324,7 +398,7 @@ const Main = (props) => {
             <Header />
             <div className="array">
                 <Route path="/" exact>
-                    <Home page={page} setPage={setPage}/>
+                    <Home page={page} setPage={setPage} />
                 </Route>
                 <Route
                     path="/tutorial"
@@ -340,7 +414,7 @@ const Main = (props) => {
                                             <div>
                                                 <svg id="svg">
                                                     <text x="50" y="50">
-                                                        &#8678;  Choose A Sorting
+                                                        &#8678; Choose A Sorting
                                                         Algorithm...
                                                     </text>
                                                 </svg>

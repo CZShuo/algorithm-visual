@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import PropTypes from "prop-types";
 import Graph from "./graphMerge.jsx";
 import Code from "./code.jsx";
+import AniControl from "./animationControl.jsx";
 
 import Start from "../img/start.png";
 import StartHover from "../img/startHover.png";
@@ -36,8 +37,6 @@ const Merge = (props) => {
         position,
         setPosition,
         newPosition,
-        oldPosition,
-        setOldPosition,
         stopInterval,
         doing,
         changeDoing,
@@ -45,6 +44,10 @@ const Merge = (props) => {
         changeFirstTime,
         dragElement,
         setTime,
+        resetEverything,
+        resetArray,
+        displayOn,
+        displayOff
     } = props.data;
     let {
         arrayIndex,
@@ -174,7 +177,6 @@ const Merge = (props) => {
                 for (let i = ele[1]; i <= ele[2]; i++) {
                     pos[i].y += 130;
                 }
-                // setOldPosition(position);
                 setPosition(pos);
 
                 text=`對 array[${ele[1]}] 到 array[${ele[2]}] 進行合併排序。`;
@@ -199,9 +201,9 @@ const Merge = (props) => {
             } else if (ele[0] == "small") {
                 status[ele[1]] = "small";
                 status[ele[2]] = "big";
-                setColor(newColor(arr, status));
+                setColor(newColor(status));
 
-                text=`${arr[ele[1]][1]} < ${arr[ele[2]][1]}`
+                text=`${arr[ele[1]][1]} < ${arr[ele[2]][1]}`;
                 setContent(text);
                 let temp = [...colorCode];
                 for (let i = 0; i < code.length; i++) {
@@ -232,13 +234,12 @@ const Merge = (props) => {
                     pos[i].y =
                         Math.floor(pos[i].y / 130) * 130 + 130 - arr[i][1];
                 }
-                // setOldPosition(position);
                 setPosition(pos);
 
                 for (let i = 0; i < arr.length; i++) {
                     status[i] = "null";
                 }
-                setColor(newColor(arr, status));
+                setColor(newColor(status));
                 let temp = [...colorCode];
                 for (let i = 0; i < code.length; i++) {
                     temp[i] = "#000000";
@@ -251,7 +252,7 @@ const Merge = (props) => {
                 }
                 status[ele[1]] = "com";
                 status[ele[2]] = "com";
-                setColor(newColor(arr, status));
+                setColor(newColor(status));
                 text=`比較 left[0] 與 right[0] 。`
                 setContent(text);
                 let temp = [...colorCode];
@@ -268,7 +269,6 @@ const Merge = (props) => {
                 pos[ele[1]].x =
                     ele[2] * barSpace + xOuter + (barSpace - barWidth) / 2;
                 pos[ele[1]].y += 130;
-                // setOldPosition(position);
                 setPosition(pos);
                 text=`較小者 push 至 result 。`
                 setContent(text);
@@ -286,7 +286,7 @@ const Merge = (props) => {
                 for (let i = 0; i < arr.length; i++) {
                     status[i] = "sorted";
                 }
-                setColor(newColor(arr, status));
+                setColor(newColor(status));
                 let temp = [...colorCode];
                 for (let i = 0; i < code.length; i++) {
                     temp[i] = "#000000";
@@ -295,14 +295,18 @@ const Merge = (props) => {
                 setContent("排序完成。");
                 clearInterval(window.ani);
                 changeDoing(false);
-                refPause.current.style.display = "none";
-                refStart.current.style.display = "block";
-                refStartClick.current.style.display = "none";
-                refStartUnclick.current.style.display = "block";
-                refPreviousUnclick.current.style.display = "none";
-                refPreviousImg.current.style.display = "block";
-                refNextImg.current.style.display = "none";
-                refNextUnclick.current.style.display = "block";
+                displayOff([
+                    refPause,
+                    refStartClick,
+                    refPreviousUnclick,
+                    refNextImg,
+                ]);
+                displayOn([
+                    refStart,
+                    refStartClick,
+                    refPreviousImg,
+                    refNextUnclick,
+                ]);
             }
         }, time);
     };
@@ -324,6 +328,7 @@ const Merge = (props) => {
         }
         let xOuter = (svgWidth - array.length * barSpace) / 2;
 
+        // if(random)
         let arr = [
             [0, 45],
             [1, 72],
@@ -343,7 +348,6 @@ const Merge = (props) => {
             [15, 70],
         ];
         // setArrayIndex(arr);
-        // setPosition(oldPosition);
 
         let arrNoIndex = [
             45,
@@ -363,24 +367,6 @@ const Merge = (props) => {
             10,
             70,
         ];
-        // setArrayIndex([
-        // [0, 45],
-        // [1, 72],
-        // [2, 17],
-        // [3, 55],
-        // [4, 90],
-        // [5, 32],
-        // [6, 48],
-        // [7, 23],
-        // [8, 66],
-        // [9, 99],
-        // [10, 12],
-        // [11, 62],
-        // [12, 34],
-        // [13, 84],
-        // [14, 10],
-        // [15, 70],
-        // ]);
         let temp = [...colorCode];
         for (let i = 0; i < code.length; i++) {
             temp[i] = "#000000";
@@ -388,12 +374,13 @@ const Merge = (props) => {
         setCurrentCode(temp);
         // setPosition(newPosition(arrNoIndex));
         position = newPosition(arrNoIndex);
+        
 
         let statusTemp = [];
         for (let i = 0; i < arrNoIndex.length; i++) {
             statusTemp.push("null");
         }
-        setColor(newColor(arrNoIndex, statusTemp));
+        setColor(newColor(statusTemp));
         // setContent("Click Start!");
 
         let final = index;
@@ -409,7 +396,6 @@ const Merge = (props) => {
                 for (let i = ele[1]; i <= ele[2]; i++) {
                     pos[i].y += 130;
                 }
-                // setOldPosition(pos);
                 setPosition(pos);
 
                 text=`對 array[${ele[1]}] 到 array[${ele[2]}] 進行合併排序。`;
@@ -433,7 +419,7 @@ const Merge = (props) => {
             } else if (ele[0] == "small") {
                 statusTemp[ele[1]] = "small";
                 statusTemp[ele[2]] = "big";
-                setColor(newColor(arr, statusTemp));
+                setColor(newColor(statusTemp));
 
                 text=`${arr[ele[1]][1]} < ${arr[ele[2]][1]}`
                 setContent(text);
@@ -465,13 +451,12 @@ const Merge = (props) => {
                     pos[i].y =
                         Math.floor(pos[i].y / 130) * 130 + 130 - arr[i][1];
                 }
-                // setOldPosition(pos);
                 setPosition(pos);
 
                 for (let i = 0; i < arr.length; i++) {
                     statusTemp[i] = "null";
                 }
-                setColor(newColor(arr, statusTemp));
+                setColor(newColor(statusTemp));
                 let temp = [...colorCode];
                 for (let i = 0; i < code.length; i++) {
                     temp[i] = "#000000";
@@ -484,7 +469,7 @@ const Merge = (props) => {
                 }
                 statusTemp[ele[1]] = "com";
                 statusTemp[ele[2]] = "com";
-                setColor(newColor(arr, statusTemp));
+                setColor(newColor(statusTemp));
                 text=`比較 left[0] 與 right[0] 。`
                 setContent(text);
                 let temp = [...colorCode];
@@ -501,7 +486,6 @@ const Merge = (props) => {
                 pos[ele[1]].x =
                     ele[2] * barSpace + xOuter + (barSpace - barWidth) / 2;
                 pos[ele[1]].y += 130;
-                // setOldPosition(pos);
                 setPosition(pos);
                 text=`較小者 push 至 result 。`
                 setContent(text);
@@ -518,49 +502,33 @@ const Merge = (props) => {
             for (let i = 0; i < arr.length; i++) {
                 statusTemp[i] = "sorted";
             }
-            setColor(newColor(arr, statusTemp));
+            setColor(newColor(statusTemp));
             let temp = [...colorCode];
             for (let i = 0; i < code.length; i++) {
                 temp[i] = "#000000";
             }
             setCurrentCode(temp);
             setContent("排序完成。");
-            refPause.current.style.display = "none";
-            refStart.current.style.display = "block";
-            refStartClick.current.style.display = "none";
-            refStartUnclick.current.style.display = "block";
-            refPreviousUnclick.current.style.display = "none";
-            refPreviousImg.current.style.display = "block";
-            refNextImg.current.style.display = "none";
-            refNextUnclick.current.style.display = "block";
+            displayOff([
+                refPause,
+                refStartClick,
+                refPreviousUnclick,
+                refNextImg,
+            ]);
+            displayOn([
+                refStart,
+                refStartClick,
+                refPreviousImg,
+                refNextUnclick,
+            ]);
         }
         // setPosition(pos);
         setStatus(statusTemp);
     };
 
-    useEffect(() => {
-        dragElement(refDrag.current);
-        refPause.current.style.display = "none";
-        refStartUnclick.current.style.display = "none";
-        refNextUnclick.current.style.display = "none";
-        refPreviousImg.current.style.display = "none";
-        refPreviousUnclick.current.style.display = "block";
-    }, []);
-
-    const refStart = useRef(null);
-    const refPause = useRef(null);
-    const refDrag = useRef(null);
-    const refPreviousUnclick = useRef(null);
-    const refPreviousImg = useRef(null);
-    const refNextImg = useRef(null);
-    const refNextUnclick = useRef(null);
-    const refStartUnclick = useRef(null);
-    const refStartClick = useRef(null);
-
     const graph = {
         arrayIndex,
         position,
-        oldPosition,
         color,
         content,
         code,
@@ -568,12 +536,48 @@ const Merge = (props) => {
         range,
         mid,
     };
+    const control = {
+        array,
+        setArray,
+        animationArray,
+        setAnimationArray,
+        colorCode,
+        status,
+        doing,
+        changeDoing,
+        firstTime,
+        changeFirstTime,
+        stopInterval,
+        setCurrentCode,
+        setTime,
+        dragElement,
+        displayOn,
+        displayOff
+    };
+
+    useEffect(() => {
+        dragElement(refDrag.current);
+        displayOff([refPause, refStartUnclick, refNextUnclick, refPreviousImg]);
+        displayOn([refPreviousUnclick]);
+    }, []);
+    
+    const refDrag = useRef(null);
+    const refStart = useRef(null);
+    const refPause = useRef(null);
+    const refPreviousUnclick = useRef(null);
+    const refPreviousImg = useRef(null);
+    const refNextImg = useRef(null);
+    const refNextUnclick = useRef(null);
+    const refStartUnclick = useRef(null);
+    const refStartClick = useRef(null);
+
     return (
         <div className="main">
             <div className="graph-code">
                 <Graph graph={graph} />
                 <Code code={code} currentCode={currentCode} />
             </div>
+            {/* <AniControl control={control} sort={mergeSort} doAni={doAniMer} stepAni={stepAniMer}/> */}
             <div className="animation-control" id="drag" ref={refDrag}>
                 <div id="dragheader">Drag Me!</div>
                 <div id="dragbody">
@@ -633,7 +637,7 @@ const Merge = (props) => {
                             for (let i = 0; i < arr.length; i++) {
                                 status[i] = "null";
                             }
-                            setColor(newColor(arr, status));
+                            setColor(newColor(status));
                             // stepAniMer(
                             //     animationArray,
                             //     initialArrayIndex,
@@ -742,7 +746,6 @@ const Merge = (props) => {
                             }
                             onMouseLeave={(e) => (e.target.src = "/" + Start)}
                             onClick={() => {
-                                console.log(animationArray);
                                 if (doing == false && firstTime) {
                                     changeDoing(true);
                                     changeFirstTime(false);

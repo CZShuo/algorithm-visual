@@ -27,17 +27,17 @@ const swapBar = (oldBar, toBar) => {
 let merge = false;
 
 //O(n^2)
-const bubbleSort2 = (array)=>{
-    let arr=[...array];
+const bubbleSort2 = (array) => {
+    let arr = [...array];
     let times = arr.length;
     let swap = false;
     do {
         swap = false;
         times--;
         for (let i = 0; i < times; i++) {
-            animation.push(["com", i, i+1]);
+            animation.push(["com", i, i + 1]);
             if (arr[i] > arr[i + 1]) {
-                animation.push(["push", i, i+1]);
+                animation.push(["push", i, i + 1]);
                 [arr[i], arr[i + 1]] = [arr[i + 1], arr[i]];
                 swap = true;
             }
@@ -135,7 +135,9 @@ const mergeSort = (array, startIndex) => {
 
     let result = [];
     while (left.length > 0 && right.length > 0) {
-        animation.push(["com", [...left[0]], [...right[0]]]);
+        animation.push(["com", [...left[0]],
+            [...right[0]]
+        ]);
         if (right[0][1] < left[0][1]) {
             // console.log('r'+right+' '+left);
             // [animationArray[index][1],right[0][1]]=[right[0][1],animationArray[index][1]];
@@ -173,7 +175,7 @@ const mergeSort = (array, startIndex) => {
     merge = true;
     return result;
 };
-const doAnimation = (animation, setArray, newArr,arrays,setArrays) => {
+const doAnimation = (animation, setArray, newArr, arrays, setArrays) => {
     let times = 0;
     let arr = [...arrays];
     // console.log(animation);
@@ -252,8 +254,7 @@ const mergeSortTemp = (arr, startIndex) => {
 
     let result = [];
     while (left.length > 0 && right.length > 0) {
-        if (left[0][1] < right[0][1]) {
-        }
+        if (left[0][1] < right[0][1]) {}
     }
 };
 

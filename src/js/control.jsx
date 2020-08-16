@@ -9,16 +9,18 @@ const Control = (props) => {
         setArrayIndex,
         initialArray,
         setInitialArray,
+        customArray,
+        setCustomArray,
         setInitialArrayIndex,
         setTime,
         setColor,
         colorSet,
         changeColor,
         setPosition,
-        setOldPosition,
         newColor,
         newPosition,
         status,
+        setStatus,
         stopInterval,
         doing,
         changeDoing,
@@ -26,6 +28,8 @@ const Control = (props) => {
         changeFirstTime,
         setAnimationArray,
         setCustom,
+        resetEverything,
+        resetArray
     } = props.controlData;
     let color = Object.assign({}, colorSet);
     const inputRef = useRef(null);
@@ -58,21 +62,25 @@ const Control = (props) => {
                         <input
                             type="text"
                             id="array-input"
-                            placeholder="13,25,17,55,36 (1~99)"
+                            placeholder="13,25,17,55,36 (between 1~99)"
+                            onFocus={() => {
+                                if (!inputRef.current.value) {
+                                    inputRef.current.value = "13,25,17,55,36";
+                                }
+                                inputRef.current.select();
+                            }}
                             ref={inputRef}
                         />
                         <div
                             id="send-array"
                             onClick={() => {
-                                if(doing){
-                                    stopInterval();
-                                }
+                                resetEverything();
                                 let input = inputRef.current.value;
                                 let arr = input.replace(/\s/g, "").split(",");
                                 let arrIndex = [];
+                                let sta = [];
                                 for (let i = 0; i < arr.length; i++) {
                                     let num = Math.floor(Number(arr[i]));
-                                    console.log(num);
                                     if (Number.isNaN(num)) {
                                         alert("Input must be number !");
                                         arr = [
@@ -111,12 +119,12 @@ const Control = (props) => {
                                             [14, 10],
                                             [15, 70],
                                         ];
-                                        inputRef.current.value = '';
+                                        inputRef.current.value = "";
                                         break;
                                     } else {
                                         if (num >= 100 || num <= 0) {
                                             alert(
-                                                "Number must be between 0 and 100 !"
+                                                "Number must be between 1~99!"
                                             );
                                             arr = [
                                                 45,
@@ -158,23 +166,17 @@ const Control = (props) => {
                                         }
                                         arr[i] = num;
                                         arrIndex.push([i, num]);
+                                        sta.push('null');
                                     }
                                 }
 
-                                for (let i = 0; i < arr.length; i++) {
-                                    status[i] = "null";
-                                }
                                 setCustom(true);
-                                setPosition(newPosition(arr));
-                                setOldPosition(newPosition(arr));
-                                setColor(newColor(arr, status));
-                                setAnimationArray([]);
+                                setCustomArray(arr);
                                 setArray(arr);
                                 setArrayIndex(arrIndex);
-                                setInitialArray(arr);
-                                setInitialArrayIndex(arrIndex);
-                                changeFirstTime(true);
-                                changeDoing(false);
+                                setPosition(newPosition(arr));
+                                setStatus(sta);
+                                setColor(newColor(arr, sta));
                             }}
                         >
                             Set
@@ -189,61 +191,45 @@ const Control = (props) => {
                             min="5"
                             max="20"
                             ref={randomRef}
+                            onFocus={() => {
+                                randomRef.current.select();
+                            }}
                         />
                         <div
                             id="send-number"
                             onClick={() => {
-                                if(doing){
-                                    stopInterval();
-                                }
+                                resetEverything();
                                 let num = randomRef.current;
                                 if (num.value > 20) {
                                     num.value = 20;
                                     alert("Can't be more than 20 numbers !");
-                                }
-                                if (num.value < 5 || num.value == null) {
+                                } else if (num.value < 5 || num.value == null) {
                                     num.value = 5;
                                     alert("Can't be less than 5 numbers !");
                                 }
                                 let arr = [];
                                 let arrIndex = [];
+                                let sta = [];
                                 for (let i = 0; i < num.value; i++) {
-                                    let random = Math.floor(Math.random() * 100) + 1;
+                                    let random =
+                                        Math.floor(Math.random() * 100) + 1;
                                     arr.push(random);
-                                    arrIndex.push([i,random]);
-                                    status[i] = "null";
+                                    arrIndex.push([i, random]);
+                                    sta.push("null");
                                 }
+
                                 setCustom(true);
-                                setPosition(newPosition(arr));
-                                setOldPosition(newPosition(arr));
-                                setColor(newColor(arr, status));
+                                setCustomArray(arr);
                                 setArray(arr);
                                 setArrayIndex(arrIndex);
-                                setAnimationArray([]);
-                                setInitialArray(arr);
-                                setInitialArrayIndex(arrIndex);
-                                changeFirstTime(true);
-                                changeDoing(false);
+                                setPosition(newPosition(arr));
+                                setStatus(sta);
+                                setColor(newColor(arr, sta));
                             }}
                         >
                             Random
                         </div>
                     </div>
-                    {/* <div className="set-array">
-                        <div>Speed: </div>
-                        <select
-                            defaultValue="100"
-                            onChange={(e) => {
-                                setTime(e.target.value);
-                            }}
-                        >
-                            <option value="1500">新手</option>
-                            <option value="1000">0.5</option>
-                            <option value="600">1.0</option>
-                            <option value="200">1.5</option>
-                            <option value="100">專業</option>
-                        </select>
-                    </div> */}
                 </div>
 
                 <div className="right-control">

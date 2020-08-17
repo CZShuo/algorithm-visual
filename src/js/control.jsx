@@ -31,6 +31,19 @@ const Control = (props) => {
         resetEverything,
         resetArray
     } = props.controlData;
+    const {
+        refDrag,
+        refStart,
+        refPause,
+        refPreviousImg,
+        refPreviousUnclick,
+        refNextImg,
+        refNextUnclick,
+        refStartUnclick,
+        refStartClick,
+    }=props.refs;
+    const displayOn=props.displayOn;
+    const displayOff=props.displayOff;
     let color = Object.assign({}, colorSet);
     const inputRef = useRef(null);
     const randomRef = useRef(null);
@@ -174,9 +187,22 @@ const Control = (props) => {
                                 setCustomArray(arr);
                                 setArray(arr);
                                 setArrayIndex(arrIndex);
+                                setInitialArray(arr);
                                 setPosition(newPosition(arr));
                                 setStatus(sta);
-                                setColor(newColor(arr, sta));
+                                setColor(newColor(sta));
+                                displayOff([
+                                    refPause,
+                                    refStartUnclick,
+                                    refPreviousImg,
+                                    refNextImg,
+                                ]);
+                                displayOn([
+                                    refStart,
+                                    refStartClick,
+                                    refPreviousUnclick,
+                                    refNextUnclick,
+                                ]);
                             }}
                         >
                             Set
@@ -222,9 +248,22 @@ const Control = (props) => {
                                 setCustomArray(arr);
                                 setArray(arr);
                                 setArrayIndex(arrIndex);
+                                setInitialArray(arr);
                                 setPosition(newPosition(arr));
                                 setStatus(sta);
-                                setColor(newColor(arr, sta));
+                                setColor(newColor(sta));
+                                displayOff([
+                                    refPause,
+                                    refStartUnclick,
+                                    refPreviousImg,
+                                    refNextImg,
+                                ]);
+                                displayOn([
+                                    refStart,
+                                    refStartClick,
+                                    refPreviousUnclick,
+                                    refNextUnclick,
+                                ]);
                             }}
                         >
                             Random

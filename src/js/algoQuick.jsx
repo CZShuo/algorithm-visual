@@ -35,8 +35,20 @@ const Quick = (props) => {
         resetEverything,
         resetArray,
         displayOn,
-        displayOff
+        displayOff,
     } = props.data;
+
+    const {
+        refDrag,
+        refStart,
+        refPause,
+        refPreviousImg,
+        refPreviousUnclick,
+        refNextImg,
+        refNextUnclick,
+        refStartUnclick,
+        refStartClick,
+    }=props.refs;
 
     const quickSort = (array, left, right) => {
         let arr = [...array];
@@ -76,7 +88,6 @@ const Quick = (props) => {
         colorCode.push("#000000");
     }
     const [currentCode, setCurrentCode] = useState(colorCode);
-    
 
     const doAniQui = (animationArray, array, index) => {
         let arr = [...array];
@@ -95,7 +106,7 @@ const Quick = (props) => {
                 status[ele[1]] = "key";
                 status[ele[2]] = "com";
                 setColor(newColor(status));
-                text=`比較 pivot ${arr[ele[1]]} 與 ${arr[ele[2]]}`;
+                text = `比較 pivot ${arr[ele[1]]} 與 ${arr[ele[2]]}`;
                 setContent(text);
                 let temp = [...colorCode];
                 for (let i = 0; i < code.length; i++) {
@@ -115,7 +126,7 @@ const Quick = (props) => {
                 }
                 temp[2] = "#ff0000";
                 setCurrentCode(temp);
-                text=`${arr[ele[2]]} < pivot ${arr[ele[1]]}`;
+                text = `${arr[ele[2]]} < pivot ${arr[ele[1]]}`;
                 setContent(text);
                 status[ele[1]] = "key";
                 status[ele[2]] = "small";
@@ -140,7 +151,7 @@ const Quick = (props) => {
 
                 text = `Pivot ${arr[ele[1]]} 與 ${arr[ele[2]]}互換。`;
                 setContent(text);
-                
+
                 let temp = [...colorCode];
                 for (let i = 0; i < code.length; i++) {
                     temp[i] = "#000000";
@@ -224,7 +235,7 @@ const Quick = (props) => {
     };
 
     useEffect(() => {
-        if(doing){
+        if (doing) {
             stopInterval();
             doAniQui(animationArray, array, window.index);
         }
@@ -233,8 +244,6 @@ const Quick = (props) => {
     const stepAniQui = (animationArray, array, index) => {
         let text;
         let arr = [...initialArray];
-        setArray(arr);
-        setPosition(newPosition(arr));
 
         let statusTemp = [];
         for (let i = 0; i < array.length; i++) {
@@ -260,7 +269,7 @@ const Quick = (props) => {
                 statusTemp[ele[1]] = "key";
                 statusTemp[ele[2]] = "com";
                 setColor(newColor(statusTemp));
-                text=`比較 pivot ${arr[ele[1]]} 與 ${arr[ele[2]]}`;
+                text = `比較 pivot ${arr[ele[1]]} 與 ${arr[ele[2]]}`;
                 setContent(text);
                 let temp = [...colorCode];
                 for (let i = 0; i < code.length; i++) {
@@ -277,7 +286,7 @@ const Quick = (props) => {
                 statusTemp[ele[1]] = "key";
                 statusTemp[ele[2]] = "small";
                 setColor(newColor(statusTemp));
-                text=`${arr[ele[2]]} < pivot ${arr[ele[1]]}`;
+                text = `${arr[ele[2]]} < pivot ${arr[ele[1]]}`;
                 setContent(text);
                 let temp = [...colorCode];
                 for (let i = 0; i < code.length; i++) {
@@ -396,6 +405,7 @@ const Quick = (props) => {
         setArray,
         animationArray,
         setAnimationArray,
+        initialArray,
         colorCode,
         status,
         doing,
@@ -409,7 +419,7 @@ const Quick = (props) => {
         resetEverything,
         resetArray,
         displayOn,
-        displayOff
+        displayOff,
     };
 
     return (
@@ -418,7 +428,13 @@ const Quick = (props) => {
                 <Graph graph={graph} />
                 <Code code={code} currentCode={currentCode} />
             </div>
-            <AniControl control={control} sort={quickSort} doAni={doAniQui} stepAni={stepAniQui}/>
+            <AniControl
+                refs={props.refs}
+                control={control}
+                sort={quickSort}
+                doAni={doAniQui}
+                stepAni={stepAniQui}
+            />
         </div>
     );
 };

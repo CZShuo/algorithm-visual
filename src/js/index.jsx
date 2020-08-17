@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import "../index.css";
@@ -52,6 +52,14 @@ const Main = (props) => {
     ]);
     const [custom, setCustom] = useState(false);
     const [customArray, setCustomArray] = useState([]);
+    useEffect(() => {
+        if (custom) {
+        }
+    }, [custom]);
+    useEffect(() => {
+        if (customArray) {
+        }
+    }, [customArray]);
     const [animationArray, setAnimationArray] = useState([]);
     const [initialArray, setInitialArray] = useState(array);
     // const [initialArrayIndex, setInitialArrayIndex] = useState(arrayIndex);
@@ -77,7 +85,7 @@ const Main = (props) => {
     });
     const newColor = (status) => {
         let colorList = [];
-        for (let i = 0; i < array.length; i++) {
+        for (let i = 0; i < status.length; i++) {
             colorList.push(colorSet[status[i]]);
         }
         return colorList;
@@ -122,10 +130,15 @@ const Main = (props) => {
         if (custom) {
             setArray(customArray);
             let arrIndex = [];
+            let sta = [];
             for (let i = 0; i < customArray.length; i++) {
                 arrIndex.push([i, customArray[i]]);
+                sta.push("null");
             }
             setArrayIndex(arrIndex);
+            setPosition(newPosition(customArray));
+
+            setColor(newColor(sta));
         } else {
             let arr = [
                 45,
@@ -165,6 +178,12 @@ const Main = (props) => {
                 [15, 70],
             ];
             setArrayIndex(arrIndex);
+            setPosition(newPosition(arr));
+            let sta = [];
+            for (let i = 0; i < arr.length; i++) {
+                sta.push("null");
+            }
+            setColor(newColor(sta));
         }
     };
 
@@ -176,9 +195,12 @@ const Main = (props) => {
         }
         setAnimationArray([]);
         setContent("Click Start!");
-        // resetArray();
+        resetArray();
     };
 
+    useEffect(() => {
+        resetEverything();
+    }, [page]);
     // useEffect(() => {
     //     changeFirstTime(true);
     //     changeDoing(false);
@@ -319,16 +341,37 @@ const Main = (props) => {
         }
     };
 
+    const refDrag = useRef(null);
+    const refStart = useRef(null);
+    const refPause = useRef(null);
+    const refPreviousImg = useRef(null);
+    const refPreviousUnclick = useRef(null);
+    const refNextImg = useRef(null);
+    const refNextUnclick = useRef(null);
+    const refStartUnclick = useRef(null);
+    const refStartClick = useRef(null);
+
+    const refs = {
+        refDrag,
+        refStart,
+        refPause,
+        refPreviousImg,
+        refPreviousUnclick,
+        refNextImg,
+        refNextUnclick,
+        refStartUnclick,
+        refStartClick,
+    };
     const displayOn = (refs) => {
-        for(let ref of refs) {
+        for (let ref of refs) {
             ref.current.style.display = "block";
         }
-    }
+    };
     const displayOff = (refs) => {
         for (let ref of refs) {
             ref.current.style.display = "none";
         }
-    }
+    };
     const data = {
         array,
         setArray,
@@ -356,7 +399,7 @@ const Main = (props) => {
         resetEverything,
         resetArray,
         displayOn,
-        displayOff
+        displayOff,
     };
     const mergeData = {
         arrayIndex,
@@ -390,7 +433,7 @@ const Main = (props) => {
         setAnimationArray,
         setCustom,
         resetEverything,
-        resetArray
+        resetArray,
     };
 
     return (
@@ -423,15 +466,27 @@ const Main = (props) => {
                                     />
                                     <Route
                                         path="/tutorial/bubblesort"
-                                        render={() => <Bubble data={data} />}
+                                        render={() => (
+                                            <Bubble data={data} refs={refs} />
+                                        )}
                                     />
                                     <Route
                                         path="/tutorial/insertionsort"
-                                        render={() => <Insertion data={data} />}
+                                        render={() => (
+                                            <Insertion
+                                                data={data}
+                                                refs={refs}
+                                            />
+                                        )}
                                     />
                                     <Route
                                         path="/tutorial/selectionsort"
-                                        render={() => <Selection data={data} />}
+                                        render={() => (
+                                            <Selection
+                                                data={data}
+                                                refs={refs}
+                                            />
+                                        )}
                                     />
                                     <Route
                                         path="/tutorial/mergesort"
@@ -439,15 +494,25 @@ const Main = (props) => {
                                             <Merge
                                                 data={data}
                                                 mergeData={mergeData}
+                                                refs={refs}
+                                                displayOn={displayOn}
+                                                displayOff={displayOff}
                                             />
                                         )}
                                     />
                                     <Route
                                         path="/tutorial/quicksort"
-                                        render={() => <Quick data={data} />}
+                                        render={() => (
+                                            <Quick data={data} refs={refs} />
+                                        )}
                                     />
                                 </Switch>
-                                <Control controlData={controlData} />
+                                <Control
+                                    controlData={controlData}
+                                    refs={refs}
+                                    displayOn={displayOn}
+                                    displayOff={displayOff}
+                                />
                             </div>
                         </div>
                     )}
@@ -459,6 +524,5 @@ const Main = (props) => {
 
 ReactDOM.render(<Main />, document.getElementById("root"));
 
-//1. 點home可以到首頁'./'
-//2. code塊
-//3. speed & pause & play
+//Merge code粗體錯誤
+//Reset

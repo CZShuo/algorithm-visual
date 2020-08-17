@@ -23,6 +23,7 @@ const AniControl = (props) => {
         setArray,
         animationArray,
         setAnimationArray,
+        initialArray,
         colorCode,
         status,
         doing,
@@ -40,21 +41,23 @@ const AniControl = (props) => {
     } = props.control;
     let { sort, doAni, stepAni } = props;
 
+    const {
+        refDrag,
+        refStart,
+        refPause,
+        refPreviousImg,
+        refPreviousUnclick,
+        refNextImg,
+        refNextUnclick,
+        refStartUnclick,
+        refStartClick,
+    }=props.refs;
+
     useEffect(() => {
         dragElement(refDrag.current);
-        displayOff([refPause, refStartUnclick, refNextUnclick, refPreviousImg]);
-        displayOn([refPreviousUnclick]);
+        displayOff([refPause, refStartUnclick, refPreviousImg, refNextImg]);
+        displayOn([refPreviousUnclick,refNextUnclick]);
     }, []);
-    
-    const refDrag = useRef(null);
-    const refStart = useRef(null);
-    const refPause = useRef(null);
-    const refPreviousUnclick = useRef(null);
-    const refPreviousImg = useRef(null);
-    const refNextImg = useRef(null);
-    const refNextUnclick = useRef(null);
-    const refStartUnclick = useRef(null);
-    const refStartClick = useRef(null);
 
     return (
         <div className="animation-control" id="drag" ref={refDrag}>
@@ -76,13 +79,13 @@ const AniControl = (props) => {
                             refPause,
                             refStartUnclick,
                             refPreviousImg,
-                            refNextUnclick,
+                            refNextImg,
                         ]);
                         displayOn([
                             refStart,
                             refStartClick,
                             refPreviousUnclick,
-                            refNextImg,
+                            refNextUnclick,
                         ]);
                     }}
                 >
@@ -107,7 +110,7 @@ const AniControl = (props) => {
                             if (window.index < 0) {
                                 window.index = 0;
                             }
-                            stepAni(animationArray, array, window.index);
+                            stepAni(animationArray, initialArray, window.index);
                             displayOff([refStartUnclick, refNextUnclick]);
                             displayOn([refStartClick, refNextImg]);
                         }}
@@ -189,9 +192,10 @@ const AniControl = (props) => {
                             }
                             if (animationArray.length == 0) {
                                 sort(array, 0, array.length - 1);
-                                // setAnimationArray(ani);
                             }
-                            stepAni(animationArray, array, window.index);
+                            stepAni(animationArray, initialArray, window.index);
+                            displayOff([refPreviousUnclick]);
+                            displayOn([refPreviousImg]);
                         }}
                     />
                 </div>

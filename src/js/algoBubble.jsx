@@ -38,6 +38,18 @@ const Bubble = (props) => {
         displayOff,
     } = props.data;
 
+    const {
+        refDrag,
+        refStart,
+        refPause,
+        refPreviousImg,
+        refPreviousUnclick,
+        refNextImg,
+        refNextUnclick,
+        refStartUnclick,
+        refStartClick,
+    }=props.refs;
+
     const bubbleSort = (array, a, b) => {
         let arr = [...array];
         let times = arr.length;
@@ -186,8 +198,6 @@ const Bubble = (props) => {
     const stepAniBub = (animationArray, array, index) => {
         let text;
         let arr = [...initialArray];
-        setArray(arr);
-        setPosition(newPosition(arr));
 
         let statusTemp = [];
         for (let i = 0; i < array.length; i++) {
@@ -309,6 +319,7 @@ const Bubble = (props) => {
         setArray,
         animationArray,
         setAnimationArray,
+        initialArray,
         colorCode,
         status,
         doing,
@@ -332,6 +343,7 @@ const Bubble = (props) => {
                 <Code code={code} currentCode={currentCode} />
             </div>
             <AniControl
+                refs={props.refs}
                 control={control}
                 sort={bubbleSort}
                 doAni={doAniBub}

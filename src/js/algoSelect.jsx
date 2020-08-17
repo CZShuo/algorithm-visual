@@ -35,33 +35,22 @@ const Select = (props) => {
         resetEverything,
         resetArray,
         displayOn,
-        displayOff
+        displayOff,
     } = props.data;
 
-    // const selectionSort = (array) => {
-    //     let arr = [...array];
-    //     let ani = [];
-    //     for (let i = 0; i < array.length - 1; i++) {
-    //         let min = arr[i];
-    //         let minIndex = i;
-    //         ani.push(["min", i]);
-    //         for (let j = i + 1; j < array.length; j++) {
-    //             ani.push(["com", minIndex, j]);
-    //             if (arr[j] < min) {
-    //                 ani.push(["min", j]);
-    //                 min = arr[j];
-    //                 minIndex = j;
-    //             }
-    //         }
+    const {
+        refDrag,
+        refStart,
+        refPause,
+        refPreviousImg,
+        refPreviousUnclick,
+        refNextImg,
+        refNextUnclick,
+        refStartUnclick,
+        refStartClick,
+    } = props.refs;
 
-    //         ani.push(["push", i, minIndex]);
-    //         [arr[i], arr[minIndex]] = [arr[minIndex], arr[i]];
-    //     }
-
-    //     return ani;
-    // };
-
-    const selectionSort = (array,a,b) => {
+    const selectionSort = (array, a, b) => {
         let arr = [...array];
         for (let i = 0; i < array.length - 1; i++) {
             let min = arr[i];
@@ -212,7 +201,7 @@ const Select = (props) => {
     };
 
     useEffect(() => {
-        if(doing){
+        if (doing) {
             stopInterval();
             doAniSel(animationArray, array, window.index);
         }
@@ -358,6 +347,7 @@ const Select = (props) => {
         setArray,
         animationArray,
         setAnimationArray,
+        initialArray,
         colorCode,
         status,
         doing,
@@ -371,7 +361,7 @@ const Select = (props) => {
         resetEverything,
         resetArray,
         displayOn,
-        displayOff
+        displayOff,
     };
 
     return (
@@ -380,7 +370,13 @@ const Select = (props) => {
                 <Graph graph={graph} />
                 <Code code={code} currentCode={currentCode} />
             </div>
-            <AniControl control={control} sort={selectionSort} doAni={doAniSel} stepAni={stepAniSel}/>
+            <AniControl
+                refs={props.refs}
+                control={control}
+                sort={selectionSort}
+                doAni={doAniSel}
+                stepAni={stepAniSel}
+            />
         </div>
     );
 };

@@ -16,7 +16,6 @@ const Graph = (props) => {
         mid,
     } = props.graph;
 
-
     return (
         <svg id="svg">
             {arrayIndex.map((element, index) => {
@@ -26,11 +25,14 @@ const Graph = (props) => {
                             x={position[index].x}
                             y={position[index].y}
                             height={element[1]}
-                            width={position[position.length-1]}
+                            width={position[position.length - 1]}
                             fill={color[index]}
                         ></rect>
                         <text
-                            x={position[index].x + (position[position.length-1]-20)/2}
+                            x={
+                                position[index].x +
+                                (position[position.length - 1] - 20) / 2
+                            }
                             y={15 + position[index].y + arrayIndex[index][1]}
                         >
                             {element[1]}
@@ -58,8 +60,8 @@ const Graph = (props) => {
                     mid={mid[1]}
                 </text> */}
             <text x="300" y="28" fontSize="20px">
-                    {content}
-                </text>
+                {content}
+            </text>
         </svg>
     );
 };

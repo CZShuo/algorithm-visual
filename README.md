@@ -53,7 +53,7 @@ Including these sorting algorithms:
 ![Speed](/md/speed.gif)
 - Restart
 ![Restart](/md/restart.gif)
-- Custom / Random Array
+- Custom / Random Array<br>
 Custom : 
 ![Custom](/md/custom.gif)
 Random :
@@ -62,4 +62,4 @@ Random :
 ![Color](/md/color.gif)
 
 ## About
-Author: [CZShuo](https://github.com/CZShuo) (Oscar Cheng)<br>
+Author: [CZShuo](https://github.com/CZShuo) (Oscar Cheng)

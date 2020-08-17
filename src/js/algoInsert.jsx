@@ -35,10 +35,20 @@ const Insertion = (props) => {
         resetEverything,
         resetArray,
         displayOn,
-        displayOff
+        displayOff,
     } = props.data;
-    // let {major,setMajor}= props;
-    // const [major, setMajor]= useState(-1);
+
+    const {
+        refDrag,
+        refStart,
+        refPause,
+        refPreviousImg,
+        refPreviousUnclick,
+        refNextImg,
+        refNextUnclick,
+        refStartUnclick,
+        refStartClick,
+    }=props.refs;
 
     const positionInsert = (array) => {
         let barSpace = 50;
@@ -53,7 +63,7 @@ const Insertion = (props) => {
             let temp = 130 - array[i];
             let xOuter = (svgWidth - array.length * barSpace) / 2;
             if (i == window.major) {
-                temp = 230 - array[i];
+                temp = 260 - array[i];
             }
             result.push({
                 x: i * barSpace + xOuter + (barSpace - barWidth) / 2,
@@ -81,7 +91,7 @@ const Insertion = (props) => {
     }
     const [currentCode, setCurrentCode] = useState(colorCode);
 
-    const insertionSort = (array,a,b) => {
+    const insertionSort = (array, a, b) => {
         let arr = [...array];
         // let animationArray = [];
         for (let i = 1; i < arr.length; i++) {
@@ -109,9 +119,7 @@ const Insertion = (props) => {
         let arr = [...array];
         window.index = index;
         let text;
-        // for (let i = 0; i < arr.length; i++) {
-        //     status[i] = "null";
-        // }
+
         window.ani = setInterval(() => {
             let ele = animationArray[window.index];
 
@@ -249,7 +257,7 @@ const Insertion = (props) => {
     };
 
     useEffect(() => {
-        if(doing){
+        if (doing) {
             stopInterval();
             doAniIns(animationArray, array, window.index--);
         }
@@ -258,8 +266,6 @@ const Insertion = (props) => {
     const stepAniIns = (animationArray, array, index) => {
         let text;
         let arr = [...initialArray];
-        setArray(arr);
-        setPosition(newPosition(arr));
 
         let statusTemp = [];
         for (let i = 0; i < array.length; i++) {
@@ -423,6 +429,7 @@ const Insertion = (props) => {
         setArray,
         animationArray,
         setAnimationArray,
+        initialArray,
         colorCode,
         status,
         doing,
@@ -436,7 +443,7 @@ const Insertion = (props) => {
         resetEverything,
         resetArray,
         displayOn,
-        displayOff
+        displayOff,
     };
 
     return (
@@ -445,7 +452,13 @@ const Insertion = (props) => {
                 <Graph graph={graph} />
                 <Code code={code} currentCode={currentCode} />
             </div>
-            <AniControl control={control} sort={insertionSort} doAni={doAniIns} stepAni={stepAniIns}/>
+            <AniControl
+                refs={props.refs}
+                control={control}
+                sort={insertionSort}
+                doAni={doAniIns}
+                stepAni={stepAniIns}
+            />
         </div>
     );
 };

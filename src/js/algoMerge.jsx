@@ -56,6 +56,20 @@ const Merge = (props) => {
         setInitialArrayIndex,
     } = props.mergeData;
 
+    const {
+        refDrag,
+        refStart,
+        refPause,
+        refPreviousImg,
+        refPreviousUnclick,
+        refNextImg,
+        refNextUnclick,
+        refStartUnclick,
+        refStartClick,
+    }=props.refs;
+    const displayOn=props.displayOn;
+    const displayOff=props.displayOff;
+
     const [range, setRange] = useState([0, 16]);
     const [mid, setMid] = useState([]);
 

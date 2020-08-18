@@ -67,8 +67,6 @@ const Merge = (props) => {
         refStartUnclick,
         refStartClick,
     }=props.refs;
-    const displayOn=props.displayOn;
-    const displayOff=props.displayOff;
 
     const [range, setRange] = useState([0, 16]);
     const [mid, setMid] = useState([]);
@@ -574,16 +572,6 @@ const Merge = (props) => {
         displayOff([refPause, refStartUnclick, refNextUnclick, refPreviousImg]);
         displayOn([refPreviousUnclick]);
     }, []);
-    
-    const refDrag = useRef(null);
-    const refStart = useRef(null);
-    const refPause = useRef(null);
-    const refPreviousUnclick = useRef(null);
-    const refPreviousImg = useRef(null);
-    const refNextImg = useRef(null);
-    const refNextUnclick = useRef(null);
-    const refStartUnclick = useRef(null);
-    const refStartClick = useRef(null);
 
     return (
         <div className="main">

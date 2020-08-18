@@ -188,6 +188,7 @@ const Control = (props) => {
                                 setArray(arr);
                                 setArrayIndex(arrIndex);
                                 setInitialArray(arr);
+                                setInitialArrayIndex(arrIndex);
                                 setPosition(newPosition(arr));
                                 setStatus(sta);
                                 setColor(newColor(sta));
@@ -249,6 +250,7 @@ const Control = (props) => {
                                 setArray(arr);
                                 setArrayIndex(arrIndex);
                                 setInitialArray(arr);
+                                setInitialArrayIndex(arrIndex);
                                 setPosition(newPosition(arr));
                                 setStatus(sta);
                                 setColor(newColor(sta));

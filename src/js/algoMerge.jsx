@@ -47,14 +47,9 @@ const Merge = (props) => {
         resetEverything,
         resetArray,
         displayOn,
-        displayOff
+        displayOff,
     } = props.data;
-    let {
-        arrayIndex,
-        setArrayIndex,
-        initialArrayIndex,
-        setInitialArrayIndex,
-    } = props.mergeData;
+    let { arrayIndex, setArrayIndex, custom, customArray } = props.mergeData;
 
     const {
         refDrag,
@@ -66,7 +61,7 @@ const Merge = (props) => {
         refNextUnclick,
         refStartUnclick,
         refStartClick,
-    }=props.refs;
+    } = props.refs;
 
     const [range, setRange] = useState([0, 16]);
     const [mid, setMid] = useState([]);
@@ -191,7 +186,7 @@ const Merge = (props) => {
                 }
                 setPosition(pos);
 
-                text=`對 array[${ele[1]}] 到 array[${ele[2]}] 進行合併排序。`;
+                text = `對 array[${ele[1]}] 到 array[${ele[2]}] 進行合併排序。`;
                 setContent(text);
 
                 let temp = [...colorCode];
@@ -202,7 +197,7 @@ const Merge = (props) => {
             } else if (ele[0] == "mid") {
                 setMid([ele[1], ele[2]]);
 
-                text=`中間值為 ${ele[2]}。`;
+                text = `中間值為 ${ele[2]}。`;
                 setContent(text);
                 let temp = [...colorCode];
                 for (let i = 0; i < code.length; i++) {
@@ -215,7 +210,7 @@ const Merge = (props) => {
                 status[ele[2]] = "big";
                 setColor(newColor(status));
 
-                text=`${arr[ele[1]][1]} < ${arr[ele[2]][1]}`;
+                text = `${arr[ele[1]][1]} < ${arr[ele[2]][1]}`;
                 setContent(text);
                 let temp = [...colorCode];
                 for (let i = 0; i < code.length; i++) {
@@ -227,7 +222,7 @@ const Merge = (props) => {
                 arr = reSort(arr);
                 setArrayIndex(arr);
 
-                text=`此層合併排序完成。`
+                text = `此層合併排序完成。`;
                 setContent(text);
                 let pos = [...position];
 
@@ -265,7 +260,7 @@ const Merge = (props) => {
                 status[ele[1]] = "com";
                 status[ele[2]] = "com";
                 setColor(newColor(status));
-                text=`比較 left[0] 與 right[0] 。`
+                text = `比較 left[0] 與 right[0] 。`;
                 setContent(text);
                 let temp = [...colorCode];
                 for (let i = 0; i < code.length; i++) {
@@ -282,7 +277,7 @@ const Merge = (props) => {
                     ele[2] * barSpace + xOuter + (barSpace - barWidth) / 2;
                 pos[ele[1]].y += 130;
                 setPosition(pos);
-                text=`較小者 push 至 result 。`
+                text = `較小者 push 至 result 。`;
                 setContent(text);
                 let temp = [...colorCode];
                 for (let i = 0; i < code.length; i++) {
@@ -330,7 +325,7 @@ const Merge = (props) => {
         }
     }, [time]);
 
-    const stepAniMer = (animationArray, arrayIndex, index) => {
+    const stepAniMer = (animationArray, a, index) => {
         let barSpace = 50;
         let barWidth = 25;
         let svgWidth = window.innerWidth * 0.85 * 0.7 - 2;
@@ -340,7 +335,7 @@ const Merge = (props) => {
         }
         let xOuter = (svgWidth - array.length * barSpace) / 2;
 
-        // if(random)
+        
         let arr = [
             [0, 45],
             [1, 72],
@@ -386,7 +381,6 @@ const Merge = (props) => {
         setCurrentCode(temp);
         // setPosition(newPosition(arrNoIndex));
         position = newPosition(arrNoIndex);
-        
 
         let statusTemp = [];
         for (let i = 0; i < arrNoIndex.length; i++) {
@@ -394,6 +388,42 @@ const Merge = (props) => {
         }
         setColor(newColor(statusTemp));
         // setContent("Click Start!");
+
+        // let arr = [...arrayIndex];
+        // let posArr = [];
+        // if (custom) {
+        //     posArr = [...customArray];
+        // } else {
+        //     posArr = [
+        //         45,
+        //         72,
+        //         17,
+        //         55,
+        //         90,
+        //         32,
+        //         48,
+        //         23,
+        //         66,
+        //         99,
+        //         12,
+        //         62,
+        //         34,
+        //         84,
+        //         10,
+        //         70,
+        //     ];
+        // }
+        // position = newPosition(posArr);
+        // let statusTemp = [];
+        // for (let i = 0; i < arr.length; i++) {
+        //     statusTemp.push("null");
+        // }
+
+        // let temp = [...colorCode];
+        // for (let i = 0; i < code.length; i++) {
+        //     temp[i] = "#000000";
+        // }
+        // setCurrentCode(temp);
 
         let final = index;
         if (final == animationArray.length + 1) {
@@ -410,7 +440,7 @@ const Merge = (props) => {
                 }
                 setPosition(pos);
 
-                text=`對 array[${ele[1]}] 到 array[${ele[2]}] 進行合併排序。`;
+                text = `對 array[${ele[1]}] 到 array[${ele[2]}] 進行合併排序。`;
                 setContent(text);
                 let temp = [...colorCode];
                 for (let i = 0; i < code.length; i++) {
@@ -420,7 +450,7 @@ const Merge = (props) => {
             } else if (ele[0] == "mid") {
                 setMid([ele[1], ele[2]]);
 
-                text=`中間值為 ${ele[2]}。`;
+                text = `中間值為 ${ele[2]}。`;
                 setContent(text);
                 let temp = [...colorCode];
                 for (let i = 0; i < code.length; i++) {
@@ -433,7 +463,7 @@ const Merge = (props) => {
                 statusTemp[ele[2]] = "big";
                 setColor(newColor(statusTemp));
 
-                text=`${arr[ele[1]][1]} < ${arr[ele[2]][1]}`
+                text = `${arr[ele[1]][1]} < ${arr[ele[2]][1]}`;
                 setContent(text);
                 let temp = [...colorCode];
                 for (let i = 0; i < code.length; i++) {
@@ -445,7 +475,7 @@ const Merge = (props) => {
                 arr = reSort(arr);
                 setArrayIndex(arr);
 
-                text=`此層合併排序完成。`
+                text = `此層合併排序完成。`;
                 setContent(text);
                 let pos = [...position];
                 for (let i = 0; i < array.length; i++) {
@@ -482,7 +512,7 @@ const Merge = (props) => {
                 statusTemp[ele[1]] = "com";
                 statusTemp[ele[2]] = "com";
                 setColor(newColor(statusTemp));
-                text=`比較 left[0] 與 right[0] 。`
+                text = `比較 left[0] 與 right[0] 。`;
                 setContent(text);
                 let temp = [...colorCode];
                 for (let i = 0; i < code.length; i++) {
@@ -499,7 +529,7 @@ const Merge = (props) => {
                     ele[2] * barSpace + xOuter + (barSpace - barWidth) / 2;
                 pos[ele[1]].y += 130;
                 setPosition(pos);
-                text=`較小者 push 至 result 。`
+                text = `較小者 push 至 result 。`;
                 setContent(text);
                 let temp = [...colorCode];
                 for (let i = 0; i < code.length; i++) {
@@ -564,13 +594,13 @@ const Merge = (props) => {
         setTime,
         dragElement,
         displayOn,
-        displayOff
+        displayOff,
     };
 
     useEffect(() => {
         dragElement(refDrag.current);
-        displayOff([refPause, refStartUnclick, refNextUnclick, refPreviousImg]);
-        displayOn([refPreviousUnclick]);
+        displayOff([refPause, refStartUnclick, refPreviousImg, refNextImg]);
+        displayOn([refPreviousUnclick, refNextUnclick]);
     }, []);
 
     return (
@@ -587,6 +617,26 @@ const Merge = (props) => {
                         id="reset"
                         title="Reset"
                         onClick={() => {
+                            // changeFirstTime(true);
+                            // changeDoing(false);
+                            // if (window.ani) {
+                            //     stopInterval();
+                            // }
+                            // setAnimationArray([]);
+                            // setContent("Click Start!");
+                            // window.index = 0;
+
+                            // let temp = [...colorCode];
+                            // for (let i = 0; i < code.length; i++) {
+                            //     temp[i] = "#000000";
+                            // }
+                            // setCurrentCode(temp);
+
+                            // stepAniMer(
+                            //     animationArray,
+                            //     arrayIndex,
+                            //     window.index
+                            // );
                             changeDoing(false);
                             changeFirstTime(true);
                             if (window.ani) {
@@ -645,17 +695,18 @@ const Merge = (props) => {
                             //     initialArrayIndex,
                             //     window.index
                             // );
-
-                            refPause.current.style.display = "none";
-                            refStart.current.style.display = "block";
-                            refStartUnclick.current.style.display = "none";
-                            refStartClick.current.style.display = "block";
-                            refPause.current.style.display = "none";
-                            refStart.current.style.display = "block";
-                            refPreviousImg.current.style.display = "none";
-                            refPreviousUnclick.current.style.display = "block";
-                            refNextImg.current.style.display = "block";
-                            refNextUnclick.current.style.display = "none";
+                            displayOff([
+                                refPause,
+                                refStartUnclick,
+                                refPreviousImg,
+                                refNextImg,
+                            ]);
+                            displayOn([
+                                refStart,
+                                refStartClick,
+                                refPreviousUnclick,
+                                refNextUnclick,
+                            ]);
                         }}
                     >
                         <img
@@ -683,11 +734,10 @@ const Merge = (props) => {
                             }
                             onClick={() => {
                                 window.index--;
-                                console.log(window.index);
-
                                 if (window.index < 0) {
                                     window.index = 0;
                                 }
+
                                 let arr = [
                                     45,
                                     72,
@@ -730,10 +780,14 @@ const Merge = (props) => {
                                     arrayIndex,
                                     window.index
                                 );
-                                refStartUnclick.current.style.display = "none";
-                                refStartClick.current.style.display = "block";
-                                refNextUnclick.current.style.display = "none";
-                                refNextImg.current.style.display = "block";
+
+                                // stepAniMer(
+                                //     animationArray,
+                                //     arrayIndex,
+                                //     window.index
+                                // );
+                                displayOff([refStartUnclick, refNextUnclick]);
+                                displayOn([refStartClick, refNextImg]);
                             }}
                         />
                     </div>
@@ -768,15 +822,18 @@ const Merge = (props) => {
                                         window.index
                                     );
                                 }
-                                refStart.current.style.display = "none";
-                                refPause.current.style.display = "block";
-                                refNextImg.current.style.display = "none";
-                                refPreviousImg.current.style.display = "none";
-                                refNextUnclick.current.style.display = "block";
+                                displayOff([
+                                    refStart,
+                                    refNextImg,
+                                    refPreviousImg,
+                                ]);
+                                displayOn([
+                                    refPause,
+                                    refNextUnclick,
+                                    refPreviousUnclick,
+                                ]);
                                 refNextUnclick.current.style.cursor =
                                     "not-allowed";
-                                refPreviousUnclick.current.style.display =
-                                    "block";
                                 refPreviousUnclick.current.style.cursor =
                                     "not-allowed";
                             }}
@@ -792,12 +849,12 @@ const Merge = (props) => {
                                 changeDoing(false);
                                 stopInterval();
                             }
-                            refPause.current.style.display = "none";
-                            refStart.current.style.display = "block";
-                            refNextImg.current.style.display = "block";
-                            refPreviousImg.current.style.display = "block";
-                            refNextUnclick.current.style.display = "none";
-                            refPreviousUnclick.current.style.display = "none";
+                            displayOff([
+                                refPause,
+                                refNextUnclick,
+                                refPreviousUnclick,
+                            ]);
+                            displayOn([refStart, refNextImg, refPreviousImg]);
                         }}
                     >
                         <img
@@ -820,7 +877,6 @@ const Merge = (props) => {
                             onMouseLeave={(e) => (e.target.src = "/" + Next)}
                             onClick={() => {
                                 window.index++;
-                                console.log(window.index);
                                 if (window.index > animationArray.length) {
                                     window.index = animationArray.length + 1;
                                 }
@@ -869,6 +925,8 @@ const Merge = (props) => {
                                     arrayIndex,
                                     window.index
                                 );
+                                displayOff([refPreviousUnclick]);
+                                displayOn([refPreviousImg]);
                             }}
                         />
                     </div>

@@ -48,7 +48,7 @@ const Bubble = (props) => {
         refNextUnclick,
         refStartUnclick,
         refStartClick,
-    }=props.refs;
+    } = props.refs;
 
     const bubbleSort = (array, a, b) => {
         let arr = [...array];
@@ -72,6 +72,7 @@ const Bubble = (props) => {
             }
         } while (times > 0 && swap == true);
         // return animationArray;
+        return arr;
     };
 
     const code = [
@@ -354,3 +355,4 @@ const Bubble = (props) => {
 };
 
 export default Bubble;
+//module.exports = Bubble.bubbleSort;

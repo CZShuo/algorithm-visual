@@ -112,6 +112,7 @@ const Insertion = (props) => {
                 // animationArray.push(["stop", j, j + 1]);
             }
         }
+        return arr;
         // return animationArray;
     };
 

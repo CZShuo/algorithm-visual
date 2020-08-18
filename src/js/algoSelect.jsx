@@ -69,6 +69,7 @@ const Select = (props) => {
             [arr[i], arr[minIndex]] = [arr[minIndex], arr[i]];
         }
 
+        return arr;
         // return animationArray;
     };
 
